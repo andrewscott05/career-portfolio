@@ -42,3 +42,4 @@ Build: `npm run build`. Preview production: `npm run preview`.
 - Tailwind CSS v4 (@tailwindcss/vite)
 - Framer Motion (scroll-triggered animations)
 - React Router (home + `/work/:slug` case study stub)
+# career-portfolio
