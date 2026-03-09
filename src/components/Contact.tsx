@@ -8,31 +8,31 @@ const LinkedInIcon = () => (
 
 export function Contact() {
   return (
-    <AnimatedSection id="contact" className="py-[140px] sm:py-[160px] px-6 sm:px-8 md:px-12 lg:px-16">
-      <div className="max-w-2xl mx-auto">
-        <h2 className="font-mono text-sm text-[var(--color-muted)] tracking-[0.2em] uppercase mb-8">
-          Contact
-        </h2>
-        <p className="text-[var(--color-muted)] text-sm mb-8">
-          Open to speaking, advising, collaborating on AI in logistics — or just talking freight and AI.
-        </p>
-        <nav className="flex flex-wrap items-center gap-6" aria-label="Contact">
-          <a
-            href="mailto:ascott1296@gmail.com"
-            className="link-underline text-2xl sm:text-3xl font-medium text-[var(--color-accent)] hover:text-[var(--color-accent)] transition-colors"
-          >
-            ascott1296@gmail.com
-          </a>
-          <a
-            href="https://linkedin.com/in/andrew-john-scott"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors p-1"
-            aria-label="LinkedIn"
-          >
-            <LinkedInIcon />
-          </a>
-        </nav>
+    <AnimatedSection id="contact" className="py-[120px] sm:py-[160px] px-6 sm:px-8 md:px-12 lg:px-16">
+      <div className="max-w-[1200px] mx-auto w-full">
+        <div className="max-w-2xl">
+          <h2 className="section-label mb-8">Contact</h2>
+          <p className="text-[var(--color-text-secondary)] text-sm mb-8">
+            Open to speaking, advising, collaborating on freight tech and logistics automation — or just talking shop.
+          </p>
+          <nav className="flex flex-wrap items-center gap-6" aria-label="Contact">
+            <a
+              href="mailto:ascott1296@gmail.com"
+              className="link-underline text-2xl sm:text-3xl font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors"
+            >
+              ascott1296@gmail.com
+            </a>
+            <a
+              href="https://linkedin.com/in/andrew-john-scott"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors p-1"
+              aria-label="LinkedIn"
+            >
+              <LinkedInIcon />
+            </a>
+          </nav>
+        </div>
       </div>
     </AnimatedSection>
   )

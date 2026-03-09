@@ -1,18 +1,38 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Design system: earth-toned, editorial, premium
+   --------------------------------------------------------------------------- */
 @theme {
+  --font-sans: "DM Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --font-sans: "Satoshi", system-ui, sans-serif;
-  /* Deep charcoal with slight warm undertone */
-  --color-surface: #0c0b0b;
-  --color-surface-elevated: rgba(20, 20, 19, 0.6);
-  --color-border: rgba(255, 255, 255, 0.06);
-  --color-border-hover: rgba(0, 255, 136, 0.5);
-  --color-muted: #71717a;
-  --color-muted-soft: rgba(255, 255, 255, 0.45);
-  --color-accent: #00ff88;
-  --color-foreground: #fafaf9;
-  --color-foreground-dim: #e7e5e4;
+
+  /* Background */
+  --color-bg: #1a1a17;
+  /* Surface / cards */
+  --color-surface: #1f1f1b;
+  --color-surface-elevated: #242420;
+
+  /* Primary accent - forest green */
+  --color-primary: #2d6a4f;
+  --color-primary-hover: #40916c;
+
+  /* Secondary accent - warm tan/sandstone */
+  --color-tan: #c4a882;
+  --color-tan-muted: #b08d6a;
+
+  /* Text */
+  --color-text: #e8e2d9;
+  --color-text-secondary: #8a8578;
+  --color-text-muted: #9a9488;
+
+  /* Borders - warm white 8-12% */
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+
+  /* Shadows */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 html {
@@ -21,21 +41,35 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-surface);
-  color: var(--color-foreground);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Noise overlay - fixed, low opacity, no pointer events */
+/* Subtle noise overlay */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.03;
+  opacity: 0.035;
   pointer-events: none;
   z-index: 1;
+}
+
+/* Optional: very faint warm green glow near hero */
+body::after {
+  content: "";
+  position: fixed;
+  top: -20%;
+  left: 50%;
+  width: 120%;
+  height: 60%;
+  background: radial-gradient(ellipse at center, rgba(45, 106, 79, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transform: translateX(-50%);
 }
 
 #root {
@@ -47,7 +81,16 @@ body::before {
   font-family: var(--font-mono);
 }
 
-/* Link underline animation: width 0 → 100% on hover */
+/* Section label: monospace, tracked, tan */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-tan);
+}
+
+/* Link underline animation */
 .link-underline {
   position: relative;
 }
@@ -58,9 +101,17 @@ body::before {
   bottom: -2px;
   height: 1px;
   width: 0;
-  background-color: var(--color-accent);
+  background-color: var(--color-primary);
   transition: width 0.25s ease-out;
 }
 .link-underline:hover::after {
   width: 100%;
+}
+
+/* Card base: elevation + border */
+.card-base {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-card);
 }

@@ -17,87 +17,88 @@ const DownloadIcon = () => (
 const EASE = [0.22, 1, 0.36, 1] as const
 
 const stagger = {
-  name: { opacity: 0, y: 20 },
-  nameVisible: { opacity: 1, y: 0 },
-  tagline: { opacity: 0, y: 20 },
-  taglineVisible: { opacity: 1, y: 0 },
-  links: { opacity: 0, y: 20 },
-  linksVisible: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
   transition: { duration: 0.5, ease: EASE },
 }
 
 export function Hero() {
   return (
-    <header className="min-h-screen flex flex-col justify-center pt-24 pb-24 px-6 sm:px-8 md:px-12 lg:px-16">
-      <div className="max-w-4xl">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0 }}
-          className="font-mono text-xs text-[var(--color-muted)] tracking-[0.2em] uppercase mb-6"
-        >
-          Austin, TX
-        </motion.p>
-        <motion.h1
-          initial="name"
-          animate="nameVisible"
-          variants={stagger}
-          transition={{ duration: 0.5, ease: EASE, delay: 0.1 }}
-          className="font-mono text-[4rem] sm:text-[5rem] md:text-[6rem] font-bold tracking-[0.02em] text-[var(--color-foreground)] leading-[0.95] mb-6"
-          style={{ letterSpacing: '0.02em' }}
-        >
-          Andrew Scott
-        </motion.h1>
-        <motion.p
-          initial="tagline"
-          animate="taglineVisible"
-          variants={stagger}
-          transition={{ duration: 0.5, ease: EASE, delay: 0.25 }}
-          className="font-mono text-lg sm:text-xl text-[var(--color-muted)] mb-4"
-        >
-          AI Product Leader
-        </motion.p>
-        <motion.p
-          initial="tagline"
-          animate="taglineVisible"
-          variants={stagger}
-          transition={{ duration: 0.5, ease: EASE, delay: 0.35 }}
-          className="text-xl sm:text-2xl text-[var(--color-foreground-dim)] max-w-lg mb-14"
-        >
-          Building AI agents that move freight.
-        </motion.p>
-        <motion.nav
-          initial="links"
-          animate="linksVisible"
-          variants={stagger}
-          transition={{ duration: 0.5, ease: EASE, delay: 0.5 }}
-          className="flex flex-wrap items-center gap-6"
-          aria-label="Primary"
-        >
-          <a
-            href={LINK.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-underline font-mono text-sm text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors"
+    <header className="relative min-h-screen flex flex-col justify-center pt-24 pb-24 px-6 sm:px-8 md:px-12 lg:px-16">
+      <div className="max-w-[1200px] mx-auto w-full">
+        <div className="max-w-4xl">
+          <motion.p
+            initial={stagger.hidden}
+            animate={stagger.visible}
+            transition={{ ...stagger.transition, delay: 0 }}
+            className="section-label mb-6"
           >
-            LinkedIn
-          </a>
-          <a
-            href={LINK.email}
-            className="link-underline font-mono text-sm text-[var(--color-muted)] hover:text-[var(--color-foreground)] transition-colors"
+            Austin, TX
+          </motion.p>
+          <motion.h1
+            initial={stagger.hidden}
+            animate={stagger.visible}
+            transition={{ ...stagger.transition, delay: 0.1 }}
+            className="text-[3rem] sm:text-[5rem] md:text-[6rem] lg:text-[7rem] font-bold tracking-tight text-[var(--color-text)] leading-[0.95] mb-6"
           >
-            Email
-          </a>
-          <a
-            href={LINK.resume}
-            download
-            className="group font-mono text-sm inline-flex items-center gap-2.5 px-5 py-2.5 border border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-surface)] transition-all duration-250"
+            Andrew Scott
+          </motion.h1>
+          <motion.p
+            initial={stagger.hidden}
+            animate={stagger.visible}
+            transition={{ ...stagger.transition, delay: 0.2 }}
+            className="text-xl sm:text-2xl font-medium text-[var(--color-text)] mb-3"
           >
-            <DownloadIcon />
-            Resume
-          </a>
-        </motion.nav>
+            Technical Product Leader
+          </motion.p>
+          <motion.p
+            initial={stagger.hidden}
+            animate={stagger.visible}
+            transition={{ ...stagger.transition, delay: 0.3 }}
+            className="text-lg sm:text-xl text-[var(--color-text-secondary)] max-w-lg mb-12"
+          >
+            Building technology that moves freight.
+          </motion.p>
+          <motion.nav
+            initial={stagger.hidden}
+            animate={stagger.visible}
+            transition={{ ...stagger.transition, delay: 0.45 }}
+            className="flex flex-wrap items-center gap-6"
+            aria-label="Primary"
+          >
+            <a
+              href={LINK.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline font-mono text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+            >
+              LinkedIn
+            </a>
+            <a
+              href={LINK.email}
+              className="link-underline font-mono text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+            >
+              Email
+            </a>
+            <a
+              href={LINK.resume}
+              download
+              className="font-mono text-sm inline-flex items-center gap-2.5 px-5 py-2.5 border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-all duration-200 rounded-lg"
+            >
+              <DownloadIcon />
+              Resume
+            </a>
+          </motion.nav>
+        </div>
       </div>
+      {/* Gradient fade at bottom into next section */}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
+        style={{
+          background: 'linear-gradient(to bottom, transparent 0%, var(--color-bg) 100%)',
+        }}
+        aria-hidden
+      />
     </header>
   )
 }

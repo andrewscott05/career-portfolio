@@ -3,7 +3,17 @@ import { Link } from 'react-router-dom'
 import { AnimatedSection } from './AnimatedSection'
 import { projects, type Project } from '../data/projects'
 
-const CARD_TRANSITION = { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }
+const EASE = [0.22, 1, 0.36, 1] as const
+
+function ExternalLinkIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 ml-1">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  )
+}
 
 function ProjectCard({
   project,
@@ -21,39 +31,43 @@ function ProjectCard({
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ ...CARD_TRANSITION, delay: index * 0.08 }}
-      whileHover={isPlaceholder ? undefined : { scale: 1.02 }}
+      transition={{ duration: 0.5, ease: EASE, delay: index * 0.08 }}
+      whileHover={isPlaceholder ? undefined : { y: -2 }}
       className={`
-        block text-left p-6 sm:p-8
-        border bg-[var(--color-surface-elevated)] backdrop-blur-sm
-        transition-all duration-300 ease-out
+        block text-left p-6 sm:p-8 rounded-[10px] border transition-all duration-300 ease-out group/card
         ${isPlaceholder
-          ? 'border-dashed border-[var(--color-border)] opacity-70'
-          : isFeatured
-            ? 'border-white/[0.07] hover:border-[var(--color-border-hover)] hover:shadow-[0_0_40px_-12px_rgba(0,255,136,0.15)]'
-            : 'border-white/[0.06] hover:border-[var(--color-border-hover)] hover:shadow-[0_0_30px_-10px_rgba(0,255,136,0.12)]'
+          ? 'border-dashed border-[var(--color-border)] bg-[var(--color-surface)]/60 opacity-80'
+          : 'bg-[var(--color-surface)] border-[var(--color-border)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:border-[var(--color-primary)]'
         }
+        ${isFeatured ? 'border-l-4 border-l-[var(--color-primary)] sm:border-l-4' : ''}
       `}
     >
-      <h3 className="font-mono font-semibold text-[var(--color-foreground)] mb-1">
+      <h3 className="font-bold text-[var(--color-text)] mb-1 text-lg">
         {project.title}
       </h3>
       {project.subtitle && (
-        <p className="font-mono text-sm text-[var(--color-muted)] mb-3">
+        <p className="font-mono text-sm text-[var(--color-primary)] mb-3">
           {project.subtitle}
         </p>
       )}
-      <p className="text-sm text-[var(--color-foreground-dim)] leading-relaxed mb-2">
+      <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-2">
         {project.description}
       </p>
       {project.metrics && (
-        <p className="font-mono text-xs text-[var(--color-muted)]">
+        <p className="font-mono text-xs text-[var(--color-tan)] font-medium mt-2">
           {project.metrics}
         </p>
       )}
       {!isPlaceholder && !project.external && (
-        <span className="font-mono text-xs text-[var(--color-accent)] mt-3 inline-block link-underline">
-          Case study →
+        <span className="inline-flex items-center gap-1 font-mono text-sm text-[var(--color-primary)] mt-4 group-hover/card:underline">
+          Case study
+          <span className="inline-block transition-transform duration-200 group-hover/card:translate-x-0.5">→</span>
+        </span>
+      )}
+      {!isPlaceholder && project.external && (
+        <span className="inline-flex items-center font-mono text-sm text-[var(--color-primary)] mt-4">
+          Visit site
+          <ExternalLinkIcon />
         </span>
       )}
     </motion.article>
@@ -84,14 +98,10 @@ function ProjectCard({
 export function WhatImBuilding() {
   const [featured, ...rest] = projects
   return (
-    <AnimatedSection id="work" className="py-[140px] sm:py-[160px] px-6 sm:px-8 md:px-12 lg:px-16">
-      <div className="max-w-5xl mx-auto">
-        {/* Section title with bleed - overlaps previous section */}
-        <h2 className="font-mono text-sm text-[var(--color-muted)] tracking-[0.2em] uppercase mb-4 -mt-16 sm:-mt-20">
-          What I&apos;m Building
-        </h2>
-        <div className="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2">
-          {/* Featured: Bob full width */}
+    <AnimatedSection id="work" className="py-[120px] sm:py-[160px] px-6 sm:px-8 md:px-12 lg:px-16">
+      <div className="max-w-[1200px] mx-auto w-full">
+        <h2 className="section-label mb-10">What I&apos;m Building</h2>
+        <div className="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2">
           <div className="sm:col-span-2 min-h-[220px]">
             <ProjectCard project={featured} index={0} isFeatured />
           </div>

@@ -12,7 +12,7 @@ export const skillGroups: { label: string; items: string[] }[] = [
     items: ['SQL', 'Snowflake', 'JSON', 'Java', 'Postman', 'New Relic', 'Azure API Mgmt'],
   },
   {
-    label: 'Certs',
+    label: 'Certifications',
     items: ['PMP', 'Lean Six Sigma Green Belt'],
   },
 ]
