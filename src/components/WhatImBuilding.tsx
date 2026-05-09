@@ -98,25 +98,16 @@ function ProjectCard({
 export function WhatImBuilding() {
   const [featured, ...rest] = projects
   return (
-    <AnimatedSection id="work" className="py-[120px] sm:py-[160px] px-6 sm:px-8 md:px-12 lg:px-16">
+    <AnimatedSection id="work" className="py-16 sm:py-24 px-6 sm:px-8 md:px-12 lg:px-16">
       <div className="max-w-[1200px] mx-auto w-full">
-        <h2 className="section-label mb-10">What I&apos;m Building</h2>
+        <h2 className="section-label mb-8">What I&apos;m Building</h2>
         <div className="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2">
-          <div className="sm:col-span-2 min-h-[220px]">
+          <div className="sm:col-span-2">
             <ProjectCard project={featured} index={0} isFeatured />
           </div>
           {rest.map((project, i) => (
             <ProjectCard key={project.id} project={project} index={i + 1} />
           ))}
-          <ProjectCard
-            project={{
-              id: 'more',
-              title: 'More coming soon',
-              description: 'Case studies and deep dives on agent architecture, metrics, and lessons learned.',
-            }}
-            index={projects.length}
-            isPlaceholder
-          />
         </div>
       </div>
     </AnimatedSection>

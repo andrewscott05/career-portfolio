@@ -67,13 +67,12 @@ body::before {
   font-family: var(--font-mono);
 }
 
-/* Section label: monospace, tracked, sandstone */
+/* Section label */
 .section-label {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--color-tan);
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
 }
 
 /* Link underline animation */

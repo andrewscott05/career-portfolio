@@ -24,7 +24,7 @@ const stagger = {
 
 export function Hero() {
   return (
-    <header className="relative min-h-screen flex flex-col justify-center pt-24 pb-24 px-6 sm:px-8 md:px-12 lg:px-16">
+    <header className="relative flex flex-col justify-center pt-20 pb-16 sm:pt-28 sm:pb-20 px-6 sm:px-8 md:px-12 lg:px-16">
       <div className="max-w-[1200px] mx-auto w-full">
         <div className="max-w-4xl">
           <motion.p
