@@ -27,38 +27,14 @@ export function Hero() {
     <header className="relative flex flex-col justify-center pt-20 pb-16 sm:pt-28 sm:pb-20 px-6 sm:px-8 md:px-12 lg:px-16">
       <div className="max-w-[1200px] mx-auto w-full">
         <div className="max-w-4xl">
-          <motion.p
-            initial={stagger.hidden}
-            animate={stagger.visible}
-            transition={{ ...stagger.transition, delay: 0 }}
-            className="section-label mb-6"
-          >
-            Austin, TX
-          </motion.p>
           <motion.h1
             initial={stagger.hidden}
             animate={stagger.visible}
             transition={{ ...stagger.transition, delay: 0.1 }}
-            className="text-[3rem] sm:text-[5rem] md:text-[6rem] lg:text-[7rem] font-bold tracking-tight text-[var(--color-text)] leading-[0.95] mb-6"
+            className="text-[2rem] sm:text-[2.75rem] md:text-[3.25rem] font-semibold tracking-tight text-[var(--color-text)] leading-[1.15] max-w-3xl mb-12"
           >
-            Andrew Scott
+            Andrew Scott is a product leader in Austin who turns complex operations into AI-powered systems that work at scale.
           </motion.h1>
-          <motion.p
-            initial={stagger.hidden}
-            animate={stagger.visible}
-            transition={{ ...stagger.transition, delay: 0.2 }}
-            className="text-xl sm:text-2xl font-medium text-[var(--color-text)] mb-3"
-          >
-            Technical Product Leader
-          </motion.p>
-          <motion.p
-            initial={stagger.hidden}
-            animate={stagger.visible}
-            transition={{ ...stagger.transition, delay: 0.3 }}
-            className="text-lg sm:text-xl text-[var(--color-text-secondary)] max-w-lg mb-12"
-          >
-            Building technology that moves freight.
-          </motion.p>
           <motion.nav
             initial={stagger.hidden}
             animate={stagger.visible}
