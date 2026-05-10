@@ -11,10 +11,10 @@ export function About() {
           </div>
           <div className="mt-6 md:mt-0 space-y-5 text-[var(--color-text-secondary)] leading-relaxed text-[1rem] sm:text-[1.0625rem] max-w-2xl">
             <p>
-              I work on product across platforms, design systems, automation, and AI — partnering closely with engineering and design to ship things that work for real users at real scale. I write detailed PRDs, get into the weeds on architecture, and stay close to the work all the way through launch.
+              I work on product across platforms, design systems, automation, and AI. I stay close to the engineering and design teams I ship with. I write thorough PRDs, dig into architecture decisions, and stick around through launch.
             </p>
             <p>
-              I'm at Arrive Logistics working on AI and automation. Before that I PMed the Spot Quoting platform as it grew from $180M to $300M+ and shipped the Arrive Developer Portal from concept to launch. Got here through 10+ years — enterprise IT at GM, PMO at a startup, and now product at scale.
+              I'm at Arrive Logistics working on AI and automation. Took about ten years to land here. Started in enterprise IT at GM, ran a PMO at a startup, and now I work on product at scale. Same idea every step of the way: take operational mess and make it usable.
             </p>
             <p className="pt-2">
               <Link

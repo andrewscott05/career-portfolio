@@ -14,7 +14,7 @@ export const projects: Project[] = [
     title: 'Bob',
     subtitle: 'AI Voice & Communications Agent',
     description:
-      'Production AI agent handling carrier workflows — tracking updates, appointment scheduling, check calls. Integrated via the Agent Integration Service (AGIS) I own.',
+      'Production AI agent handling carrier workflows like tracking updates, appointment scheduling, and check calls. Integrated via the Agent Integration Service (AGIS) I own.',
     metrics: '20K+ automated tasks/month and scaling.',
   },
   {
@@ -31,7 +31,7 @@ export const projects: Project[] = [
     title: 'Spot Quoting & Automation Platform',
     subtitle: 'GTM & revenue growth',
     description:
-      'Led GTM strategy over 2–3 years — revenue grew from $180M to $300M+, with $227M from automated processes contributing to 10% of total company revenue.',
+      'Led GTM strategy across 2 to 3 years. Revenue grew from $180M to $300M+, with $227M from automated processes contributing 10% of total company revenue.',
   },
   {
     id: 'ai-agent-expansion',

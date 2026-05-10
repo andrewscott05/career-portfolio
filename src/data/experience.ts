@@ -16,7 +16,7 @@ export const experience: ExperienceItem[] = [
       'Spot Quoting GTM: drove revenue from $180M to $300M+ annually, with $227M from automation contributing ~10% of total company revenue',
       'Co-led strategy for an internal Design System used across Product and Engineering, cutting SDLC time by 20%',
       'Built and rolled out AI enablement guides (Cursor, Gemini) adopted by 10+ PMs',
-      'Optimized User Management platform with SRE and Platform Engineering — reduced user-related incidents 30%',
+      'Optimized User Management platform with SRE and Platform Engineering, reducing user-related incidents 30%',
       'Revamped the PRD template and Jira SDLC across the org, cutting project turnaround 15%',
     ],
   },
@@ -27,9 +27,9 @@ export const experience: ExperienceItem[] = [
     bullets: [
       'Direct report to CEO, ran the PMO with 3 team members and 3 consultants',
       'Owned strategic roadmap and visibility for 75+ stakeholders across automation, tools, and operations',
-      'Built an automated QC/Imaging process — 20% cycle time improvement',
+      'Built an automated QC/Imaging process, lifting cycle time 20%',
       'Standardized operating procedures across 100+ staff, lifting output 30%',
-      'As Program Manager: ran ITAD services for largest client — 90K+ IT assets, $6M+ annual revenue',
+      'As Program Manager: ran ITAD services for largest client, covering 90K+ IT assets and $6M+ annual revenue',
     ],
   },
   {

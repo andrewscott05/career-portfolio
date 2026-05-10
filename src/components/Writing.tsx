@@ -13,7 +13,7 @@ export function Writing() {
               I write about freight tech, AI in logistics, and building products that automate at scale.
             </p>
             <p className="text-sm text-[var(--color-text-muted)]">
-              Posts coming soon —{' '}
+              Posts coming soon.{' '}
               <a
                 href="https://linkedin.com/in/andrew-john-scott"
                 target="_blank"

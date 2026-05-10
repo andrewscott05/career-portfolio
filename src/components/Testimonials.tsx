@@ -44,7 +44,7 @@ export function Testimonials() {
                     "{t.quote}"
                   </p>
                   <cite className="text-xs text-[var(--color-text-muted)] not-italic font-mono">
-                    — {t.attribution}
+                    {t.attribution}
                   </cite>
                 </motion.blockquote>
               ))}

@@ -64,7 +64,7 @@ export function Experience() {
                   aria-hidden
                 />
                 <p className="font-mono text-xs text-[var(--color-text-muted)]">
-                  {education.school} — {education.degree} ({education.year})
+                  {education.school}. {education.degree} ({education.year})
                 </p>
               </motion.div>
             </div>
