@@ -1,9 +1,30 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 
+const EMAIL = 'ascott1296@gmail.com'
 const LINK = {
   linkedin: 'https://linkedin.com/in/andrew-john-scott',
-  email: 'mailto:ascott1296@gmail.com',
+  email: `mailto:${EMAIL}`,
   resume: '/resume.pdf',
+}
+
+function copyToClipboard(text: string) {
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text).catch(() => fallbackCopy(text))
+  } else {
+    fallbackCopy(text)
+  }
+}
+
+function fallbackCopy(text: string) {
+  const ta = document.createElement('textarea')
+  ta.value = text
+  ta.style.position = 'fixed'
+  ta.style.opacity = '0'
+  document.body.appendChild(ta)
+  ta.select()
+  try { document.execCommand('copy') } catch {}
+  document.body.removeChild(ta)
 }
 
 const DownloadIcon = () => (
@@ -30,6 +51,14 @@ const stagger = {
 }
 
 export function Hero() {
+  const [copied, setCopied] = useState(false)
+
+  const handleEmailClick = () => {
+    copyToClipboard(EMAIL)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <header className="relative flex flex-col justify-center pt-20 pb-16 sm:pt-28 sm:pb-20 px-6 sm:px-8 md:px-12 lg:px-16">
       <div className="max-w-[1200px] mx-auto w-full">
@@ -60,9 +89,10 @@ export function Hero() {
             </a>
             <a
               href={LINK.email}
+              onClick={handleEmailClick}
               className="font-mono text-sm inline-flex items-center gap-2.5 px-5 py-2.5 border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-all duration-200 rounded-lg"
             >
-              Email
+              {copied ? 'Copied!' : 'Email'}
               <ExternalIcon />
             </a>
             <a

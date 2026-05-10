@@ -1,4 +1,18 @@
+import { useState } from 'react'
 import { AnimatedSection } from './AnimatedSection'
+
+const EMAIL = 'ascott1296@gmail.com'
+
+function fallbackCopy(text: string) {
+  const ta = document.createElement('textarea')
+  ta.value = text
+  ta.style.position = 'fixed'
+  ta.style.opacity = '0'
+  document.body.appendChild(ta)
+  ta.select()
+  try { document.execCommand('copy') } catch {}
+  document.body.removeChild(ta)
+}
 
 const LinkedInIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -7,6 +21,18 @@ const LinkedInIcon = () => (
 )
 
 export function Contact() {
+  const [copied, setCopied] = useState(false)
+
+  const handleEmailClick = () => {
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(EMAIL).catch(() => fallbackCopy(EMAIL))
+    } else {
+      fallbackCopy(EMAIL)
+    }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <AnimatedSection id="contact" className="py-16 sm:py-24 px-6 sm:px-8 md:px-12 lg:px-16">
       <div className="max-w-[1200px] mx-auto w-full">
@@ -20,13 +46,20 @@ export function Contact() {
             </p>
             <nav className="flex flex-wrap items-center gap-6" aria-label="Contact">
               <a
-                href="mailto:ascott1296@gmail.com"
+                href={`mailto:${EMAIL}`}
+                onClick={handleEmailClick}
                 className="link-underline text-2xl sm:text-3xl font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors inline-flex items-center gap-3"
               >
-                ascott1296@gmail.com
+                {copied ? 'Copied to clipboard!' : EMAIL}
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <path d="M7 17L17 7" />
-                  <polyline points="8 7 17 7 17 16" />
+                  {copied ? (
+                    <polyline points="20 6 9 17 4 12" />
+                  ) : (
+                    <>
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </>
+                  )}
                 </svg>
               </a>
               <a
