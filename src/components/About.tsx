@@ -10,7 +10,7 @@ export function About() {
           </div>
           <div className="mt-6 md:mt-0 space-y-5 text-[var(--color-text-secondary)] leading-relaxed text-[1rem] sm:text-[1.0625rem] max-w-2xl">
             <p>
-              I build technology that automates complex operational workflows in freight logistics — from AI agents handling carrier communications to API platforms powering automated quoting at scale. Hybrid technical + domain background — I write PRDs with technical depth, architect agent systems, and contribute to M&A and PE analysis leveraging deep freight domain expertise.
+              I build technology that automates complex operational workflows in freight logistics — from AI agents handling carrier communications to API platforms powering automated quoting at scale. I write PRDs with technical depth, architect agent systems, and work closely with engineering to ship.
             </p>
             <p>
               Currently leading AI & Automation products at Arrive Logistics, where I own the agent roadmap across tracking, carrier communications, quoting, and accounting. 10+ years across GM, startup PMO leadership, and now tech product at scale.
