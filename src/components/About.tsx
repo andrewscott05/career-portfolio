@@ -11,7 +11,7 @@ export function About() {
           </div>
           <div className="mt-6 md:mt-0 space-y-5 text-[var(--color-text-secondary)] leading-relaxed text-[1rem] sm:text-[1.0625rem] max-w-2xl">
             <p>
-              I lead product across platforms, design systems, automation, and AI — partnering with engineering and design to ship things that work for real users at real scale. Hybrid technical + domain background — I write PRDs with technical depth, architect systems, and own GTM.
+              I work on product across platforms, design systems, automation, and AI — partnering closely with engineering and design to ship things that work for real users at real scale. I write detailed PRDs, get into the weeds on architecture, and stay close to the work all the way through launch.
             </p>
             <p>
               Currently at Arrive Logistics leading AI & Automation. Previously led the Spot Quoting platform from $180M to $300M+ and the Arrive Developer Portal from concept to launch. 10+ years across enterprise IT at GM, startup PMO leadership, and product at scale.

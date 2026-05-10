@@ -33,7 +33,7 @@ export function Hero() {
             transition={{ ...stagger.transition, delay: 0.1 }}
             className="text-[2rem] sm:text-[2.75rem] md:text-[3.25rem] font-semibold tracking-tight text-[var(--color-text)] leading-[1.15] max-w-3xl mb-12"
           >
-            Andrew Scott is a product leader in Austin who builds platforms, design systems, and automation that turn complex operations into products people actually use.
+            Andrew Scott builds platforms, design systems, and automation that turn complex operations into products people actually use.
           </motion.h1>
           <motion.nav
             initial={stagger.hidden}
