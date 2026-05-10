@@ -16,7 +16,7 @@ export function Contact() {
           </div>
           <div className="mt-6 md:mt-0 max-w-2xl">
             <p className="text-[var(--color-text-secondary)] text-sm mb-6">
-              Open to speaking, advising, collaborating on freight tech and logistics automation — or just talking shop.
+              Open to speaking, advising, collaborating, or just talking shop about product, platforms, and automation.
             </p>
             <nav className="flex flex-wrap items-center gap-6" aria-label="Contact">
               <a

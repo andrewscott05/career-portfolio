@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { AnimatedSection } from './AnimatedSection'
 
 export function About() {
@@ -10,10 +11,18 @@ export function About() {
           </div>
           <div className="mt-6 md:mt-0 space-y-5 text-[var(--color-text-secondary)] leading-relaxed text-[1rem] sm:text-[1.0625rem] max-w-2xl">
             <p>
-              I build technology that automates complex operational workflows in freight logistics — from AI agents handling carrier communications to API platforms powering automated quoting at scale. I write PRDs with technical depth, architect agent systems, and work closely with engineering to ship.
+              I lead product across platforms, design systems, automation, and AI — partnering with engineering and design to ship things that work for real users at real scale. Hybrid technical + domain background — I write PRDs with technical depth, architect systems, and own GTM.
             </p>
             <p>
-              Currently leading AI & Automation products at Arrive Logistics, where I own the agent roadmap across tracking, carrier communications, quoting, and accounting. 10+ years across GM, startup PMO leadership, and now tech product at scale.
+              Currently at Arrive Logistics leading AI & Automation. Previously led the Spot Quoting platform from $180M to $300M+ and the Arrive Developer Portal from concept to launch. 10+ years across enterprise IT at GM, startup PMO leadership, and product at scale.
+            </p>
+            <p className="pt-2">
+              <Link
+                to="/experience"
+                className="link-underline font-mono text-sm text-[var(--color-primary)]"
+              >
+                Full experience →
+              </Link>
             </p>
           </div>
         </div>
