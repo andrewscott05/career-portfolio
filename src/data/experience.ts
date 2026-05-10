@@ -11,17 +11,25 @@ export const experience: ExperienceItem[] = [
     role: 'Senior Technical Product Manager',
     period: '2021–Present',
     bullets: [
-      'Own AI & Automation product area: agent roadmap, platform reliability, end-to-end delivery',
-      'Key outcomes: 20K+ tasks/mo automated, $300M+ revenue via spot quoting platform, 40% SLA improvement',
+      'Lead Product Management for AI & Automation: roadmap, platform reliability, and end-to-end delivery across internal and external applications',
+      'AI Agent Roadmap: 20K+ tracking tasks/mo, 5K+ POD collection/mo, plus active expansion into carrier sourcing, coverage, scheduling, and inquiry reduction (7.5K+ monthly accounting/payment calls)',
+      'Spot Quoting GTM: drove revenue from $180M to $300M+ annually, with $227M from automation contributing ~10% of total company revenue',
+      'Co-led strategy for an internal Design System used across Product and Engineering, cutting SDLC time by 20%',
+      'Built and rolled out AI enablement guides (Cursor, Gemini) adopted by 10+ PMs',
+      'Optimized User Management platform with SRE and Platform Engineering — reduced user-related incidents 30%',
+      'Revamped the PRD template and Jira SDLC across the org, cutting project turnaround 15%',
     ],
   },
   {
     company: 'Global Resale',
-    role: 'Manager of PMO',
+    role: 'Manager of PMO → Program Manager',
     period: '2019–2021',
     bullets: [
-      'Direct report to CEO, team of 6. Owned strategic roadmap for 75+ stakeholders',
-      'Automated QC/Imaging boosting cycle time 20%',
+      'Direct report to CEO, ran the PMO with 3 team members and 3 consultants',
+      'Owned strategic roadmap and visibility for 75+ stakeholders across automation, tools, and operations',
+      'Built an automated QC/Imaging process — 20% cycle time improvement',
+      'Standardized operating procedures across 100+ staff, lifting output 30%',
+      'As Program Manager: ran ITAD services for largest client — 90K+ IT assets, $6M+ annual revenue',
     ],
   },
   {
@@ -29,13 +37,14 @@ export const experience: ExperienceItem[] = [
     role: 'IT Project Manager, Storage Engineering',
     period: '2014–2019',
     bullets: [
-      'Migrated 1.02 PB across 16 global plants, saved $7M',
+      'Coordinated Backup and Recovery rollout across 16 global manufacturing plants',
+      'Migrated 1.02 PB of data off legacy storage across 68 plants, saving $7M',
     ],
   },
 ]
 
 export const education = {
   school: 'Penn State, Smeal College of Business',
-  degree: 'BS, MIS',
+  degree: 'BS, Management Information Systems',
   year: '2015',
 }
