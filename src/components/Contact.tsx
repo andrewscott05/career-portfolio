@@ -21,8 +21,6 @@ export function Contact() {
             <nav className="flex flex-wrap items-center gap-6" aria-label="Contact">
               <a
                 href="mailto:ascott1296@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
                 className="link-underline text-2xl sm:text-3xl font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors inline-flex items-center gap-3"
               >
                 ascott1296@gmail.com

@@ -60,8 +60,6 @@ export function Hero() {
             </a>
             <a
               href={LINK.email}
-              target="_blank"
-              rel="noopener noreferrer"
               className="font-mono text-sm inline-flex items-center gap-2.5 px-5 py-2.5 border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-all duration-200 rounded-lg"
             >
               Email
