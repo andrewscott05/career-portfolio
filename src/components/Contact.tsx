@@ -21,9 +21,11 @@ export function Contact() {
             <nav className="flex flex-wrap items-center gap-6" aria-label="Contact">
               <a
                 href="mailto:ascott1296@gmail.com"
-                className="link-underline text-2xl sm:text-3xl font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-underline text-2xl sm:text-3xl font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors inline-flex items-center gap-2"
               >
-                ascott1296@gmail.com
+                ascott1296@gmail.com <span aria-hidden className="text-xl">↗</span>
               </a>
               <a
                 href="https://linkedin.com/in/andrew-john-scott"

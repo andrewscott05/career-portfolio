@@ -46,23 +46,26 @@ export function Hero() {
               href={LINK.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="link-underline font-mono text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+              className="link-underline font-mono text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors inline-flex items-center gap-1"
             >
-              LinkedIn
+              LinkedIn <span aria-hidden>↗</span>
             </a>
             <a
               href={LINK.email}
-              className="link-underline font-mono text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline font-mono text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors inline-flex items-center gap-1"
             >
-              Email
+              Email <span aria-hidden>↗</span>
             </a>
             <a
               href={LINK.resume}
-              download
+              target="_blank"
+              rel="noopener noreferrer"
               className="font-mono text-sm inline-flex items-center gap-2.5 px-5 py-2.5 border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-all duration-200 rounded-lg"
             >
               <DownloadIcon />
-              Resume
+              Resume <span aria-hidden>↗</span>
             </a>
           </motion.nav>
         </div>
