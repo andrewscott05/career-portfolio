@@ -14,6 +14,13 @@ const DownloadIcon = () => (
   </svg>
 )
 
+const ExternalIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M7 17L17 7" />
+    <polyline points="8 7 17 7 17 16" />
+  </svg>
+)
+
 const EASE = [0.22, 1, 0.36, 1] as const
 
 const stagger = {
@@ -46,17 +53,19 @@ export function Hero() {
               href={LINK.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="link-underline font-mono text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors inline-flex items-center gap-1"
+              className="font-mono text-sm inline-flex items-center gap-2.5 px-5 py-2.5 border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-all duration-200 rounded-lg"
             >
-              LinkedIn <span aria-hidden>↗</span>
+              LinkedIn
+              <ExternalIcon />
             </a>
             <a
               href={LINK.email}
               target="_blank"
               rel="noopener noreferrer"
-              className="link-underline font-mono text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors inline-flex items-center gap-1"
+              className="font-mono text-sm inline-flex items-center gap-2.5 px-5 py-2.5 border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-all duration-200 rounded-lg"
             >
-              Email <span aria-hidden>↗</span>
+              Email
+              <ExternalIcon />
             </a>
             <a
               href={LINK.resume}
@@ -65,7 +74,7 @@ export function Hero() {
               className="font-mono text-sm inline-flex items-center gap-2.5 px-5 py-2.5 border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-all duration-200 rounded-lg"
             >
               <DownloadIcon />
-              Resume <span aria-hidden>↗</span>
+              Resume
             </a>
           </motion.nav>
         </div>

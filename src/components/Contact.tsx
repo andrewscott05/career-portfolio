@@ -23,9 +23,13 @@ export function Contact() {
                 href="mailto:ascott1296@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="link-underline text-2xl sm:text-3xl font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors inline-flex items-center gap-2"
+                className="link-underline text-2xl sm:text-3xl font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors inline-flex items-center gap-3"
               >
-                ascott1296@gmail.com <span aria-hidden className="text-xl">↗</span>
+                ascott1296@gmail.com
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M7 17L17 7" />
+                  <polyline points="8 7 17 7 17 16" />
+                </svg>
               </a>
               <a
                 href="https://linkedin.com/in/andrew-john-scott"
