@@ -1,124 +1,83 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { AnimatedSection } from './AnimatedSection'
-import { projects, type Project } from '../data/projects'
+import { projects, developerPortal, type CaseStudy } from '../data/projects'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
-function ExternalLinkIcon() {
+function CaseCard({ project, index }: { project: CaseStudy; index: number }) {
+  const cols: Array<{ label: string; body: string }> = [
+    { label: 'The problem', body: project.problem },
+    { label: 'The build', body: project.build },
+    { label: 'The result', body: project.result },
+  ]
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 ml-1">
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-      <polyline points="15 3 21 3 21 9" />
-      <line x1="10" y1="14" x2="21" y2="3" />
-    </svg>
-  )
-}
-
-function ProjectCard({
-  project,
-  index,
-  isPlaceholder,
-  isFeatured,
-}: {
-  project: Project
-  index: number
-  isPlaceholder?: boolean
-  isFeatured?: boolean
-}) {
-  const content = (
     <motion.article
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, ease: EASE, delay: index * 0.08 }}
-      whileHover={isPlaceholder ? undefined : { y: -2 }}
-      className={`
-        block text-left p-6 sm:p-8 rounded-[10px] border transition-all duration-300 ease-out group/card
-        ${isPlaceholder
-          ? 'border-dashed border-[var(--color-border)] bg-[var(--color-surface)]/60 opacity-80'
-          : 'bg-[var(--color-surface)] border-[var(--color-border)] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] hover:border-[var(--color-primary)]'
-        }
-        ${isFeatured ? 'border-l-4 border-l-[var(--color-primary)] sm:border-l-4' : ''}
-      `}
+      className="bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)] p-7 sm:p-10 mb-6"
+      style={{ boxShadow: '8px 8px 0 var(--color-secondary)' }}
     >
-      <h3 className="font-bold text-[var(--color-text)] mb-1 text-lg">
-        {project.title}
-      </h3>
-      {project.subtitle && (
-        <p className="font-mono text-sm text-[var(--color-primary)] mb-3">
-          {project.subtitle}
-        </p>
-      )}
-      <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-2">
-        {project.description}
-      </p>
-      {project.metrics && (
-        <p className="font-mono text-xs text-[var(--color-tan)] font-medium mt-2">
-          {project.metrics}
-        </p>
-      )}
-      {!isPlaceholder && !project.external && (
-        <span className="inline-flex items-center gap-1 font-mono text-sm text-[var(--color-primary)] mt-4 group-hover/card:underline">
-          Case study
-          <span className="inline-block transition-transform duration-200 group-hover/card:translate-x-0.5">→</span>
+      <div className="flex justify-between items-baseline gap-4 mb-3.5">
+        <h3 className="font-display text-[clamp(1.375rem,4vw,1.875rem)] text-[var(--color-ink)]">
+          {project.title}
+        </h3>
+        <span className="font-mono text-[11px] text-[var(--color-primary)] whitespace-nowrap">
+          {project.tag}
         </span>
-      )}
-      {!isPlaceholder && project.external && (
-        <span className="inline-flex items-center font-mono text-sm text-[var(--color-primary)] mt-4">
-          Visit site
-          <ExternalLinkIcon />
-        </span>
-      )}
-    </motion.article>
-  )
-
-  if (isPlaceholder) {
-    return <div className="min-h-[200px]">{content}</div>
-  }
-  if (project.external && project.href) {
-    return (
-      <a
-        href={project.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block min-h-[200px]"
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7 mb-5">
+        {cols.map((col) => (
+          <div key={col.label}>
+            <p className="font-display text-xs text-[var(--color-ink)] mb-2">
+              {col.label}
+            </p>
+            <p className="font-mono text-[13px] text-[var(--color-text-secondary)] leading-[1.7]">
+              {col.body}
+            </p>
+          </div>
+        ))}
+      </div>
+      <Link
+        to={`/work/${project.id}`}
+        className="press inline-block font-display text-[13px] text-[var(--color-ink)] bg-[var(--color-secondary)] px-3 py-1.5"
       >
-        {content}
-      </a>
-    )
-  }
-  return (
-    <Link to={`/work/${project.id}`} className="block min-h-[200px]">
-      {content}
-    </Link>
+        Read the case study →
+      </Link>
+    </motion.article>
   )
 }
 
 export function WhatImBuilding() {
-  const [featured, ...rest] = projects
   return (
-    <AnimatedSection id="work" className="py-[120px] sm:py-[160px] px-6 sm:px-8 md:px-12 lg:px-16">
-      <div className="max-w-[1200px] mx-auto w-full">
-        <h2 className="section-label mb-10">What I&apos;m Building</h2>
-        <div className="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2">
-          <div className="sm:col-span-2 min-h-[220px]">
-            <ProjectCard project={featured} index={0} isFeatured />
+    <section id="work" className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
+      <div className="max-w-[1100px] mx-auto w-full">
+        <p className="section-label mb-5">// Built &amp; shipped</p>
+
+        {projects.map((project, i) => (
+          <CaseCard key={project.id} project={project} index={i} />
+        ))}
+
+        <a
+          href={developerPortal.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-[var(--color-ink)] border-[3px] border-[var(--color-ink)] px-7 sm:px-10 py-7 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 group"
+        >
+          <div>
+            <p className="font-display text-lg text-[var(--color-bg)]">
+              {developerPortal.title}
+            </p>
+            <p className="font-mono text-[13px] text-[var(--color-ink-subtext)] mt-1.5 leading-[1.7]">
+              {developerPortal.description}
+            </p>
           </div>
-          {rest.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i + 1} />
-          ))}
-          <ProjectCard
-            project={{
-              id: 'more',
-              title: 'More coming soon',
-              description: 'Case studies and deep dives on agent architecture, metrics, and lessons learned.',
-            }}
-            index={projects.length}
-            isPlaceholder
-          />
-        </div>
+          <span className="font-display text-[13px] text-[var(--color-secondary)] whitespace-nowrap sm:ml-8 group-hover:translate-x-0.5 transition-transform">
+            Visit →
+          </span>
+        </a>
       </div>
-    </AnimatedSection>
+    </section>
   )
 }

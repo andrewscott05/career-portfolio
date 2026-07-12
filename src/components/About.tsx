@@ -1,21 +1,25 @@
-import { AnimatedSection } from './AnimatedSection'
-
 export function About() {
   return (
-    <AnimatedSection id="about" className="py-[120px] sm:py-[160px] px-6 sm:px-8 md:px-12 lg:px-16">
-      <div className="max-w-[1200px] mx-auto w-full">
-        <div className="max-w-2xl border-t border-[var(--color-border)] pt-12">
-          <h2 className="section-label mb-8">About</h2>
-          <div className="space-y-5 text-[var(--color-text-secondary)] leading-relaxed text-[1rem] sm:text-[1.125rem]">
-            <p>
-              I build technology that automates complex operational workflows in freight logistics — from AI agents handling carrier communications to API platforms powering automated quoting at scale. Hybrid technical + domain background — I write PRDs with technical depth, architect agent systems, and contribute to M&A and PE analysis leveraging deep freight domain expertise.
+    <section id="about" className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
+      <div className="max-w-[1100px] mx-auto w-full">
+        <div className="border-t-[3px] border-[var(--color-ink)] pt-10 sm:pt-11 grid grid-cols-1 md:grid-cols-[1fr_1.4fr] gap-6 md:gap-12 items-start">
+          <p className="section-label">// About</p>
+          <div>
+            <p className="font-mono text-[15px] sm:text-base text-[var(--color-ink)] leading-[1.8] mb-[18px]">
+              Operations run on a thousand small decisions. Where&apos;s this
+              order, who called who, what happens when something&apos;s two hours
+              late. I build the systems that make those calls without routing
+              them through more people.
             </p>
-            <p>
-              Currently leading AI & Automation products at Arrive Logistics, where I own the agent roadmap across tracking, carrier communications, quoting, and accounting. 10+ years across GM, startup PMO leadership, and now tech product at scale.
+            <p className="font-mono text-[15px] sm:text-base text-[var(--color-text-secondary)] leading-[1.8]">
+              I write specs with real technical depth, argue architecture with
+              engineers, and still remember what it feels like to be the human on
+              the other end of a broken process. That&apos;s the whole job:
+              knowing exactly what to automate, and what to leave to people.
             </p>
           </div>
         </div>
       </div>
-    </AnimatedSection>
+    </section>
   )
 }

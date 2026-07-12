@@ -2,103 +2,65 @@ import { motion } from 'framer-motion'
 
 const LINK = {
   linkedin: 'https://linkedin.com/in/andrew-john-scott',
-  email: 'mailto:ascott1296@gmail.com',
   resume: '/resume.pdf',
 }
 
-const DownloadIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-    <polyline points="7 10 12 15 17 10" />
-    <line x1="12" y1="15" x2="12" y2="3" />
-  </svg>
-)
-
 const EASE = [0.22, 1, 0.36, 1] as const
 
-const stagger = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, ease: EASE },
-}
+const fade = (delay: number) => ({
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, ease: EASE, delay },
+})
 
 export function Hero() {
   return (
-    <header className="relative min-h-screen flex flex-col justify-center pt-24 pb-24 px-6 sm:px-8 md:px-12 lg:px-16">
-      <div className="max-w-[1200px] mx-auto w-full">
-        <div className="max-w-4xl">
-          <motion.p
-            initial={stagger.hidden}
-            animate={stagger.visible}
-            transition={{ ...stagger.transition, delay: 0 }}
-            className="section-label mb-6"
+    <header id="top" className="px-6 sm:px-10 md:px-14">
+      <div className="max-w-[1100px] mx-auto w-full pt-20 pb-16 sm:pt-24 sm:pb-20">
+        <motion.p
+          {...fade(0)}
+          className="font-mono text-[13px] tracking-[0.12em] uppercase text-[var(--color-text-secondary)] mb-6 sm:mb-7"
+        >
+          Andrew Scott · Technical Product Leader · Austin, TX
+        </motion.p>
+        <motion.h1
+          {...fade(0.08)}
+          className="font-display text-[clamp(2.75rem,10vw,5.5rem)] text-[var(--color-ink)] leading-[0.98] tracking-[-0.01em] mb-6 sm:mb-7"
+        >
+          Manual ops
+          <br />
+          is a <span className="text-[var(--color-primary)]">#$%&amp;!</span>
+          <br />
+          mess.
+        </motion.h1>
+        <motion.p
+          {...fade(0.16)}
+          className="font-mono text-[15px] sm:text-base text-[var(--color-text-secondary)] max-w-[600px] leading-[1.8] mb-9 sm:mb-10"
+        >
+          I build the automation that cleans it up. Ten years turning phone
+          calls, spreadsheets, and 2am fire drills into systems that run
+          themselves, with AI doing the parts that used to need a person.
+        </motion.p>
+        <motion.div {...fade(0.24)} className="flex flex-wrap gap-4 sm:gap-[18px]">
+          <a
+            href={LINK.resume}
+            download
+            className="press font-display text-sm text-[var(--color-bg)] bg-[var(--color-ink)] px-6 py-[15px] border-[3px] border-[var(--color-ink)]"
+            style={{ boxShadow: '6px 6px 0 var(--color-primary)' }}
           >
-            Austin, TX
-          </motion.p>
-          <motion.h1
-            initial={stagger.hidden}
-            animate={stagger.visible}
-            transition={{ ...stagger.transition, delay: 0.1 }}
-            className="text-[3rem] sm:text-[5rem] md:text-[6rem] lg:text-[7rem] font-bold tracking-tight text-[var(--color-text)] leading-[0.95] mb-6"
+            Download resume
+          </a>
+          <a
+            href={LINK.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="press font-display text-sm text-[var(--color-ink)] bg-[var(--color-bg)] px-6 py-[15px] border-[3px] border-[var(--color-ink)]"
+            style={{ boxShadow: '6px 6px 0 var(--color-ink)' }}
           >
-            Andrew Scott
-          </motion.h1>
-          <motion.p
-            initial={stagger.hidden}
-            animate={stagger.visible}
-            transition={{ ...stagger.transition, delay: 0.2 }}
-            className="text-xl sm:text-2xl font-medium text-[var(--color-text)] mb-3"
-          >
-            Technical Product Leader
-          </motion.p>
-          <motion.p
-            initial={stagger.hidden}
-            animate={stagger.visible}
-            transition={{ ...stagger.transition, delay: 0.3 }}
-            className="text-lg sm:text-xl text-[var(--color-text-secondary)] max-w-lg mb-12"
-          >
-            Building technology that moves freight.
-          </motion.p>
-          <motion.nav
-            initial={stagger.hidden}
-            animate={stagger.visible}
-            transition={{ ...stagger.transition, delay: 0.45 }}
-            className="flex flex-wrap items-center gap-6"
-            aria-label="Primary"
-          >
-            <a
-              href={LINK.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-underline font-mono text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
-            >
-              LinkedIn
-            </a>
-            <a
-              href={LINK.email}
-              className="link-underline font-mono text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
-            >
-              Email
-            </a>
-            <a
-              href={LINK.resume}
-              download
-              className="font-mono text-sm inline-flex items-center gap-2.5 px-5 py-2.5 border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-bg)] transition-all duration-200 rounded-lg"
-            >
-              <DownloadIcon />
-              Resume
-            </a>
-          </motion.nav>
-        </div>
+            LinkedIn
+          </a>
+        </motion.div>
       </div>
-      {/* Gradient fade at bottom into next section */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to bottom, transparent 0%, var(--color-bg) 100%)',
-        }}
-        aria-hidden
-      />
     </header>
   )
 }

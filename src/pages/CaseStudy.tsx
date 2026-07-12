@@ -9,48 +9,68 @@ export function CaseStudy() {
   const project = slug ? projects.find((p) => p.id === slug) : null
 
   return (
-    <div className="min-h-screen px-6 sm:px-8 md:px-12 lg:px-16 py-24">
-      <div className="max-w-[1200px] mx-auto w-full max-w-2xl">
+    <div className="min-h-screen px-6 sm:px-10 md:px-14 py-16 sm:py-20">
+      <div className="max-w-[820px] mx-auto w-full">
         <Link
           to="/"
-          className="link-underline font-mono text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors mb-14 inline-block"
+          className="press inline-block font-display text-xs text-[var(--color-ink)] bg-[var(--color-bg)] px-4 py-2.5 border-[3px] border-[var(--color-ink)] mb-12"
+          style={{ boxShadow: '6px 6px 0 var(--color-ink)' }}
         >
           ← Back
         </Link>
+
         {project ? (
           <motion.article
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
           >
-            <h1 className="font-bold text-3xl text-[var(--color-text)] mb-2">
+            <p className="font-mono text-[11px] tracking-[0.12em] text-[var(--color-primary)] mb-4">
+              {project.tag}
+            </p>
+            <h1 className="font-display text-[clamp(2rem,6vw,3rem)] text-[var(--color-ink)] leading-[1.02] mb-10">
               {project.title}
             </h1>
-            {project.subtitle && (
-              <p className="font-mono text-sm text-[var(--color-primary)] mb-6">
-                {project.subtitle}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-7 mb-12">
+              {[
+                { label: 'The problem', body: project.problem },
+                { label: 'The build', body: project.build },
+                { label: 'The result', body: project.result },
+              ].map((col) => (
+                <div
+                  key={col.label}
+                  className="bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)] p-6"
+                  style={{ boxShadow: '6px 6px 0 var(--color-secondary)' }}
+                >
+                  <p className="font-display text-xs text-[var(--color-ink)] mb-3">
+                    {col.label}
+                  </p>
+                  <p className="font-mono text-[13px] text-[var(--color-text-secondary)] leading-[1.7]">
+                    {col.body}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="border-t-[3px] border-[var(--color-ink)] pt-8">
+              <p className="font-mono text-[13px] text-[var(--color-text-muted)] leading-[1.7]">
+                More detail — PRD excerpts, architecture diagrams, and metrics —
+                lives here. Extend this page per project as the case study grows.
               </p>
-            )}
-            <p className="text-[var(--color-text-secondary)] leading-relaxed mb-6">
-              {project.description}
-            </p>
-            {project.metrics && (
-              <p className="font-mono text-sm text-[var(--color-tan)]">
-                {project.metrics}
-              </p>
-            )}
-            <p className="mt-12 text-sm text-[var(--color-text-muted)]">
-              Case study content (Miro screenshots, PRD excerpts, architecture diagrams, metrics) can be added here by editing this component or adding a dedicated page per project.
-            </p>
+            </div>
           </motion.article>
         ) : (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-[var(--color-text-secondary)]"
+            className="font-mono text-[var(--color-text-secondary)]"
           >
-            <p>Project not found.</p>
-            <Link to="/" className="link-underline font-mono text-sm mt-4 inline-block hover:text-[var(--color-text)]">
+            <p className="mb-4">Project not found.</p>
+            <Link
+              to="/"
+              className="font-display text-xs text-[var(--color-ink)] underline"
+            >
               Back home
             </Link>
           </motion.div>

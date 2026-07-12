@@ -1,39 +1,35 @@
-import { AnimatedSection } from './AnimatedSection'
+import { motion } from 'framer-motion'
 
-const LinkedInIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-  </svg>
-)
+const EASE = [0.22, 1, 0.36, 1] as const
 
 export function Contact() {
   return (
-    <AnimatedSection id="contact" className="py-[120px] sm:py-[160px] px-6 sm:px-8 md:px-12 lg:px-16">
-      <div className="max-w-[1200px] mx-auto w-full">
-        <div className="max-w-2xl">
-          <h2 className="section-label mb-8">Contact</h2>
-          <p className="text-[var(--color-text-secondary)] text-sm mb-8">
-            Open to speaking, advising, collaborating on freight tech and logistics automation — or just talking shop.
+    <section id="contact" className="px-6 sm:px-10 md:px-14 pb-20">
+      <div className="max-w-[1100px] mx-auto w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="bg-[var(--color-primary)] border-[3px] border-[var(--color-ink)] px-8 py-12 sm:p-14 text-center"
+          style={{ boxShadow: '10px 10px 0 var(--color-ink)' }}
+        >
+          <h2 className="font-display text-[clamp(1.75rem,5vw,2.375rem)] text-[var(--color-bg)] leading-[1.05] mb-4">
+            Let&apos;s build something{' '}
+            <span className="text-[var(--color-secondary)]">people rely on.</span>
+          </h2>
+          <p className="font-mono text-sm text-[var(--color-bg)] max-w-[500px] mx-auto leading-[1.8] mb-7">
+            I&apos;m especially drawn to products people depend on every day.
+            Monarch Money and Life360 are two I use and admire.
           </p>
-          <nav className="flex flex-wrap items-center gap-6" aria-label="Contact">
-            <a
-              href="mailto:ascott1296@gmail.com"
-              className="link-underline text-2xl sm:text-3xl font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] transition-colors"
-            >
-              ascott1296@gmail.com
-            </a>
-            <a
-              href="https://linkedin.com/in/andrew-john-scott"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors p-1"
-              aria-label="LinkedIn"
-            >
-              <LinkedInIcon />
-            </a>
-          </nav>
-        </div>
+          <a
+            href="mailto:ascott1296@gmail.com"
+            className="press inline-block font-display text-xl text-[var(--color-ink)] bg-[var(--color-secondary)] px-7 py-3.5 border-[3px] border-[var(--color-ink)]"
+          >
+            ascott1296@gmail.com
+          </a>
+        </motion.div>
       </div>
-    </AnimatedSection>
+    </section>
   )
 }
