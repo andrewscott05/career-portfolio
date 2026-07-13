@@ -44,7 +44,8 @@ export function Hero() {
         <motion.div {...fade(0.24)} className="flex flex-wrap gap-4 sm:gap-[18px]">
           <a
             href={LINK.resume}
-            download
+            target="_blank"
+            rel="noopener noreferrer"
             className="press font-display text-sm text-[var(--color-bg)] bg-[var(--color-ink)] px-6 py-[15px] border-[3px] border-[var(--color-ink)]"
             style={{ boxShadow: '6px 6px 0 var(--color-primary)' }}
           >

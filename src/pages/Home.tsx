@@ -3,7 +3,7 @@ import { Hero } from '../components/Hero'
 import { Metrics } from '../components/Metrics'
 import { WhatImBuilding } from '../components/WhatImBuilding'
 import { About } from '../components/About'
-import { Experience } from '../components/Experience'
+import { Testimonials } from '../components/Testimonials'
 import { Contact } from '../components/Contact'
 
 export function Home() {
@@ -14,7 +14,7 @@ export function Home() {
       <Metrics />
       <WhatImBuilding />
       <About />
-      <Experience />
+      <Testimonials />
       <Contact />
     </>
   )

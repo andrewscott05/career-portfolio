@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { experience } from '../data/experience'
+import { experience, education } from '../data/experience'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -16,22 +16,38 @@ export function Experience() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.5, ease: EASE, delay: i * 0.06 }}
-              className="flex justify-between items-baseline gap-4 py-5 border-b-[3px] border-[var(--color-ink)]"
+              className="py-7 border-b-[3px] border-[var(--color-ink)]"
             >
-              <div>
-                <p className="font-display text-[17px] text-[var(--color-ink)]">
-                  {job.company}
-                </p>
-                <p className="font-mono text-[13px] text-[var(--color-text-secondary)] mt-1">
-                  {job.role}
+              <div className="flex justify-between items-baseline gap-4 mb-4">
+                <div>
+                  <p className="font-display text-[17px] text-[var(--color-ink)]">
+                    {job.company}
+                  </p>
+                  <p className="font-mono text-[13px] text-[var(--color-text-secondary)] mt-1">
+                    {job.role}
+                  </p>
+                </div>
+                <p className="font-mono text-xs text-[var(--color-text-secondary)] whitespace-nowrap">
+                  {job.period}
                 </p>
               </div>
-              <p className="font-mono text-xs text-[var(--color-text-secondary)] whitespace-nowrap">
-                {job.period}
-              </p>
+              <ul className="space-y-2">
+                {job.bullets.map((bullet) => (
+                  <li
+                    key={bullet}
+                    className="font-mono text-[13px] text-[var(--color-text-secondary)] leading-[1.7] pl-4 relative"
+                  >
+                    <span className="absolute left-0 text-[var(--color-primary)]">–</span>
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           ))}
         </div>
+        <p className="font-mono text-xs text-[var(--color-text-muted)] mt-6">
+          {education.school} · {education.degree} ({education.year})
+        </p>
       </div>
     </section>
   )
