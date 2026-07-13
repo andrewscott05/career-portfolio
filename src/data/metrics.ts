@@ -7,14 +7,14 @@ export interface Metric {
 export const metrics: Metric[] = [
   {
     value: '20K+',
-    label: 'tasks a month that used to be phone calls. Now automated.',
+    label: 'operational tasks automated every month, no human in the loop.',
   },
   {
     value: '$227M',
-    label: 'revenue through quotes no human ever touched.',
+    label: 'revenue generated through fully automated workflows.',
   },
   {
     value: '40%',
-    label: 'SLA improvement after automating the repetitive work.',
+    label: 'faster service levels once the repetitive work was automated.',
   },
 ]

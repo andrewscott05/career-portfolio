@@ -39,14 +39,10 @@ export function Contact() {
           className="bg-[var(--color-primary)] border-[3px] border-[var(--color-ink)] px-8 py-12 sm:p-14 text-center"
           style={{ boxShadow: '10px 10px 0 var(--color-ink)' }}
         >
-          <h2 className="font-display text-[clamp(1.75rem,5vw,2.375rem)] text-[var(--color-bg)] leading-[1.05] mb-4">
+          <h2 className="font-display text-[clamp(1.75rem,5vw,2.375rem)] text-[var(--color-bg)] leading-[1.05] mb-8">
             Let&apos;s build something{' '}
             <span className="text-[var(--color-secondary)]">people rely on.</span>
           </h2>
-          <p className="font-mono text-sm text-[var(--color-bg)] max-w-[500px] mx-auto leading-[1.8] mb-7">
-            I&apos;m especially drawn to products people depend on every day.
-            Monarch Money and Life360 are two I use and admire.
-          </p>
           <a
             href={`mailto:${EMAIL}`}
             onClick={handleEmailClick}
