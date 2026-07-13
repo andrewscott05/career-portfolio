@@ -1,32 +1,33 @@
 import { Link } from 'react-router-dom'
-import { AnimatedSection } from './AnimatedSection'
 
 export function About() {
   return (
-    <AnimatedSection id="about" className="py-16 sm:py-24 px-6 sm:px-8 md:px-12 lg:px-16">
-      <div className="max-w-[1200px] mx-auto w-full">
-        <div className="md:grid md:grid-cols-[140px_1fr] md:gap-16">
+    <section id="about" className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
+      <div className="max-w-[1100px] mx-auto w-full">
+        <div className="border-t-[3px] border-[var(--color-ink)] pt-10 sm:pt-11 grid grid-cols-1 md:grid-cols-[1fr_1.4fr] gap-6 md:gap-12 items-start">
+          <p className="section-label">// About</p>
           <div>
-            <h2 className="section-label">About</h2>
-          </div>
-          <div className="mt-6 md:mt-0 space-y-5 text-[var(--color-text-secondary)] leading-relaxed text-[1rem] sm:text-[1.0625rem] max-w-2xl">
-            <p>
-              I work on product across platforms, design systems, automation, and AI. I stay close to the engineering and design teams I ship with. I write thorough PRDs, dig into architecture decisions, and stick around through launch.
+            <p className="font-mono text-[15px] sm:text-base text-[var(--color-ink)] leading-[1.8] mb-[18px]">
+              Operations run on a thousand small decisions. Where&apos;s this
+              order, who called who, what happens when something&apos;s two hours
+              late. I build the systems that make those calls without routing
+              them through more people.
             </p>
-            <p>
-              I'm at Arrive Logistics working on AI and automation. Took about ten years to land here. Started in enterprise IT at GM, ran a PMO at a startup, and now I work on product at scale. Same idea every step of the way: take operational mess and make it usable.
+            <p className="font-mono text-[15px] sm:text-base text-[var(--color-text-secondary)] leading-[1.8]">
+              I write specs with real technical depth, argue architecture with
+              engineers, and still remember what it feels like to be the human on
+              the other end of a broken process. That&apos;s the whole job:
+              knowing exactly what to automate, and what to leave to people.
             </p>
-            <p className="pt-2">
-              <Link
-                to="/experience"
-                className="link-underline font-mono text-sm text-[var(--color-primary)]"
-              >
-                Full experience →
-              </Link>
-            </p>
+            <Link
+              to="/experience"
+              className="press inline-block font-display text-[13px] text-[var(--color-ink)] bg-[var(--color-secondary)] px-3 py-1.5 mt-7"
+            >
+              Full experience →
+            </Link>
           </div>
         </div>
       </div>
-    </AnimatedSection>
+    </section>
   )
 }

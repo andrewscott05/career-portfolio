@@ -1,11 +1,8 @@
-import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-type NavLink = {
-  label: string
-  to: string
-  hash?: string
-}
+const RESUME = '/resume.pdf'
+
+type NavLink = { label: string; to: string; hash?: string }
 
 const links: NavLink[] = [
   { label: 'Work', to: '/', hash: '#work' },
@@ -14,14 +11,7 @@ const links: NavLink[] = [
 ]
 
 export function Nav() {
-  const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   const handleHashClick = (e: React.MouseEvent, link: NavLink) => {
     if (!link.hash) return
@@ -32,33 +22,32 @@ export function Nav() {
   }
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-[var(--color-bg)]/90 backdrop-blur-sm border-b border-[var(--color-border-subtle)]'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-[1200px] mx-auto px-6 sm:px-8 md:px-12 lg:px-16 h-14 flex items-center justify-between">
-        <Link
-          to="/"
-          className="font-semibold text-sm text-[var(--color-text)] hover:text-[var(--color-primary)] transition-colors"
-        >
-          Andrew Scott
+    <nav className="sticky top-0 z-50 bg-[var(--color-bg)] border-b-[3px] border-[var(--color-ink)]">
+      <div className="max-w-[1100px] mx-auto w-full flex items-center justify-between px-6 sm:px-10 md:px-14 py-5">
+        <Link to="/" className="font-display text-base text-[var(--color-ink)]">
+          A. SCOTT<span className="text-[var(--color-primary)]">*</span>
         </Link>
-        <nav className="flex items-center gap-6" aria-label="Site">
+        <div className="flex items-center gap-5 sm:gap-6">
           {links.map((link) => (
             <Link
               key={link.label}
               to={`${link.to}${link.hash ?? ''}`}
               onClick={(e) => handleHashClick(e, link)}
-              className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors link-underline"
+              className="hidden sm:inline font-mono font-medium text-[13px] text-[var(--color-text-secondary)] hover:text-[var(--color-ink)] transition-colors"
             >
               {link.label}
             </Link>
           ))}
-        </nav>
+          <a
+            href={RESUME}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-display text-xs text-[var(--color-bg)] bg-[var(--color-ink)] px-4 py-2.5"
+          >
+            Resume ↓
+          </a>
+        </div>
       </div>
-    </header>
+    </nav>
   )
 }

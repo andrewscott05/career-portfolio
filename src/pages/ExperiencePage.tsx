@@ -11,16 +11,20 @@ export function ExperiencePage() {
   return (
     <>
       <Nav />
-      <div className="pt-24 sm:pt-28 px-6 sm:px-8 md:px-12 lg:px-16">
-        <div className="max-w-[1200px] mx-auto w-full">
-          <h1 className="text-[2rem] sm:text-[2.75rem] md:text-[3.25rem] font-semibold tracking-tight text-[var(--color-text)] leading-[1.15] max-w-3xl">
+      <header className="px-6 sm:px-10 md:px-14">
+        <div className="max-w-[1100px] mx-auto w-full pt-16 pb-12 sm:pt-20 sm:pb-16">
+          <p className="font-mono text-[13px] tracking-[0.12em] uppercase text-[var(--color-text-secondary)] mb-6">
+            Andrew Scott · Full track record
+          </p>
+          <h1 className="font-display text-[clamp(2.5rem,8vw,4.5rem)] text-[var(--color-ink)] leading-[0.98] tracking-[-0.01em] mb-6">
             Experience
           </h1>
-          <p className="mt-4 text-lg text-[var(--color-text-secondary)] max-w-2xl">
-            10+ years across enterprise IT, startup PMO leadership, and product at scale.
+          <p className="font-mono text-[15px] sm:text-base text-[var(--color-text-secondary)] max-w-[600px] leading-[1.8]">
+            10+ years across enterprise IT, startup PMO leadership, and product
+            at scale.
           </p>
         </div>
-      </div>
+      </header>
       <Experience />
       <Skills />
     </>

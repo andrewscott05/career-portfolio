@@ -1,50 +1,50 @@
-export interface Project {
+export interface CaseStudy {
   id: string
   title: string
-  subtitle?: string
-  description: string
-  href?: string
-  external?: boolean
-  metrics?: string
+  tag: string
+  problem: string
+  build: string
+  result: string
 }
 
-export const projects: Project[] = [
+export interface SecondaryProject {
+  id: string
+  title: string
+  description: string
+  href: string
+}
+
+/* Featured case studies — "Built & shipped" cards (copy verbatim from #3a). */
+export const projects: CaseStudy[] = [
   {
     id: 'bob-ai-voice',
-    title: 'Bob',
-    subtitle: 'AI Voice & Communications Agent',
-    description:
-      'Production AI agent handling carrier workflows like tracking updates, appointment scheduling, and check calls. Integrated via the Agent Integration Service (AGIS) I own.',
-    metrics: '20K+ automated tasks/month and scaling.',
-  },
-  {
-    id: 'developer-portal',
-    title: 'Arrive Developer Portal',
-    subtitle: 'External API platform',
-    description:
-      'External-facing API platform I PMed from concept to launch. Includes the Rate API powering automated spot quoting and the Carrier Available Loads API.',
-    href: 'https://developer.arrivenow.com/',
-    external: true,
+    title: 'Bob answers the routine calls',
+    tag: 'VOICE AUTOMATION',
+    problem:
+      'Thousands of routine status calls a month, every one landing on a human.',
+    build:
+      'A voice agent wired through the integration platform I own, handling updates, check-ins, and scheduling end to end.',
+    result:
+      '20K+ tasks a month handled without a person, freeing the team for the calls that need judgment.',
   },
   {
     id: 'spot-quoting',
-    title: 'Spot Quoting & Automation Platform',
-    subtitle: 'GTM & revenue growth',
-    description:
-      'Led GTM strategy across 2 to 3 years. Revenue grew from $180M to $300M+, with $227M from automated processes contributing 10% of total company revenue.',
-  },
-  {
-    id: 'ai-agent-expansion',
-    title: 'AI Agent Expansion',
-    subtitle: 'Active initiatives',
-    description:
-      'Initiatives across inbound inquiry reduction (7,500+ monthly accounting/carrier calls), carrier sourcing, coverage, and scheduling automation.',
-  },
-  {
-    id: 'ai-enablement',
-    title: 'AI Enablement Program',
-    subtitle: 'Generative AI adoption',
-    description:
-      'Built and rolled out generative AI user guides (Cursor, Gemini) adopted by 10+ PMs for self-serve data exploration and AI-augmented workflows.',
+    title: 'Quotes that write themselves',
+    tag: 'PRICING AUTOMATION',
+    problem:
+      'Manual pricing was slow and capped how much business the team could win.',
+    build:
+      'Three years leading GTM for an automated quoting platform, close to both sales and engineering.',
+    result:
+      'Revenue grew from $180M to $300M+, with $227M of it flowing through fully automated quotes.',
   },
 ]
+
+/* Secondary project — dark ink strip. */
+export const developerPortal: SecondaryProject = {
+  id: 'developer-portal',
+  title: 'Developer Portal',
+  description:
+    'External APIs from concept to launch. The Rate API is the engine behind the automated quoting above.',
+  href: 'https://developer.arrivenow.com/',
+}

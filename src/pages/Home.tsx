@@ -1,7 +1,8 @@
 import { Nav } from '../components/Nav'
 import { Hero } from '../components/Hero'
-import { About } from '../components/About'
+import { Metrics } from '../components/Metrics'
 import { WhatImBuilding } from '../components/WhatImBuilding'
+import { About } from '../components/About'
 import { Testimonials } from '../components/Testimonials'
 import { Contact } from '../components/Contact'
 
@@ -10,8 +11,9 @@ export function Home() {
     <>
       <Nav />
       <Hero />
-      <About />
+      <Metrics />
       <WhatImBuilding />
+      <About />
       <Testimonials />
       <Contact />
     </>
