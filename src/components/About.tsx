@@ -8,16 +8,16 @@ export function About() {
           <p className="section-label">// About</p>
           <div>
             <p className="font-mono text-[15px] sm:text-base text-[var(--color-ink)] leading-[1.8] mb-[18px]">
-              Operations run on a thousand small decisions. Where&apos;s this
-              order, who called who, what happens when something&apos;s two hours
-              late. I build the systems that make those calls without routing
-              them through more people.
+              Operations run on a thousand small decisions — where something is,
+              who owns the next step, what happens when it&apos;s late. The work
+              here is building systems that make those calls without routing them
+              through more people.
             </p>
             <p className="font-mono text-[15px] sm:text-base text-[var(--color-text-secondary)] leading-[1.8]">
-              I write specs with real technical depth, argue architecture with
-              engineers, and still remember what it feels like to be the human on
-              the other end of a broken process. That&apos;s the whole job:
-              knowing exactly what to automate, and what to leave to people.
+              That means specs with real technical depth, architecture argued
+              alongside engineers, and a memory of what it feels like to be the
+              person on the other end of a broken process. The whole job is
+              knowing exactly what to automate — and what to leave to people.
             </p>
             <Link
               to="/experience"

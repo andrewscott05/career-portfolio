@@ -27,19 +27,19 @@ export function Hero() {
           {...fade(0.08)}
           className="font-display text-[clamp(2.75rem,10vw,5.5rem)] text-[var(--color-ink)] leading-[0.98] tracking-[-0.01em] mb-6 sm:mb-7"
         >
-          Manual ops
+          Turning operational
           <br />
-          is a <span className="text-[var(--color-primary)]">#$%&amp;!</span>
+          chaos into systems
           <br />
-          mess.
+          that <span className="text-[var(--color-primary)]">scale.</span>
         </motion.h1>
         <motion.p
           {...fade(0.16)}
           className="font-mono text-[15px] sm:text-base text-[var(--color-text-secondary)] max-w-[600px] leading-[1.8] mb-9 sm:mb-10"
         >
-          I build the automation that cleans it up. Ten years turning phone
-          calls, spreadsheets, and 2am fire drills into systems that run
-          themselves, with AI doing the parts that used to need a person.
+          A decade turning manual operations into automated systems — the phone
+          calls, spreadsheets, and 2am fire drills replaced by software, with AI
+          handling the work that used to need a person.
         </motion.p>
         <motion.div {...fade(0.24)} className="flex flex-wrap gap-4 sm:gap-[18px]">
           <a
