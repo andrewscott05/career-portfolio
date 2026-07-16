@@ -6,7 +6,7 @@ type NavLink = { label: string; to: string; hash?: string }
 
 const links: NavLink[] = [
   { label: 'Work', to: '/', hash: '#work' },
-  { label: 'Experience', to: '/experience' },
+  { label: 'About', to: '/about' },
   { label: 'Contact', to: '/', hash: '#contact' },
 ]
 

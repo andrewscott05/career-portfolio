@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 
 const LINK = {
   linkedin: 'https://linkedin.com/in/andrew-john-scott',
-  resume: '/resume.pdf',
 }
 
 const EASE = [0.22, 1, 0.36, 1] as const
@@ -43,20 +42,11 @@ export function Hero() {
         </motion.p>
         <motion.div {...fade(0.24)} className="flex flex-wrap gap-4 sm:gap-[18px]">
           <a
-            href={LINK.resume}
+            href={LINK.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             className="press font-display text-sm text-[var(--color-bg)] bg-[var(--color-ink)] px-6 py-[15px] border-[3px] border-[var(--color-ink)]"
             style={{ boxShadow: '6px 6px 0 var(--color-primary)' }}
-          >
-            Download resume
-          </a>
-          <a
-            href={LINK.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="press font-display text-sm text-[var(--color-ink)] bg-[var(--color-bg)] px-6 py-[15px] border-[3px] border-[var(--color-ink)]"
-            style={{ boxShadow: '6px 6px 0 var(--color-ink)' }}
           >
             LinkedIn
           </a>

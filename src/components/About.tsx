@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom'
-
 export function About() {
   return (
     <section id="about" className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
@@ -19,12 +17,6 @@ export function About() {
               person on the other end of a broken process. The whole job is
               knowing exactly what to automate — and what to leave to people.
             </p>
-            <Link
-              to="/experience"
-              className="press inline-block font-display text-[13px] text-[var(--color-ink)] bg-[var(--color-secondary)] px-3 py-1.5 mt-7"
-            >
-              Full experience →
-            </Link>
           </div>
         </div>
       </div>
