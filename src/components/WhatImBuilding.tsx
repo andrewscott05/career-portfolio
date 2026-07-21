@@ -33,11 +33,11 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
               {project.tag}
             </span>
           </div>
-          <p className="font-mono text-[13px] sm:text-sm text-[var(--color-text-secondary)] leading-[1.8] max-w-[62ch]">
+          <p className="font-serif text-[15px] sm:text-base text-[var(--color-text-secondary)] leading-[1.7] max-w-[62ch]">
             {project.summary}
           </p>
           <span className="inline-block font-display text-[13px] text-[var(--color-ink)] bg-[var(--color-secondary)] px-3 py-1.5 mt-6">
-            Read the case study →
+            Read more →
           </span>
         </div>
       </Link>
@@ -49,7 +49,7 @@ export function WhatImBuilding() {
   return (
     <section id="work" className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
-        <p className="section-label mb-5">// Built &amp; shipped</p>
+        <p className="section-label mb-5">Built &amp; shipped</p>
 
         <div className="space-y-6">
           {projects.map((project, i) => (
@@ -67,7 +67,7 @@ export function WhatImBuilding() {
             <p className="font-display text-lg text-[var(--color-bg)]">
               {developerPortal.title}
             </p>
-            <p className="font-mono text-[13px] text-[var(--color-ink-subtext)] mt-1.5 leading-[1.7]">
+            <p className="font-serif text-[15px] text-[var(--color-ink-subtext)] mt-1.5 leading-[1.6]">
               {developerPortal.description}
             </p>
           </div>

@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import { Nav } from '../components/Nav'
-import { projects, type Artifact } from '../data/projects'
+import { projects, type Artifact, type CriteriaItem } from '../data/projects'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -24,6 +24,39 @@ function ArtifactFigure({ artifact }: { artifact: Artifact }) {
   )
 }
 
+function CriteriaFigure({
+  criteria,
+  accent = 'ink',
+}: {
+  criteria: CriteriaItem[]
+  accent?: 'ink' | 'ochre'
+}) {
+  const shadow = accent === 'ochre' ? 'var(--color-secondary)' : 'var(--color-ink)'
+  return (
+    <div
+      className="mt-7 bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)]"
+      style={{ boxShadow: `6px 6px 0 ${shadow}` }}
+    >
+      {criteria.map((item, i) => (
+        <div
+          key={item.label}
+          className={
+            'px-6 sm:px-7 py-5' +
+            (i > 0 ? ' border-t border-[var(--color-hairline)]' : '')
+          }
+        >
+          <p className="font-display text-[13px] text-[var(--color-primary)] mb-1.5">
+            {item.label}
+          </p>
+          <p className="font-serif text-[15px] sm:text-base text-[var(--color-text-secondary)] leading-[1.6]">
+            {item.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export function CaseStudy() {
   const { slug } = useParams<{ slug: string }>()
   const project = slug ? projects.find((p) => p.id === slug) : null
@@ -37,7 +70,7 @@ export function CaseStudy() {
       <>
         <Nav />
         <div className="px-6 sm:px-10 md:px-14 py-20">
-          <div className="max-w-[820px] mx-auto w-full font-mono">
+          <div className="max-w-[820px] mx-auto w-full font-serif">
             <p className="mb-6 text-[var(--color-text-secondary)]">
               Project not found.
             </p>
@@ -70,18 +103,18 @@ export function CaseStudy() {
             <h1 className="font-display text-[clamp(2rem,6vw,3rem)] text-[var(--color-ink)] leading-[1.02] mb-6">
               {project.title}
             </h1>
-            <p className="font-mono text-[15px] sm:text-base text-[var(--color-text-secondary)] leading-[1.8] mb-8">
+            <p className="font-serif text-[17px] sm:text-lg text-[var(--color-text-secondary)] leading-[1.7] mb-8">
               {project.summary}
             </p>
 
-            {/* Roles / team metadata — scope at a glance. */}
+            {/* Role / team metadata, scope at a glance. */}
             <dl className="border-t-[3px] border-b-[3px] border-[var(--color-ink)] py-5 space-y-2.5">
               <div className="flex flex-col sm:flex-row sm:gap-3">
                 <dt className="font-display text-xs text-[var(--color-ink)] sm:w-20 shrink-0">
-                  Roles
+                  Role
                 </dt>
                 <dd className="font-mono text-[13px] text-[var(--color-text-secondary)] leading-[1.7]">
-                  {project.roles.join(' · ')}
+                  {project.role}
                 </dd>
               </div>
               {project.team && (
@@ -109,10 +142,13 @@ export function CaseStudy() {
               <h2 className="font-display text-[clamp(1.25rem,3.5vw,1.75rem)] text-[var(--color-ink)] mb-4">
                 {section.heading}
               </h2>
-              <p className="font-mono text-[14px] sm:text-[15px] text-[var(--color-text-secondary)] leading-[1.8]">
+              <p className="font-serif text-[16px] sm:text-[17px] text-[var(--color-text-secondary)] leading-[1.7]">
                 {section.body}
               </p>
               {section.artifact && <ArtifactFigure artifact={section.artifact} />}
+              {section.criteria && (
+                <CriteriaFigure criteria={section.criteria} accent={section.criteriaAccent} />
+              )}
             </motion.section>
           ))}
 

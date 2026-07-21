@@ -8,8 +8,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<AboutPage />} />
-      {/* Previous URL — keep it alive rather than 404. */}
-      <Route path="/experience" element={<Navigate to="/about" replace />} />
+      {/* Retired route: keep old links alive rather than 404. */}
+      <Route path="/experience" element={<Navigate to="/" replace />} />
       <Route path="/work/:slug" element={<CaseStudy />} />
     </Routes>
   )

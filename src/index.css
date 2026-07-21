@@ -5,7 +5,8 @@
    --------------------------------------------------------------------------- */
 @theme {
   --font-sans: "Archivo Black", system-ui, sans-serif;   /* display / headings */
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace; /* body + labels */
+  --font-serif: "Newsreader", Georgia, serif;            /* running prose / body */
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace; /* labels + metadata */
 
   /* Ground / surfaces */
   --color-bg: #F5F2EA;            /* cream page ground */
@@ -36,7 +37,7 @@ html {
 }
 
 body {
-  font-family: var(--font-mono);           /* body is mono; headings opt into font-sans */
+  font-family: var(--font-serif);          /* body is serif; labels opt into font-mono, headings font-sans */
   background-color: var(--color-bg);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
@@ -51,7 +52,12 @@ h1, h2, h3, .font-display {
   line-height: 0.98;
 }
 
-/* Mono utility (opt into body font on non-mono defaults) */
+/* Serif utility for running prose */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Mono utility for labels + metadata */
 .font-mono {
   font-family: var(--font-mono);
 }

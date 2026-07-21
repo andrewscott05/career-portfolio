@@ -34,15 +34,17 @@ Confident neo-brutalist editorial: heavy display type, hard offset shadows, thic
 
 ### Typography
 - **Display / Headings:** **Archivo Black** (single weight 400), used UPPERCASE with tight tracking (-0.02em).
-- **Body / labels / metadata:** **IBM Plex Mono** (400 / 500 / 600).
-- Google Fonts: `Archivo+Black` and `IBM+Plex+Mono:wght@400;500;600`.
-- Scale (px): hero H1 ~88 / line-height 0.98; contact H2 ~38; case-study H3 ~30; metric numbers ~44; kicker labels 12 (letter-spacing 0.12em, uppercase); body 13–16 / line-height 1.7–1.8.
+- **Running prose / body:** **Newsreader** (serif, 400 / 500 + italic 400) via the `font-serif` utility — the warm, human counter to the bold display type. This is the default `body` font.
+- **Labels / metadata / mono detail:** **IBM Plex Mono** (400 / 500 / 600) via `font-mono` — kicker `//` labels, nav, tags, eyebrows, Role/Team values, dates, skills tokens. Mono is kept only for small technical detail, never for running prose.
+- Google Fonts: `Archivo+Black`, `IBM+Plex+Mono:wght@400;500;600`, and `Newsreader:ital,opsz,wght`.
+- Scale (px): hero H1 ~88 / line-height 0.98; contact H2 ~38; case-study H3 ~30; metric numbers ~44; kicker labels 12 (letter-spacing 0.12em, uppercase); serif body 15–18 / line-height 1.6–1.7; mono labels 11–13.
+- **Punctuation:** no em dashes anywhere in copy — use colons, commas, or full stops.
 
 ### Structure & Effects (the signature look)
 - **Borders:** `3px solid #191713` on cards and blocks.
 - **Shadows — hard offset, NO blur:** `6px 6px 0`, `8px 8px 0`, `10px 10px 0`. Shadow color varies by element: `#191713` default, `#2C5138` on the hero CTA, `#B07D3F` on case-study cards.
 - **Border-radius: 0** everywhere. No rounding.
-- **Kicker labels:** IBM Plex Mono, 12px, uppercase, forest-green, prefixed with `// ` (e.g. `// BY THE NUMBERS`).
+- **Kicker labels:** IBM Plex Mono, 12px, uppercase, forest-green (e.g. `BUILT & SHIPPED`). No `//` prefix, it read as a code comment.
 - **Container:** ~1100px max content width, ~56px side padding, ~84px vertical rhythm between sections.
 
 ### Animation Guidelines (Framer Motion) — optional, keep minimal
