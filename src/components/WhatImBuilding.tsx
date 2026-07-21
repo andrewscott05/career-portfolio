@@ -49,7 +49,9 @@ export function WhatImBuilding() {
   return (
     <section id="work" className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
-        <p className="section-label mb-5">Built &amp; shipped</p>
+        <h2 className="font-display text-[clamp(1.5rem,4vw,2rem)] text-[var(--color-ink)] mb-6 sm:mb-7">
+          Built &amp; shipped
+        </h2>
 
         <div className="space-y-6">
           {projects.map((project, i) => (
