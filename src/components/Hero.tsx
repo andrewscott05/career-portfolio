@@ -25,7 +25,7 @@ export function Hero() {
         </motion.p>
         <motion.h1
           {...fade(0.08)}
-          className="font-display text-[clamp(2.75rem,10vw,5.5rem)] text-[var(--color-ink)] leading-[0.98] tracking-[-0.01em] mb-6 sm:mb-7"
+          className="font-display text-[clamp(2.75rem,10vw,5.5rem)] text-[var(--color-ink)] leading-[0.98] tracking-[-0.01em] mb-9 sm:mb-10"
         >
           Turning operational
           <br />
@@ -33,14 +33,7 @@ export function Hero() {
           <br />
           that <span className="text-[var(--color-primary)]">scale.</span>
         </motion.h1>
-        <motion.p
-          {...fade(0.16)}
-          className="font-serif text-[17px] sm:text-lg text-[var(--color-text-secondary)] max-w-[600px] leading-[1.7] mb-9 sm:mb-10"
-        >
-          A decade turning manual operations into automated systems, using AI
-          to handle work that used to need a person.
-        </motion.p>
-        <motion.div {...fade(0.24)} className="flex flex-wrap gap-4 sm:gap-[18px]">
+        <motion.div {...fade(0.16)} className="flex flex-wrap gap-4 sm:gap-[18px]">
           <a
             href={LINK.resume}
             target="_blank"
