@@ -103,31 +103,9 @@ export function CaseStudy() {
             <h1 className="font-display text-[clamp(2rem,6vw,3rem)] text-[var(--color-ink)] leading-[1.02] mb-6">
               {project.title}
             </h1>
-            <p className="font-serif text-[17px] sm:text-lg text-[var(--color-text-secondary)] leading-[1.7] mb-8">
+            <p className="font-serif text-[17px] sm:text-lg text-[var(--color-text-secondary)] leading-[1.7] mb-8 pb-8 border-b-[3px] border-[var(--color-ink)]">
               {project.summary}
             </p>
-
-            {/* Role / team metadata, scope at a glance. */}
-            <dl className="border-t-[3px] border-b-[3px] border-[var(--color-ink)] py-5 space-y-2.5">
-              <div className="flex flex-col sm:flex-row sm:gap-3">
-                <dt className="font-display text-xs text-[var(--color-ink)] sm:w-20 shrink-0">
-                  Role
-                </dt>
-                <dd className="font-mono text-[13px] text-[var(--color-text-secondary)] leading-[1.7]">
-                  {project.role}
-                </dd>
-              </div>
-              {project.team && (
-                <div className="flex flex-col sm:flex-row sm:gap-3">
-                  <dt className="font-display text-xs text-[var(--color-ink)] sm:w-20 shrink-0">
-                    Team
-                  </dt>
-                  <dd className="font-mono text-[13px] text-[var(--color-text-secondary)] leading-[1.7]">
-                    {project.team}
-                  </dd>
-                </div>
-              )}
-            </dl>
           </motion.header>
 
           {project.sections.map((section, i) => (

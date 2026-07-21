@@ -37,9 +37,8 @@ export function Hero() {
           {...fade(0.16)}
           className="font-serif text-[17px] sm:text-lg text-[var(--color-text-secondary)] max-w-[600px] leading-[1.7] mb-9 sm:mb-10"
         >
-          A decade turning manual operations into automated systems: the phone
-          calls, spreadsheets, and 2am fire drills replaced by software, with AI
-          handling the work that used to need a person.
+          A decade turning manual operations into automated systems, using AI
+          to handle work that used to need a person.
         </motion.p>
         <motion.div {...fade(0.24)} className="flex flex-wrap gap-4 sm:gap-[18px]">
           <a

@@ -1,4 +1,4 @@
-/* Case studies follow a narrative skeleton: summary, role/team, sections.
+/* Case studies follow a narrative skeleton: summary, sections.
    Claims kept in sync with the resume (public/resume.pdf).
 
    ADDING AN ARTIFACT: drop the file in public/work/ and set `artifact` on the
@@ -34,10 +34,6 @@ export interface CaseStudy {
   tag: string
   /** One-line opener + the home-page card blurb. Carries the headline number. */
   summary: string
-  /** Single title, e.g. "Product Manager". */
-  role: string
-  /** Who the work was done with, e.g. "Product leaders, PMs, and IT". */
-  team?: string
   /** Optional home-card thumbnail, once artwork exists. */
   thumbnail?: Artifact
   sections: CaseStudySection[]
@@ -52,20 +48,18 @@ export interface SecondaryProject {
 
 export const projects: CaseStudy[] = [
   {
-    id: 'ai-product-standard',
-    title: 'A standard for how Product decides to build with AI',
-    tag: 'AI PRODUCT STANDARDS',
+    id: 'agentic-decision-framework',
+    title: 'A framework for knowing when to build an agent',
+    tag: 'AGENTIC DECISION FRAMEWORK',
     summary:
-      'How Product decides when to build with AI, and how we tell whether each agent is worth running. It set the ground rules the voice agent below was built on.',
-    role: 'Product Manager',
-    team: 'Product leaders, PMs, and IT',
+      "A framework for deciding when a workflow deserves an agent, and whether it's worth what it costs to run.",
     sections: [
       {
         heading: 'The problem',
-        body: 'Two problems with the same root. There was no real way to decide whether an agent belonged in a workflow, so every AI idea landed on the same outside vendor whether it fit or not. At the same time, PMs were picking up AI tools on their own with no shared setup, so the quality of what came out swung from person to person.',
+        body: 'There was no consistent way to decide if a workflow was even worth handing to an agent. Decisions got made case by case, and once something was built, there was no good way to tell if it was actually pulling its weight.',
       },
       {
-        heading: 'Building the decision framework',
+        heading: 'Setting the bar to build',
         body: 'A model can handle a lot of this work. The real question is whether it should be the one handling it. I put together a short checklist a team runs through before building anything, so the decision rests on the work itself and not on who happens to be in the room.',
         criteria: [
           {
@@ -87,8 +81,8 @@ export const projects: CaseStudy[] = [
         ],
       },
       {
-        heading: "Measuring what it's worth",
-        body: 'Deciding to build is the easy part. What mattered more was proving each agent earned its keep, so I built the Agent Impact Score: a plain read on what a workflow costs against what it returns. It weighs two things, because a cheap agent that keeps failing is a waste, and a dependable one that costs a fortune is not much better.',
+        heading: 'Measuring the impact',
+        body: "Clearing the bar to build is only half of it. What actually matters is whether the thing you built is worth what it costs to run, so I built the Agent Impact Score: a plain read on cost against return. It weighs two things, because a cheap agent that keeps failing is a waste, and a dependable one that costs a fortune isn't much better either. I validated it on a real workflow, anonymized rate confirmation email chains, and it held up: the agent finished the job on its own, and the score gave us a real number to hold it to instead of a gut feeling.",
         criteria: [
           {
             label: 'Cost per completed workflow',
@@ -102,12 +96,33 @@ export const projects: CaseStudy[] = [
         criteriaAccent: 'ochre',
       },
       {
-        heading: 'Proving it, then standardizing the tooling',
-        body: 'To pressure-test the framework I ran a proof of concept on real rate confirmation email chains, anonymized. The agent handled the whole thing on its own, wrote sensible load updates, and knew when to escalate. It also settled one question fast: models are not interchangeable, so each workflow gets benchmarked before we pick one. Alongside that, I set up a four-layer context system (org, pillar, team, and individual) kept in Confluence and fed into the shared AI tools automatically, so no PM rebuilds it from scratch.',
+        heading: 'The outcome',
+        body: 'The framework is now how other product teams decide if and when to build with agents, including the voice agent program below. It turned a subjective call into a repeatable one.',
+      },
+    ],
+  },
+  {
+    id: 'ai-tooling-standard',
+    title: 'One shared standard for how Product uses AI',
+    tag: 'AI TOOLING STANDARD',
+    summary:
+      'A shared standard for how Product works with AI, adopted by 10+ Product Managers.',
+    sections: [
+      {
+        heading: 'The problem',
+        body: 'PMs were each picking up AI tools on their own, with no shared setup. Everyone was rebuilding the same context from scratch, and the quality of what came out swung from person to person depending on who wrote the best prompt that day.',
+      },
+      {
+        heading: 'Building the standard',
+        body: "I designed a four-layer context system, org, pillar, team, and individual, kept in Confluence and wired into the shared AI tools through connectors: Jira, Snowflake, Pendo, Google Suite. Context loads automatically instead of every PM rebuilding it from scratch, and it's tool-agnostic by design, so it travels if the underlying AI tool changes.",
+      },
+      {
+        heading: 'Rolling it out',
+        body: "The standard launched in pilot with a cross-functional governance group keeping it current as tools and workflows changed. From there it spread by word of mouth as much as by mandate: PMs who tried it kept using it because it saved them real setup time.",
       },
       {
         heading: 'The outcome',
-        body: 'The framework is now how other product teams decide where agents fit, including the voice agent below. The tooling standard is in pilot with a cross-functional group keeping it current before it rolls out more widely.',
+        body: 'The standard is now used by 10+ Product Managers across the org, with governance in place to keep it current as the toolset evolves.',
       },
     ],
   },
@@ -116,8 +131,7 @@ export const projects: CaseStudy[] = [
     title: 'A voice agent answers the routine calls',
     tag: 'VOICE AUTOMATION',
     summary:
-      "The company's first AI voice agent: 10+ automated workflows that took the two highest-volume request types off people entirely, cutting manual workload ~20%.",
-    role: 'Product Manager',
+      "The company's first AI voice agent, automating the two highest-volume request types and cutting manual workload ~20%.",
     sections: [
       {
         heading: 'The problem',
@@ -139,12 +153,10 @@ export const projects: CaseStudy[] = [
   },
   {
     id: 'spot-quoting',
-    title: 'Pricing that writes itself',
+    title: 'An automated, ML-driven pricing engine',
     tag: 'PRICING AUTOMATION',
     summary:
-      'Launched the first automated, ML-driven pricing capability and led its go-to-market, scaling segment revenue 2.3x from roughly $170M to a $400M+ run rate.',
-    role: 'Product Manager',
-    team: 'Sales and Engineering',
+      'The company\'s first automated, ML-driven pricing capability, scaling segment revenue 2.3x to a $400M+ run rate.',
     sections: [
       {
         heading: 'The problem',
@@ -161,6 +173,53 @@ export const projects: CaseStudy[] = [
       {
         heading: 'The outcome',
         body: 'Segment revenue scaled 2.3x, from roughly $170M to a $400M+ run rate. The segment now accounts for about 10% of total company revenue, priced by a system rather than a person.',
+      },
+    ],
+  },
+  {
+    id: 'design-system',
+    title: 'A shared design system for the whole org',
+    tag: 'DESIGN SYSTEMS',
+    summary:
+      "Co-led Arrive's first company-wide design system with a team of 9 designers and 16 engineers, cutting SDLC time 20% and project turnaround 15%.",
+    sections: [
+      {
+        heading: 'The problem',
+        body: 'Every team was building interfaces from scratch. Design and engineering worked off different sources of truth, so the same component got rebuilt a dozen different ways across the product, and every rebuild ate into the schedule.',
+      },
+      {
+        heading: 'Building the system',
+        body: 'I co-led the effort with our lead designer: she drove the design work, I owned strategy, planning, and the roadmap. We converted the brand\'s colors and styles into tokens and built out the foundational components, then revamped the Jira SDLC and PRD standard so the system was built into how the team already worked instead of bolted on top of it.',
+      },
+      {
+        heading: 'Scaling adoption',
+        body: 'A design system nobody uses is just a wiki page. I built the intake model that let any team across the org request or contribute a component, tracked on a kanban board from request to shipped, so the system grew out of real product work instead of a roadmap nobody read.',
+        criteria: [
+          {
+            label: 'Foundation',
+            description: 'The core tokens, components, and patterns everyone builds from.',
+          },
+          {
+            label: 'Adoption',
+            description: 'Getting teams using it in real product work, not just referencing it.',
+          },
+          {
+            label: 'Expansion',
+            description: 'Growing the library as new product surfaces need it.',
+          },
+          {
+            label: 'Customization',
+            description: 'Letting teams adapt components without breaking the system underneath.',
+          },
+          {
+            label: 'Evolution',
+            description: 'Keeping it current as the product and the org keep changing.',
+          },
+        ],
+      },
+      {
+        heading: 'The outcome',
+        body: 'The system now runs across a team of 9 product designers and 16 front-end engineers, cutting SDLC time 20% and project turnaround 15%. Design and engineering work off one shared source of truth instead of nine different ones.',
       },
     ],
   },
