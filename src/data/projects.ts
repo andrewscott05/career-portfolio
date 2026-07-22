@@ -11,6 +11,15 @@ export interface Artifact {
   src: string
   alt: string
   caption?: string
+  /** Defaults to full width. Use 'small' for icon-like diagrams rather than screenshots. */
+  size?: 'full' | 'small'
+}
+
+/** Embedded deck, e.g. a public Google Slides link (use the /embed URL, not /edit). */
+export interface Embed {
+  src: string
+  title: string
+  caption?: string
 }
 
 /** Scannable list item: a bold label plus a one-line description. */
@@ -36,6 +45,8 @@ export interface CaseStudy {
   summary: string
   /** Optional home-card thumbnail, once artwork exists. */
   thumbnail?: Artifact
+  /** Optional embedded deck, rendered once above the sections. */
+  embed?: Embed
   sections: CaseStudySection[]
 }
 
@@ -182,44 +193,47 @@ export const projects: CaseStudy[] = [
     tag: 'DESIGN SYSTEMS',
     summary:
       "Co-led Arrive's first company-wide design system with a team of 9 designers and 16 engineers, cutting SDLC time 20% and project turnaround 15%.",
+    embed: {
+      src: 'https://docs.google.com/presentation/d/1nahouLLB7zNwfTwIN8gfQwEBqheDGoDK/embed?start=false&loop=false&delayms=3000',
+      title: 'Design Systems at Arrive Logistics: the evolution of the Product Design team',
+      caption: 'The full story of how DOT-UI came together, from the problem through impact.',
+    },
     sections: [
       {
         heading: 'The problem',
         body: 'Every team was building interfaces from scratch. Design and engineering worked off different sources of truth, so the same component got rebuilt a dozen different ways across the product, and every rebuild ate into the schedule.',
+        artifact: {
+          src: '/work/dot-ui-audit-before.jpg',
+          alt: 'An audit board showing dozens of inconsistent component variations built across the product before the design system.',
+          caption: 'A 2022 audit of the same components, rebuilt a different way in nearly every feature.',
+        },
       },
       {
-        heading: 'Building the system',
-        body: 'I co-led the effort with our lead designer: she drove the design work, I owned strategy, planning, and the roadmap. We converted the brand\'s colors and styles into tokens and built out the foundational components, then revamped the Jira SDLC and PRD standard so the system was built into how the team already worked instead of bolted on top of it.',
+        heading: 'The process',
+        body: "The design work was our lead designer's: she and the design team built the tokens and components that became DOT-UI. What it still needed was an operating process, so we set up the DOT-UI board in Jira and an intake flow any team across the org could use to request or track a component. A request finally had one place to live instead of a Slack thread nobody could find again.",
+        artifact: {
+          src: '/work/dot-ui-kanban-board.png',
+          alt: 'The DOT-UI Jira board with columns for intake, backlog, ready for design, design in progress, ready for engineering, engineering in progress, done, and declined.',
+          caption: 'The DOT-UI board we set up in Jira, tracking every request from intake through done.',
+        },
       },
       {
-        heading: 'Scaling adoption',
-        body: 'A design system nobody uses is just a wiki page. I built the intake model that let any team across the org request or contribute a component, tracked on a kanban board from request to shipped, so the system grew out of real product work instead of a roadmap nobody read.',
-        criteria: [
-          {
-            label: 'Foundation',
-            description: 'The core tokens, components, and patterns everyone builds from.',
-          },
-          {
-            label: 'Adoption',
-            description: 'Getting teams using it in real product work, not just referencing it.',
-          },
-          {
-            label: 'Expansion',
-            description: 'Growing the library as new product surfaces need it.',
-          },
-          {
-            label: 'Customization',
-            description: 'Letting teams adapt components without breaking the system underneath.',
-          },
-          {
-            label: 'Evolution',
-            description: 'Keeping it current as the product and the org keep changing.',
-          },
-        ],
+        heading: 'Building a sustainable model',
+        body: 'A shared library falls apart fast if requests aren\'t reviewed the same way twice in a row. We mapped a review lifecycle for every request, start to finish: design peer review, a junior or mid-level pass, a senior review, then a final sign-off from Product, Design, and Engineering together before anything shipped.',
+        artifact: {
+          src: '/work/dot-ui-review-lifecycle.png',
+          alt: 'A flowchart showing the DOT-UI request lifecycle: intake, design, peer review, junior and senior review, Triforce review, engineering review, and UAT before a request is marked done.',
+          caption: 'The review lifecycle we mapped for every DOT-UI request, from intake to shipped.',
+        },
       },
       {
         heading: 'The outcome',
-        body: 'The system now runs across a team of 9 product designers and 16 front-end engineers, cutting SDLC time 20% and project turnaround 15%. Design and engineering work off one shared source of truth instead of nine different ones.',
+        body: "The system now runs across a team of 9 product designers and 16 front-end engineers, cutting SDLC time 20% and project turnaround 15%. In a controlled test of the same design task, DOT-UI cut the time to design it from 26 minutes to 17, a 63% jump in speed. The board and review process still hold: it's how Product, Design, and Engineering keep the system accountable together.",
+        artifact: {
+          src: '/work/dot-ui-ownership-model.png',
+          alt: 'A diagram showing Product, Design, and Engineering at the center of the design system, connected to multiple product teams as contributors and consumers.',
+          caption: 'How contributor and consumer product teams connect back to Product, Design, and Engineering.',
+        },
       },
     ],
   },

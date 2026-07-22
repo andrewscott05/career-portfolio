@@ -2,13 +2,14 @@ import { Link, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import { Nav } from '../components/Nav'
-import { projects, type Artifact, type CriteriaItem } from '../data/projects'
+import { projects, type Artifact, type CriteriaItem, type Embed } from '../data/projects'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
 function ArtifactFigure({ artifact }: { artifact: Artifact }) {
+  const isSmall = artifact.size === 'small'
   return (
-    <figure className="mt-7">
+    <figure className={'mt-7' + (isSmall ? ' max-w-[280px] sm:max-w-[320px]' : '')}>
       <img
         src={artifact.src}
         alt={artifact.alt}
@@ -18,6 +19,30 @@ function ArtifactFigure({ artifact }: { artifact: Artifact }) {
       {artifact.caption && (
         <figcaption className="font-mono text-[11px] text-[var(--color-text-muted)] mt-4">
           {artifact.caption}
+        </figcaption>
+      )}
+    </figure>
+  )
+}
+
+function EmbedFigure({ embed }: { embed: Embed }) {
+  return (
+    <figure className="mt-10 sm:mt-12">
+      <div
+        className="border-[3px] border-[var(--color-ink)]"
+        style={{ boxShadow: '8px 8px 0 var(--color-ink)' }}
+      >
+        <iframe
+          src={embed.src}
+          title={embed.title}
+          className="w-full aspect-video block"
+          allow="autoplay"
+          allowFullScreen
+        />
+      </div>
+      {embed.caption && (
+        <figcaption className="font-mono text-[11px] text-[var(--color-text-muted)] mt-4">
+          {embed.caption}
         </figcaption>
       )}
     </figure>
@@ -107,6 +132,8 @@ export function CaseStudy() {
               {project.summary}
             </p>
           </motion.header>
+
+          {project.embed && <EmbedFigure embed={project.embed} />}
 
           {project.sections.map((section, i) => (
             <motion.section
