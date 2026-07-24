@@ -24,11 +24,11 @@ export function AboutPage() {
               Hi, I&apos;m Andrew.
             </h1>
             <p className="font-serif text-[18px] sm:text-xl text-[var(--color-text-secondary)] leading-[1.6]">
-              Give me a messy, ambiguous problem and I&apos;m happy. My whole
-              career has been about organizing chaos and scaling it to
-              excellence. I thrive in the ambiguity, I love pulling the moving
-              parts into alignment, and I have a relentless streak for getting
-              things right. &ldquo;Good enough&rdquo; rarely is.
+              I&apos;ve spent most of my career taking on messy, ambiguous
+              problems and turning them into something that runs well. I like
+              being the person pulling the pieces into line, and I&apos;m not
+              usually satisfied until it&apos;s actually right, not just good
+              enough.
             </p>
           </motion.header>
 
@@ -41,11 +41,10 @@ export function AboutPage() {
           >
             <p className="section-label mb-5">Off the clock</p>
             <p className="font-serif text-[17px] sm:text-lg text-[var(--color-text-secondary)] leading-[1.7]">
-              Away from the screen, most of my time goes to my family. I have a
-              young daughter, with a son arriving this fall. The rest goes to
-              staying active: running and working out, getting far too invested
-              in college football, and escaping into the mountains and the
-              outdoors whenever I can.
+              Away from the screen, most of my time goes to my young family.
+              Outside of that, I&apos;m usually running, in the gym, watching
+              more college football than I probably should, or out in
+              nature whenever I can get there.
             </p>
           </motion.section>
         </div>

@@ -25,7 +25,7 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
           />
         )}
         <div className="p-7 sm:p-9">
-          <div className="flex justify-between items-baseline gap-4 mb-3">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4 mb-3">
             <h3 className="font-display text-[clamp(1.25rem,3.5vw,1.75rem)] text-[var(--color-ink)]">
               {project.title}
             </h3>
