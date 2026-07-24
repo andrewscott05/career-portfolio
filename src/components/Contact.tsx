@@ -46,7 +46,7 @@ export function Contact() {
           <a
             href={`mailto:${EMAIL}`}
             onClick={handleEmailClick}
-            className="press inline-flex items-center gap-2.5 font-display text-base sm:text-xl text-[var(--color-ink)] bg-[var(--color-secondary)] px-5 sm:px-7 py-3.5 border-[3px] border-[var(--color-ink)] max-w-full"
+            className="press inline-flex items-center gap-2 sm:gap-2.5 font-display text-xs sm:text-xl text-[var(--color-ink)] bg-[var(--color-secondary)] px-4 sm:px-7 py-3 sm:py-3.5 border-[3px] border-[var(--color-ink)] max-w-full"
           >
             <span className="break-all">{copied ? 'Copied to clipboard!' : EMAIL}</span>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
