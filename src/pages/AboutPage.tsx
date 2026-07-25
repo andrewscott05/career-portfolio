@@ -19,11 +19,10 @@ export function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
           >
-            <p className="section-label mb-4">Hello</p>
             <h1 className="font-display text-[clamp(2.25rem,7vw,3.5rem)] text-[var(--color-ink)] leading-[1.0] mb-7">
               Hi, I&apos;m Andrew.
             </h1>
-            <p className="font-serif text-[18px] sm:text-xl text-[var(--color-text-secondary)] leading-[1.6]">
+            <p className="font-serif text-[17px] sm:text-lg text-[var(--color-text-secondary)] leading-[1.7]">
               I&apos;ve spent most of my career taking on messy, ambiguous
               problems and turning them into something that runs well. I like
               being the person pulling the pieces into line, and I&apos;m not
