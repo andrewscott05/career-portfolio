@@ -37,7 +37,7 @@ export function AboutPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="mt-14 sm:mt-16 border-t-[3px] border-[var(--color-ink)] pt-10"
+            className="mt-14 sm:mt-16"
           >
             <p className="section-label mb-5">Off the clock</p>
             <p className="font-serif text-[17px] sm:text-lg text-[var(--color-text-secondary)] leading-[1.7]">
