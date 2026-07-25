@@ -68,32 +68,29 @@ export const projects: CaseStudy[] = [
       {
         heading: 'The problem',
         body: 'There was no consistent way to decide if a workflow was even worth handing to an agent. Decisions got made case by case, and once something was built, there was no good way to tell if it was actually pulling its weight.',
+        artifact: {
+          src: '/work/agentic-situation.png',
+          alt: 'A slide describing the situation before the framework: workflows reliant on a vendor by default, no process to decide when to build an agent internally, and a plan to prove the pattern before handing it off.',
+          caption: 'Where things stood before the framework existed.',
+        },
       },
       {
         heading: 'Setting the bar to build',
         body: 'A model can handle a lot of this work. The real question is whether it should be the one handling it. I put together a short checklist a team runs through before building anything, so the decision rests on the work itself and not on who happens to be in the room.',
-        criteria: [
-          {
-            label: 'Volume',
-            description: 'It happens often enough that the time it saves adds up to real money.',
-          },
-          {
-            label: 'Clear workflow',
-            description: 'You can lay it out start to finish, edge cases and all.',
-          },
-          {
-            label: 'Low-stakes judgment',
-            description: 'If the agent gets it wrong, the fix is cheap. Updating a load status, not approving a disputed invoice.',
-          },
-          {
-            label: 'Predictable steps',
-            description: 'The work follows the same logic each time instead of needing a fresh judgment call at every turn.',
-          },
-        ],
+        artifact: {
+          src: '/work/agentic-criteria-table.png',
+          alt: 'A table of criteria for deciding whether to build an agentic workflow: volume, clear workflow, level of judgment needed, deterministic, and reason plus acting, each with a description and a real example.',
+          caption: 'The actual criteria table, with the real examples we scored workflows against.',
+        },
       },
       {
         heading: 'Measuring the impact',
         body: "Clearing the bar to build is only half of it. What actually matters is whether the thing you built is worth what it costs to run, so I built the Agent Impact Score: a plain read on cost against return. It weighs two things, because a cheap agent that keeps failing is a waste, and a dependable one that costs a fortune isn't much better either. I validated it on a real workflow, anonymized rate confirmation email chains, and it held up: the agent finished the job on its own, and the score gave us a real number to hold it to instead of a gut feeling.",
+        artifact: {
+          src: '/work/agentic-impact-economics.png',
+          alt: 'A slide on measuring impact and unit economics: cost per completed workflow, completion rate, and the Agent Impact Score combining both into one operational scorecard.',
+          caption: "How the Agent Impact Score combines cost and completion rate into one read.",
+        },
         criteria: [
           {
             label: 'Cost per completed workflow',
@@ -109,6 +106,11 @@ export const projects: CaseStudy[] = [
       {
         heading: 'The outcome',
         body: 'The framework is now how other product teams decide if and when to build with agents, including the voice agent program below. It turned a subjective call into a repeatable one.',
+        artifact: {
+          src: '/work/agentic-next-steps.png',
+          alt: 'A slide outlining next steps: iterate by proving the pattern internally, formalize by documenting the standards, and hand off so other product teams build on the same foundation.',
+          caption: 'The plan to formalize the framework and hand it to other product teams.',
+        },
       },
     ],
   },
