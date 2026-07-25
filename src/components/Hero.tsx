@@ -16,15 +16,9 @@ const fade = (delay: number) => ({
 export function Hero() {
   return (
     <header id="top" className="px-6 sm:px-10 md:px-14">
-      <div className="max-w-[1100px] mx-auto w-full pt-20 pb-16 sm:pt-24 sm:pb-20">
-        <motion.p
-          {...fade(0)}
-          className="font-mono text-[13px] tracking-[0.12em] uppercase text-[var(--color-text-secondary)] mb-6 sm:mb-7"
-        >
-          Technical Product Leader · Austin, TX
-        </motion.p>
+      <div className="max-w-[1100px] mx-auto w-full pt-14 pb-16 sm:pt-16 sm:pb-20">
         <motion.h1
-          {...fade(0.08)}
+          {...fade(0)}
           className="font-display text-[clamp(2.75rem,10vw,5.5rem)] text-[var(--color-ink)] leading-[0.98] tracking-[-0.01em] mb-9 sm:mb-10"
         >
           Turning operational
