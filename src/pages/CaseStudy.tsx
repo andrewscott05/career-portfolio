@@ -17,7 +17,7 @@ function ArtifactFigure({ artifact }: { artifact: Artifact }) {
         style={{ boxShadow: '8px 8px 0 var(--color-ink)' }}
       />
       {artifact.caption && (
-        <figcaption className="font-mono text-[11px] text-[var(--color-text-muted)] mt-4">
+        <figcaption className="font-serif italic text-[13px] text-[var(--color-text-muted)] mt-4">
           {artifact.caption}
         </figcaption>
       )}
@@ -41,7 +41,7 @@ function EmbedFigure({ embed }: { embed: Embed }) {
         />
       </div>
       {embed.caption && (
-        <figcaption className="font-mono text-[11px] text-[var(--color-text-muted)] mt-4">
+        <figcaption className="font-serif italic text-[13px] text-[var(--color-text-muted)] mt-4">
           {embed.caption}
         </figcaption>
       )}
