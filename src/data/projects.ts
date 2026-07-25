@@ -91,17 +91,6 @@ export const projects: CaseStudy[] = [
           alt: 'A slide on measuring impact and unit economics: cost per completed workflow, completion rate, and the Agent Impact Score combining both into one operational scorecard.',
           caption: "How the Agent Impact Score combines cost and completion rate into one read.",
         },
-        criteria: [
-          {
-            label: 'Cost per completed workflow',
-            description: 'What one finished run actually costs, model, infrastructure, and evaluation included.',
-          },
-          {
-            label: 'Completion rate',
-            description: 'How often the agent finishes the job on its own, with no one stepping in.',
-          },
-        ],
-        criteriaAccent: 'ochre',
       },
       {
         heading: 'The outcome',
