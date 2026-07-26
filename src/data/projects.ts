@@ -182,19 +182,52 @@ export const projects: CaseStudy[] = [
     sections: [
       {
         heading: 'The problem',
-        body: 'Pricing was manual, which made it slow, and slow pricing is lost business. Every quote tied up a person, so throughput was capped by headcount instead of demand. The segment could only grow as fast as we could hire people to price it.',
+        body: "Pricing was slow and manual, and every quote tied up a person, so throughput was capped by headcount instead of demand. Our own tooling made it worse: configurations lived in PowerApps, which was hard to use and had no version control, we only had limited data coming in from shippers, and the backend wasn't built to scale past where we already were.",
       },
       {
-        heading: 'Building the capability',
-        body: "This was the business's first automated, ML-driven pricing capability. The product surface was a set of pricing and integration APIs that could price without a human in the loop, which meant the model, the data pipeline, and the integration path all had to be right before anyone would trust it with real revenue.",
+        heading: 'Building the Rate API',
+        body: "We built the Rate API from the ground up: an automated quoting engine plus a configuration UI so the Client Solutions team could set margins, overrides, and quoting rules themselves instead of filing a ticket for every change. It replaced the old PowerApps setup entirely and gave every customer configuration a real audit trail.",
+        artifact: {
+          src: '/work/pricing-rate-api-config.png',
+          alt: 'The Rate API configuration dashboard, showing a list of customer configurations with margin percentages by lead time.',
+          caption: 'The configuration dashboard that replaced PowerApps for the Client Solutions team.',
+        },
       },
       {
-        heading: 'The go-to-market',
-        body: 'Technology was only half of it. I led go-to-market sitting between sales and engineering for about three years, earning trust with the people whose commissions rode on pricing being right, and feeding what they found straight back into the roadmap. Adoption, not accuracy alone, is what turned this into revenue.',
+        heading: 'Normalizing the data',
+        body: "Rate API wasn't the only source feeding pricing. LTL, AVRL, and a cost-prediction tool all had their own formats, and the old database wasn't built to hold any of them consistently. We rebuilt it as the Integrated Pricing Database: one operational table for quote management, one raw table storing every source's data in its native format, normalized enough to report on without losing anything in translation.",
+        artifact: {
+          src: '/work/pricing-database-schema.png',
+          alt: 'An entity relationship diagram for the Integrated Pricing Database, showing tables for quote details, load quoting, load tenders, bids, stops, and opportunity management.',
+          caption: 'The Integrated Pricing Database schema, built to hold every pricing source consistently.',
+        },
+      },
+      {
+        heading: 'Getting more quotes out',
+        body: "None of it mattered if reps couldn't actually get a quote out the door. The Spot Quote Tool let reps generate and log quotes manually when they needed to, and we rebuilt its layout around what a rep actually needed first, cost history, market capacity, and risk, instead of a wall of numbers. More quotes moving through the system, faster, is what actually drove the revenue.",
+        artifact: {
+          src: '/work/pricing-spot-quote-before-after.png',
+          alt: 'A before and after comparison of the Spot Quote Tool: the original layout is dense and hard to scan, the redesigned layout leads with rate calculator, cost history, and market capacity.',
+          caption: 'The Spot Quote Tool before and after: same data, reordered around what a rep needs first.',
+        },
+      },
+      {
+        heading: 'Closing the loop with Client Solutions',
+        body: "A saved quote still needed a human to review it before it turned into a real rate. The Quote Activity Board gave account teams a searchable log of every quote, automated or manual, with a details panel showing the load, pricing, and surcharge breakdown behind it. Client Solutions could pull that up, make an adjustment, and hand it back, instead of digging through email threads to find what a quote was even based on.",
+        artifact: {
+          src: '/work/pricing-quote-activity-board.png',
+          alt: 'The Quote Activity Board, a searchable table of quotes with an expandable details panel showing load, pricing, and surcharge information for a selected quote.',
+          caption: 'The Quote Activity Board: every quote logged and searchable, with the full pricing breakdown one click away.',
+        },
       },
       {
         heading: 'The outcome',
-        body: 'Segment revenue scaled 2.3x, from roughly $170M to a $400M+ run rate. The segment now accounts for about 10% of total company revenue, priced by a system rather than a person.',
+        body: "Segment revenue scaled 2.3x, from roughly $170M to a $400M+ run rate, about 10% of total company revenue, priced by a system built from 0 to 1 instead of a person. I led the go-to-market alongside building it, sitting between sales and engineering to get it adopted. Years later, it's still the same core architecture: one Rate API, one pricing database, and the tools built on top of it.",
+        artifact: {
+          src: '/work/pricing-ecosystem.png',
+          alt: 'An architecture diagram showing the full pricing ecosystem: API Gateway, Rate API, Quoting Service, a config sync service, the Integrated Pricing Database, Snowflake, and the Rate API Configs and Quote Activity Board UIs.',
+          caption: 'The full system, years later: one Rate API and one pricing database underneath everything.',
+        },
       },
     ],
   },
