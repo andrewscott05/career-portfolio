@@ -112,19 +112,39 @@ export const projects: CaseStudy[] = [
     sections: [
       {
         heading: 'The problem',
-        body: 'PMs were each picking up AI tools on their own, with no shared setup. Everyone was rebuilding the same context from scratch, and the quality of what came out swung from person to person depending on who wrote the best prompt that day.',
+        body: 'Leadership had aligned on using AI as part of PM work, but there was no shared operating structure behind it. PMs were improvising their own setups, outputs drifted, and one team\'s judgment never compounded to help another.',
+        artifact: {
+          src: '/work/ai-standard-situation.png',
+          alt: 'A slide describing the situation: leadership has aligned on AI tooling for PM work, but there is no shared operating structure, and the plan is to refine the structure and run a pilot before broader rollout.',
+          caption: 'Where things stood before the standard existed.',
+        },
       },
       {
         heading: 'Building the standard',
-        body: "I designed a four-layer context system, org, pillar, team, and individual, kept in Confluence and wired into the shared AI tools through connectors: Jira, Snowflake, Pendo, Google Suite. Context loads automatically instead of every PM rebuilding it from scratch, and it's tool-agnostic by design, so it travels if the underlying AI tool changes.",
+        body: "I designed the standard around four layers: shared context, best practices, connectors, and governance. The context layer itself breaks into four levels, org, pillar, team, and individual, hosted in Confluence and loaded into Claude or Gemini automatically, so a PM only has to think about their own team and themselves while the org and pillar context load on their own.",
+        artifact: {
+          src: '/work/ai-standard-operating-structure.png',
+          alt: 'A slide outlining the four-layer operating structure: shared context, best practices, connectors, and governance.',
+          caption: 'The four layers the whole standard is built on.',
+        },
       },
       {
         heading: 'Rolling it out',
-        body: "The standard launched in pilot with a cross-functional governance group keeping it current as tools and workflows changed. From there it spread by word of mouth as much as by mandate: PMs who tried it kept using it because it saved them real setup time.",
+        body: 'A cross-functional governance team, PMs, product leaders, and IT, built the standards with the pilot cohort instead of handing them down, and refines them quarterly as tools and workflows change. The connectors came online the same way: Atlassian first since it was already in use, then Snowflake, Pendo, Google Suite, Miro, Figma, and Postman as the pilot asked for them.',
+        artifact: {
+          src: '/work/ai-standard-governance.png',
+          alt: 'A slide on governance: a cross-functional team of PMs, product leaders, and IT meets regularly to iterate on standards, with a governance lead coordinating the team and keeping the cadence moving.',
+          caption: 'The governance model that keeps the standard from drifting.',
+        },
       },
       {
         heading: 'The outcome',
-        body: 'The standard is now used by 10+ Product Managers across the org, with governance in place to keep it current as the toolset evolves.',
+        body: 'The standard is now used by 10+ Product Managers across the org, plugged into one connected workspace instead of jumping between Jira, Snowflake, and Google Drive on their own. Governance keeps it current as the toolset evolves.',
+        artifact: {
+          src: '/work/ai-standard-connectors.png',
+          alt: 'A slide showing the connectors live today: Atlassian, Snowflake, Pendo, Google Suite, Miro, Figma, and Postman, pulled into one connected workspace.',
+          caption: 'The connectors PMs use today instead of jumping between tools.',
+        },
       },
     ],
   },
