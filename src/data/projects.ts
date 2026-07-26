@@ -67,7 +67,7 @@ export const projects: CaseStudy[] = [
     sections: [
       {
         heading: 'The problem',
-        body: 'There was no consistent way to decide if a workflow was even worth handing to an agent. Decisions got made case by case, and once something was built, there was no good way to tell if it was actually pulling its weight.',
+        body: 'Every AI workflow in Product Engineering ran through the same outside vendor by default, and there was no process to decide if an agent even belonged in a given application in the first place. The plan was to prove the pattern internally first, then hand off a working playbook so other teams could run it themselves.',
         artifact: {
           src: '/work/agentic-situation.png',
           alt: 'A slide describing the situation before the framework: workflows reliant on a vendor by default, no process to decide when to build an agent internally, and a plan to prove the pattern before handing it off.',
@@ -85,7 +85,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'Measuring the impact',
-        body: "Clearing the bar to build is only half of it. What actually matters is whether the thing you built is worth what it costs to run, so I built the Agent Impact Score: a plain read on cost against return. It weighs two things, because a cheap agent that keeps failing is a waste, and a dependable one that costs a fortune isn't much better either. I validated it on a real workflow, anonymized rate confirmation email chains, and it held up: the agent finished the job on its own, and the score gave us a real number to hold it to instead of a gut feeling.",
+        body: "Clearing the bar to build is only half of it. What actually matters is whether the thing you built is worth what it costs to run, so I built the Agent Impact Score: cost per completed workflow combined with completion rate, one operational scorecard instead of a gut feeling. Cost without quality misleads, and completion without cost misleads just as badly, so the score has to weigh both.",
         artifact: {
           src: '/work/agentic-impact-economics.png',
           alt: 'A slide on measuring impact and unit economics: cost per completed workflow, completion rate, and the Agent Impact Score combining both into one operational scorecard.',
@@ -94,7 +94,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'The outcome',
-        body: 'The framework is now how other product teams decide if and when to build with agents, including the voice agent program below. It turned a subjective call into a repeatable one.',
+        body: "The plan from here follows the same three moves: iterate by proving the pattern on real internal workflows, formalize it by documenting the standards as we build, and hand it off so other product teams can own their own domain instead of waiting on us. The framework is already how other teams decide if and when to build with agents, including the voice agent program below.",
         artifact: {
           src: '/work/agentic-next-steps.png',
           alt: 'A slide outlining next steps: iterate by proving the pattern internally, formalize by documenting the standards, and hand off so other product teams build on the same foundation.',
@@ -183,7 +183,7 @@ export const projects: CaseStudy[] = [
     title: 'A shared design system for the whole org',
     tag: 'DESIGN SYSTEMS',
     summary:
-      "Co-led Arrive's first company-wide design system with a team of 9 designers and 16 engineers, cutting SDLC time 20% and project turnaround 15%.",
+      "Co-led Arrive's first company-wide design system with a team of 9 designers and 16 engineers, cutting the time to design a component 63% in a controlled test.",
     embed: {
       src: 'https://docs.google.com/presentation/d/1nahouLLB7zNwfTwIN8gfQwEBqheDGoDK/embed?start=false&loop=false&delayms=3000',
       title: 'Design Systems at Arrive Logistics: the evolution of the Product Design team',
@@ -219,11 +219,56 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'The outcome',
-        body: "The system now runs across a team of 9 product designers and 16 front-end engineers, cutting SDLC time 20% and project turnaround 15%. In a controlled test of the same design task, DOT-UI cut the time to design it from 26 minutes to 17, a 63% jump in speed. The board and review process still hold: it's how Product, Design, and Engineering keep the system accountable together.",
+        body: "The system now runs across a team of 9 product designers and 16 front-end engineers. In a controlled test of the same design task, DOT-UI cut the time to design it from 26 minutes to 17, a 63% jump in speed. The board and review process still hold: it's how Product, Design, and Engineering keep the system accountable together.",
         artifact: {
           src: '/work/dot-ui-ownership-model.png',
           alt: 'A diagram showing Product, Design, and Engineering at the center of the design system, connected to multiple product teams as contributors and consumers.',
           caption: 'How contributor and consumer product teams connect back to Product, Design, and Engineering.',
+        },
+      },
+    ],
+  },
+  {
+    id: 'process-standardization',
+    title: 'Standardizing how Product ships',
+    tag: 'PROCESS STANDARDIZATION',
+    summary:
+      'Rebuilt the Jira workflow with other Staff PMs and led the PRD template refresh, cutting SDLC time 20% and project turnaround 15%.',
+    sections: [
+      {
+        heading: 'The problem',
+        body: 'Every team ran Jira differently: too many statuses, confusing names, tickets that got stuck with no way out and no way to close what we would never actually do. PRDs had the same problem from the other direction. No shared structure, so reviews dragged and sign-off depended on who was asking.',
+        artifact: {
+          src: '/work/jira-workflow-problem.png',
+          alt: 'A slide listing common team complaints about the Jira workflow: too many statuses and transitions, tickets that get stuck, and inconsistent process across teams.',
+          caption: 'The complaints we kept hearing, gathered straight from the teams.',
+        },
+      },
+      {
+        heading: 'Rebuilding the Jira workflow',
+        body: "A few of us at the Staff level took this on together. We simplified the choices in each status, made sure a ticket could never get permanently stuck, and gave every team two honest ways to close a story out: Done for what shipped, Archived for what we won't do. Then we rebuilt the workflow for every issue type, stories, bugs, tasks, sub-tasks, spikes, and design work, and rolled it out everywhere.",
+        artifact: {
+          src: '/work/jira-workflow-before-after.png',
+          alt: 'A before-and-after comparison of the Jira story workflow: the old version has tangled, redundant statuses, the new version is a cleaner path from open to done with a closed state added at the front.',
+          caption: 'The story workflow before and after: fewer dead ends, two honest ways to close something out.',
+        },
+      },
+      {
+        heading: 'Refreshing the PRD process',
+        body: "The PRD template had the same problem from the other direction. I led that refresh: fewer sections, less redundancy, and a document built to actually be read by stakeholders rather than just filled out by a PM. I also stood up a dedicated #prd-reviews Slack channel with a standard message format, so every reviewer knew what was being asked of them and by when, and we audit the template with Product and Engineering monthly to keep it from drifting.",
+        artifact: {
+          src: '/work/prd-template-steps.png',
+          alt: 'A slide showing the steps to access the new PRD template in Confluence, from creating a page to selecting the Product Requirements template.',
+          caption: 'How any PM finds and starts the new PRD template.',
+        },
+      },
+      {
+        heading: 'The outcome',
+        body: 'Both efforts shipped together and cut SDLC time 20% and project turnaround 15%. The Jira workflow is still what every team builds on, and PRDs move through the same channel and format we set up, with a monthly audit keeping the process honest instead of letting it drift back to how things were.',
+        artifact: {
+          src: '/work/prd-slack-format.png',
+          alt: 'A standardized Slack message format for posting a PRD to the #prd-reviews channel, showing the PRD link, reviewers needed, and where to leave comments.',
+          caption: 'The standard message format that made every PRD review request easy to scan.',
         },
       },
     ],
