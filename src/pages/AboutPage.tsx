@@ -41,9 +41,6 @@ export function AboutPage() {
             <p className="section-label mb-5">Off the clock</p>
             <p className="font-serif text-[17px] sm:text-lg text-[var(--color-text-secondary)] leading-[1.7]">
               Away from the screen, most of my time goes to my young family.
-              Outside of that, I&apos;m usually running, in the gym, watching
-              more college football than I probably should, or out in
-              nature whenever I can get there.
             </p>
           </motion.section>
         </div>

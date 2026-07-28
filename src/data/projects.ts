@@ -204,20 +204,11 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'Getting more quotes out',
-        body: "None of it mattered if reps couldn't actually get a quote out the door. The Spot Quote Tool let reps generate and log quotes manually when they needed to, and we rebuilt its layout around what a rep actually needed first, cost history, market capacity, and risk, instead of a wall of numbers. More quotes moving through the system, faster, is what actually drove the revenue.",
+        body: "None of it mattered if reps couldn't actually get a quote out the door. The Spot Quote Tool let reps generate and log quotes manually when they needed to, and we rebuilt its layout around what a rep actually needed first, cost history, market capacity, and risk, instead of a wall of numbers. A Quote Activity Board gave account teams a searchable log of every quote, automated or manual, so Client Solutions could pull one up and make an adjustment instead of digging through email threads to find what it was based on. More quotes moving through the system, faster, is what actually drove the revenue.",
         artifact: {
           src: '/work/pricing-spot-quote-before-after.png',
           alt: 'A before and after comparison of the Spot Quote Tool: the original layout is dense and hard to scan, the redesigned layout leads with rate calculator, cost history, and market capacity.',
           caption: 'The Spot Quote Tool before and after: same data, reordered around what a rep needs first.',
-        },
-      },
-      {
-        heading: 'Closing the loop with Client Solutions',
-        body: "A saved quote still needed a human to review it before it turned into a real rate. The Quote Activity Board gave account teams a searchable log of every quote, automated or manual, with a details panel showing the load, pricing, and surcharge breakdown behind it. Client Solutions could pull that up, make an adjustment, and hand it back, instead of digging through email threads to find what a quote was even based on.",
-        artifact: {
-          src: '/work/pricing-quote-activity-board.png',
-          alt: 'The Quote Activity Board, a searchable table of quotes with an expandable details panel showing load, pricing, and surcharge information for a selected quote.',
-          caption: 'The Quote Activity Board: every quote logged and searchable, with the full pricing breakdown one click away.',
         },
       },
       {
