@@ -162,10 +162,55 @@ export const projects: CaseStudy[] = [
       {
         heading: 'Creating the agent',
         body: "This was the company's first AI voice agent, so there was no roadmap to inherit. I owned it from concept through launch: 10+ automated workflows spanning status tracking, document collection, and inbound call handling, wired through the integration platform so the agent could actually read and write to the systems of record instead of just talking.",
+        artifact: {
+          src: '/work/bob-voice-workflows-overview.png',
+          alt: 'A Miro board mapping over 10 of the voice agent\'s automated workflows, including in-transit location updates, shipper arrival and departure confirmations, an after-hours SOP, and inbound call handling.',
+          caption: 'A portion of the workflow mapping behind the agent: every branch, confirmation, and fallback mapped before a line of it went live.',
+        },
+      },
+      {
+        heading: "Teaching the agent when it's allowed to act",
+        body: "The agent didn't start with write access. In the first phase it could only call, text, and escalate, a rep still had to update the load themselves. Giving it permission to move a load status directly meant a bad write could do more damage than a missed call, so before that shipped I mapped every legal status transition end to end: what data was mandatory, which transitions could be trusted to tracking data alone versus always needing a live call, and the disqualifiers that blocked a write outright, an unresolved OS&D issue, an appointment window already missed, conflicting driver information. If a load didn't clear the bar, the agent didn't touch the status. It escalated to a rep instead.",
+      },
+      {
+        heading: 'Redesigning the escalation logic',
+        body: "The first version of the SOP treated every task the same, whether it was a stale location ping or a driver confirming they'd hit the dock: call the driver twice, text, wait 30 minutes, call the tracking contact, email, then escalate. It worked, but it spent the same time and the same number of touches on a routine update as it did on something time-sensitive. I rewrote it around urgency instead.",
+        criteria: [
+          {
+            label: 'Before',
+            description: "One path for every task type: two driver calls, a text, a 30-minute wait, a call to the tracking contact, then an email before escalating. No distinction between urgent and routine.",
+          },
+          {
+            label: 'After',
+            description: "Time-sensitive tasks (dispatched, at pickup, at delivery) get a tightened path capped at 45 minutes: text first, one driver call, then straight to an email escalation instead of a second round of calls. Routine tasks (stale location, in transit, delivered) drop the calls entirely and lead with a text.",
+          },
+        ],
       },
       {
         heading: 'Deciding what to automate',
         body: 'The harder question was never whether an LLM could do the work, but whether it should. I built a decision framework with clear criteria for when to hand a workflow to an agent, backed by an Agent Impact Score that weighs cost per completed workflow against how often the agent finishes the job. It gave teams an honest way to tell real automation from hype.',
+      },
+      {
+        heading: 'Measuring what the agent actually did',
+        body: "Shipping the agent wasn't the finish line. Before launch I defined the reporting layer that would tell us whether it was actually working, not just running: every workflow tracked at the task level and the outreach level, broken out by contact channel, with failures grouped into a taxonomy instead of one catch-all bucket.",
+        criteria: [
+          {
+            label: 'Task and outreach metrics',
+            description: 'Success, failure, and escalation rates for every workflow, broken out by contact channel: call, text, and email.',
+          },
+          {
+            label: 'Failure taxonomy',
+            description: 'Failures grouped by error type, channel, and task, so a bad phone number and a channel outage read as different problems instead of the same one.',
+          },
+          {
+            label: 'Escalation to resolution',
+            description: "The time between when the agent handed a task off and when a rep actually closed it, not just that it got handed off.",
+          },
+          {
+            label: 'Full event timeline',
+            description: 'A per-load log of every attempt the agent made, so the operations team could see what happened without needing direct access to the underlying platform.',
+          },
+        ],
       },
       {
         heading: 'The outcome',
