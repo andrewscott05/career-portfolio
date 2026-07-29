@@ -195,7 +195,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'Normalizing the data',
-        body: "Rate API wasn't the only source feeding pricing. LTL, AVRL, and a cost-prediction tool all had their own formats, and the old database wasn't built to hold any of them consistently. We rebuilt it as the Integrated Pricing Database: one operational table for quote management, one raw table storing every source's data in its native format, normalized enough to report on without losing anything in translation.",
+        body: "Rate API wasn't the only source feeding pricing. LTL, AVRL, and a cost-prediction tool all had their own formats, and the old database wasn't built to hold any of them consistently. We rebuilt it as the Integrated Pricing Database: one operational table for quote management, one raw table storing every source's data in its native format, normalized enough to report on without losing the original detail.",
         artifact: {
           src: '/work/pricing-database-schema.png',
           alt: 'An entity relationship diagram for the Integrated Pricing Database, showing tables for quote details, load quoting, load tenders, bids, stops, and opportunity management.',
@@ -203,8 +203,8 @@ export const projects: CaseStudy[] = [
         },
       },
       {
-        heading: 'Getting more quotes out',
-        body: "None of it mattered if reps couldn't actually get a quote out the door. The Spot Quote Tool let reps generate and log quotes manually when they needed to, and we rebuilt its layout around what a rep actually needed first, cost history, market capacity, and risk, instead of a wall of numbers. A Quote Activity Board gave account teams a searchable log of every quote, automated or manual, so Client Solutions could pull one up and make an adjustment instead of digging through email threads to find what it was based on. More quotes moving through the system, faster, is what actually drove the revenue.",
+        heading: 'The last piece: manual quotes',
+        body: "Rate API and the database covered automated quoting, but not every request could go through it, reps still needed a way to quote manually. The Spot Quote Tool covered that gap, and we rebuilt its layout around what a rep actually needed first, cost history, market capacity, and risk, instead of a wall of numbers. A Quote Activity Board gave account teams a searchable log of every quote, automated or manual, so Client Solutions could pull one up and make an adjustment instead of digging through email threads to find what it was based on.",
         artifact: {
           src: '/work/pricing-spot-quote-before-after.png',
           alt: 'A before and after comparison of the Spot Quote Tool: the original layout is dense and hard to scan, the redesigned layout leads with rate calculator, cost history, and market capacity.',
@@ -213,7 +213,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'The outcome',
-        body: "Segment revenue scaled 2.3x, from roughly $170M to a $400M+ run rate, about 10% of total company revenue, priced by a system built from 0 to 1 instead of a person. I led the go-to-market alongside building it, sitting between sales and engineering to get it adopted. Years later, it's still the same core architecture: one Rate API, one pricing database, and the tools built on top of it.",
+        body: "Segment revenue scaled 2.3x, from roughly $170M to a $400M+ run rate, about 10% of total company revenue. More quotes moving through the system, automated and manual together, is what actually drove that, priced by a system built from 0 to 1 instead of a person. I led the go-to-market alongside building it, sitting between sales and engineering to get it adopted. Years later, it's still the same core architecture: one Rate API, one pricing database, and the tools built on top of it.",
         artifact: {
           src: '/work/pricing-ecosystem.png',
           alt: 'An architecture diagram showing the full pricing ecosystem: API Gateway, Rate API, Quoting Service, a config sync service, the Integrated Pricing Database, Snowflake, and the Rate API Configs and Quote Activity Board UIs.',
