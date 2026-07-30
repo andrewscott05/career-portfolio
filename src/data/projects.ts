@@ -28,12 +28,6 @@ export interface CriteriaItem {
   description: string
 }
 
-/** Two-column before/after comparison, rendered side by side rather than stacked. */
-export interface Comparison {
-  before: CriteriaItem
-  after: CriteriaItem
-}
-
 export interface CaseStudySection {
   heading: string
   body: string
@@ -41,8 +35,6 @@ export interface CaseStudySection {
   criteria?: CriteriaItem[]
   /** Shadow accent for the criteria block. Use 'ochre' to make one stand out. */
   criteriaAccent?: 'ink' | 'ochre'
-  /** Use instead of `criteria` for a two-state before/after comparison. */
-  comparison?: Comparison
 }
 
 export interface CaseStudy {
@@ -192,20 +184,6 @@ export const projects: CaseStudy[] = [
           src: '/work/bob-status-guardrails.svg',
           alt: 'A diagram of the load status chain from Booked through Delivered, with a gate on every transition: if a disqualifier is present, the load escalates to a rep instead of the status changing.',
           caption: 'Every status transition sits behind the same gate: a disqualifier breaks the chain and hands the load to a rep instead of writing a bad status.',
-        },
-      },
-      {
-        heading: 'Redesigning the escalation logic',
-        body: "The first version of the SOP treated every task the same, whether it was a stale location ping or a driver confirming they'd hit the dock: call the driver twice, text, wait 30 minutes, call the tracking contact, email, then escalate. It worked, but it spent the same time and the same number of touches on a routine update as it did on something time-sensitive. The channel data backed up a rewrite too: after adding a text channel, contact success roughly tripled versus calls alone and beat email as well, which is exactly why the redesigned SOP leads with a text instead of a call. I rewrote the SOP around urgency and channel performance together.",
-        comparison: {
-          before: {
-            label: 'Before',
-            description: "One path for every task type: two driver calls, a text, a 30-minute wait, a call to the tracking contact, then an email before escalating. No distinction between urgent and routine.",
-          },
-          after: {
-            label: 'After',
-            description: "Time-sensitive tasks (dispatched, at pickup, at delivery) get a tightened path capped at 45 minutes: text first, one driver call, then straight to an email escalation instead of a second round of calls. Routine tasks (stale location, in transit, delivered) drop the calls entirely and lead with a text.",
-          },
         },
       },
       {

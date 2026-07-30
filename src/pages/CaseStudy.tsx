@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import { Nav } from '../components/Nav'
-import { projects, type Artifact, type Comparison, type CriteriaItem, type Embed } from '../data/projects'
+import { projects, type Artifact, type CriteriaItem, type Embed } from '../data/projects'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -82,32 +82,6 @@ function CriteriaFigure({
   )
 }
 
-function ComparisonFigure({ comparison }: { comparison: Comparison }) {
-  return (
-    <div
-      className="mt-7 grid grid-cols-1 sm:grid-cols-2 bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)]"
-      style={{ boxShadow: '6px 6px 0 var(--color-ink)' }}
-    >
-      <div className="px-6 sm:px-7 py-5 border-b-[3px] sm:border-b-0 sm:border-r-[3px] border-[var(--color-ink)]">
-        <p className="font-display text-[13px] text-[var(--color-text-muted)] mb-1.5">
-          {comparison.before.label}
-        </p>
-        <p className="font-serif text-[15px] sm:text-base text-[var(--color-text-secondary)] leading-[1.6]">
-          {comparison.before.description}
-        </p>
-      </div>
-      <div className="px-6 sm:px-7 py-5">
-        <p className="font-display text-[13px] text-[var(--color-primary)] mb-1.5">
-          {comparison.after.label}
-        </p>
-        <p className="font-serif text-[15px] sm:text-base text-[var(--color-text-secondary)] leading-[1.6]">
-          {comparison.after.description}
-        </p>
-      </div>
-    </div>
-  )
-}
-
 export function CaseStudy() {
   const { slug } = useParams<{ slug: string }>()
   const project = slug ? projects.find((p) => p.id === slug) : null
@@ -180,7 +154,6 @@ export function CaseStudy() {
               {section.criteria && (
                 <CriteriaFigure criteria={section.criteria} accent={section.criteriaAccent} />
               )}
-              {section.comparison && <ComparisonFigure comparison={section.comparison} />}
             </motion.section>
           ))}
 
