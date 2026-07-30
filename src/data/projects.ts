@@ -172,9 +172,9 @@ export const projects: CaseStudy[] = [
         heading: 'Creating the agent',
         body: "This was the company's first AI agent for tracking, so there was no roadmap to inherit. I owned it from concept through launch: 10+ automated workflows spanning status tracking, document collection, and inbound requests across voice, text, and email, wired through the integration platform so the agent could actually read and write to the systems of record instead of just relaying updates back to a rep. Every workflow runs the same core loop underneath it: a load gets flagged, the SOP tries voice, text, or email, and anything with an actual issue lands with a rep instead of getting forced through.",
         artifact: {
-          src: '/work/bob-outreach-flow.svg',
-          alt: 'A diagram showing a load flagged for tracking routed through the Bob outreach SOP across voice, text, and email, converging on a decision: no issue logs the update in ARRIVEnow, an issue escalates to the Arrive team.',
-          caption: 'The core loop behind every workflow: one SOP, three channels, one escalation path when something needs a person.',
+          src: '/work/bob-voice-workflows-overview.png',
+          alt: 'A Miro board mapping over 10 of the agent\'s automated tracking workflows, including in-transit location updates, shipper arrival and departure confirmations, an after-hours SOP, and inbound requests.',
+          caption: 'A portion of the workflow mapping behind the agent: every branch, confirmation, and fallback mapped before a line of it went live.',
         },
       },
       {
@@ -212,9 +212,9 @@ export const projects: CaseStudy[] = [
           },
         ],
         artifact: {
-          src: '/work/bob-voice-workflows-overview.png',
-          alt: 'A Miro board mapping over 10 of the agent\'s automated tracking workflows, including in-transit location updates, shipper arrival and departure confirmations, an after-hours SOP, and inbound requests.',
-          caption: 'What the reporting layer actually covers: a portion of the 10+ workflows tracked at the task and outreach level.',
+          src: '/work/bob-outreach-flow.svg',
+          alt: 'A diagram showing a load flagged for tracking routed through the Bob outreach SOP across voice, text, and email, converging on a decision: no issue logs the update in ARRIVEnow, an issue escalates to the Arrive team.',
+          caption: 'The same loop the metrics track: every channel attempt and every escalation logged at the point it happens.',
         },
       },
       {
