@@ -28,6 +28,12 @@ export interface CriteriaItem {
   description: string
 }
 
+/** Two-column before/after comparison, rendered side by side rather than stacked. */
+export interface Comparison {
+  before: CriteriaItem
+  after: CriteriaItem
+}
+
 export interface CaseStudySection {
   heading: string
   body: string
@@ -35,6 +41,8 @@ export interface CaseStudySection {
   criteria?: CriteriaItem[]
   /** Shadow accent for the criteria block. Use 'ochre' to make one stand out. */
   criteriaAccent?: 'ink' | 'ochre'
+  /** Use instead of `criteria` for a two-state before/after comparison. */
+  comparison?: Comparison
 }
 
 export interface CaseStudy {
@@ -171,24 +179,29 @@ export const projects: CaseStudy[] = [
       {
         heading: "Teaching the agent when it's allowed to act",
         body: "The agent didn't start with write access. In the first phase it could only call, text, and escalate, a rep still had to update the load themselves. Giving it permission to move a load status directly meant a bad write could do more damage than a missed call, so before that shipped I mapped every legal status transition end to end: what data was mandatory, which transitions could be trusted to tracking data alone versus always needing a live call, and the disqualifiers that blocked a write outright, an unresolved OS&D issue, an appointment window already missed, conflicting driver information. If a load didn't clear the bar, the agent didn't touch the status. It escalated to a rep instead. Every failure mode got the same standardized treatment too: retry once, then escalate with one consistent message instead of a dozen slightly different ones, with retries batched into a single clean comment instead of spamming the load record.",
+        artifact: {
+          src: '/work/bob-status-guardrails.svg',
+          alt: 'A diagram of the load status chain from Booked through Delivered, with a gate on every transition: if a disqualifier is present, the load escalates to a rep instead of the status changing.',
+          caption: 'Every status transition sits behind the same gate: a disqualifier breaks the chain and hands the load to a rep instead of writing a bad status.',
+        },
       },
       {
         heading: 'Redesigning the escalation logic',
-        body: "The first version of the SOP treated every task the same, whether it was a stale location ping or a driver confirming they'd hit the dock: call the driver twice, text, wait 30 minutes, call the tracking contact, email, then escalate. It worked, but it spent the same time and the same number of touches on a routine update as it did on something time-sensitive. I rewrote it around urgency instead.",
-        criteria: [
-          {
+        body: "The first version of the SOP treated every task the same, whether it was a stale location ping or a driver confirming they'd hit the dock: call the driver twice, text, wait 30 minutes, call the tracking contact, email, then escalate. It worked, but it spent the same time and the same number of touches on a routine update as it did on something time-sensitive. The data backed up a rewrite too: phone contact was converting around 16%, well behind email, so a second and third round of calls was mostly wasted motion. I rewrote the SOP around urgency and channel performance instead.",
+        comparison: {
+          before: {
             label: 'Before',
             description: "One path for every task type: two driver calls, a text, a 30-minute wait, a call to the tracking contact, then an email before escalating. No distinction between urgent and routine.",
           },
-          {
+          after: {
             label: 'After',
             description: "Time-sensitive tasks (dispatched, at pickup, at delivery) get a tightened path capped at 45 minutes: text first, one driver call, then straight to an email escalation instead of a second round of calls. Routine tasks (stale location, in transit, delivered) drop the calls entirely and lead with a text.",
           },
-        ],
+        },
       },
       {
         heading: 'Deciding what to automate',
-        body: 'The harder question was never whether an LLM could do the work, but whether it should. I built a decision framework with clear criteria for when to hand a workflow to an agent, backed by an Agent Impact Score that weighs cost per completed workflow against how often the agent finishes the job. It gave teams an honest way to tell real automation from hype.',
+        body: "The harder question was never whether an LLM could do the work, but whether it should. I built a decision framework with clear criteria for when to hand a workflow to an agent, backed by an Agent Impact Score that weighs cost per completed workflow against how often the agent finishes the job. It gave teams an honest way to tell real automation from hype. The scale made that discipline necessary: the same analysis sized roughly 18,000 automatable tasks a day across the org, an opportunity too large to take on workflow by workflow without a way to prioritize.",
       },
       {
         heading: 'Measuring what the agent actually did',
@@ -214,7 +227,12 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'The outcome',
-        body: 'The two highest-volume request types are now fully automated, cutting manual workload by an estimated 20% and moving the team toward 24/7 coverage. Just as important, the framework outlived the project and now shapes how other teams scope agent work.',
+        body: "The two highest-volume request types are now fully automated: 4,000+ loads worked since release, roughly 200 a day, at a 90%+ SOP success rate. That's cut manual workload by an estimated 20% and moved the team toward 24/7 coverage, numbers read straight off the same task and outreach metrics built into the reporting layer, not a guess. Just as important, the framework outlived the project and now shapes how other teams scope agent work.",
+        artifact: {
+          src: '/work/bob-tracking-ui.png',
+          alt: "A real Tracking panel entry showing a Bob-logged location update for a load in Golden, CO, with the check call reason, timestamp, and drop trailer status.",
+          caption: 'A live location update logged by the agent, same interface a rep would use, no handoff required.',
+        },
       },
     ],
   },
