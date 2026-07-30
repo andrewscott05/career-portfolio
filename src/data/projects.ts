@@ -109,6 +109,15 @@ export const projects: CaseStudy[] = [
           caption: 'The plan to formalize the framework and hand it to other product teams.',
         },
       },
+      {
+        heading: 'The adoption curve',
+        body: "Zoom out and the trend backs it up. The share of loads touched by any automation grew from 4% in 2019 to 95%+ by 2025, and the average number of automation points per load nearly doubled between 2022 and 2024 alone. The framework didn't create that curve by itself, but it's part of how the org keeps climbing it on purpose instead of by accident.",
+        artifact: {
+          src: '/work/bob-automation-adoption.png',
+          alt: 'A table showing the percentage of loads with any automation touchpoint growing from 4.0% in 2019 to 95.5% by 2025 YTD, and average automation points per load climbing from 0.04 to 2.34 over the same period.',
+          caption: 'Company-wide automation adoption, 2019 through 2025 YTD.',
+        },
+      },
     ],
   },
   {
@@ -158,27 +167,27 @@ export const projects: CaseStudy[] = [
   },
   {
     id: 'bob-ai-voice',
-    title: 'A voice agent answers the routine calls',
-    tag: 'VOICE AUTOMATION',
+    title: 'An agent that scales tracking, not headcount',
+    tag: 'TRACKING AUTOMATION',
     summary:
-      "The company's first AI voice agent, automating the two highest-volume request types and cutting manual workload ~20%.",
+      "The company's first AI agent for tracking, automating the two highest-volume request types across voice, text, and email, and cutting manual workload ~20% without growing headcount in step with load volume.",
     sections: [
       {
         heading: 'The problem',
-        body: 'The highest-volume inbound requests all landed on a person. Status checks, document chasing, routine questions: every one of them interrupted someone, and none got answered outside business hours. The work was repetitive enough to automate and frequent enough that automating it mattered.',
+        body: "Every highest-volume tracking request landed on a person: status checks, location updates, delivery confirmations. Load volume kept climbing, and the default answer was always to hire more people onto Tracking to keep pace with it. Each of those requests interrupted someone, none got answered outside business hours, and the work was repetitive enough that headcount was never going to be a sustainable way to keep up.",
       },
       {
         heading: 'Creating the agent',
-        body: "This was the company's first AI voice agent, so there was no roadmap to inherit. I owned it from concept through launch: 10+ automated workflows spanning status tracking, document collection, and inbound call handling, wired through the integration platform so the agent could actually read and write to the systems of record instead of just talking.",
+        body: "This was the company's first AI agent for tracking, so there was no roadmap to inherit. I owned it from concept through launch: 10+ automated workflows spanning status tracking, document collection, and inbound requests across voice, text, and email, wired through the integration platform so the agent could actually read and write to the systems of record instead of just relaying updates back to a rep. Every workflow runs the same core loop underneath it: a load gets flagged, the SOP tries voice, text, or email, and anything with an actual issue lands with a rep instead of getting forced through.",
         artifact: {
-          src: '/work/bob-voice-workflows-overview.png',
-          alt: 'A Miro board mapping over 10 of the voice agent\'s automated workflows, including in-transit location updates, shipper arrival and departure confirmations, an after-hours SOP, and inbound call handling.',
-          caption: 'A portion of the workflow mapping behind the agent: every branch, confirmation, and fallback mapped before a line of it went live.',
+          src: '/work/bob-outreach-flow.svg',
+          alt: 'A diagram showing a load flagged for tracking routed through the Bob outreach SOP across voice, text, and email, converging on a decision: no issue logs the update in ARRIVEnow, an issue escalates to the Arrive team.',
+          caption: 'The core loop behind every workflow: one SOP, three channels, one escalation path when something needs a person.',
         },
       },
       {
         heading: "Teaching the agent when it's allowed to act",
-        body: "The agent didn't start with write access. In the first phase it could only call, text, and escalate, a rep still had to update the load themselves. Giving it permission to move a load status directly meant a bad write could do more damage than a missed call, so before that shipped I mapped every legal status transition end to end: what data was mandatory, which transitions could be trusted to tracking data alone versus always needing a live call, and the disqualifiers that blocked a write outright, an unresolved OS&D issue, an appointment window already missed, conflicting driver information. If a load didn't clear the bar, the agent didn't touch the status. It escalated to a rep instead. Every failure mode got the same standardized treatment too: retry once, then escalate with one consistent message instead of a dozen slightly different ones, with retries batched into a single clean comment instead of spamming the load record.",
+        body: "The agent didn't start with write access. In the first phase it could only call, text, and escalate, a rep still had to update the load themselves. Giving it permission to move a load status directly meant a bad write could do more damage than a missed call, so before that shipped I mapped every legal status transition end to end: what data was mandatory, which transitions could be trusted to tracking data alone versus always needing a live call, and the disqualifiers that blocked a write outright, an unresolved OS&D issue, an appointment window already missed, conflicting driver information. If a load didn't clear the bar, the agent didn't touch the status. It escalated to a rep instead. Every failure mode got the same standardized treatment too: retry once, then escalate with one consistent message instead of a dozen slightly different ones, with retries batched into a single clean comment instead of spamming the load record. Full write access across every tracking task type is the next milestone on the roadmap, not something I'd have shipped on day one.",
         artifact: {
           src: '/work/bob-status-guardrails.svg',
           alt: 'A diagram of the load status chain from Booked through Delivered, with a gate on every transition: if a disqualifier is present, the load escalates to a rep instead of the status changing.',
@@ -187,7 +196,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'Redesigning the escalation logic',
-        body: "The first version of the SOP treated every task the same, whether it was a stale location ping or a driver confirming they'd hit the dock: call the driver twice, text, wait 30 minutes, call the tracking contact, email, then escalate. It worked, but it spent the same time and the same number of touches on a routine update as it did on something time-sensitive. The data backed up a rewrite too: phone contact was converting around 16%, well behind email, so a second and third round of calls was mostly wasted motion. I rewrote the SOP around urgency and channel performance instead.",
+        body: "The first version of the SOP treated every task the same, whether it was a stale location ping or a driver confirming they'd hit the dock: call the driver twice, text, wait 30 minutes, call the tracking contact, email, then escalate. It worked, but it spent the same time and the same number of touches on a routine update as it did on something time-sensitive. The channel data backed up a rewrite too: after adding a text channel, contact success roughly tripled versus calls alone and beat email as well, which is exactly why the redesigned SOP leads with a text instead of a call. I rewrote the SOP around urgency and channel performance together.",
         comparison: {
           before: {
             label: 'Before',
@@ -224,10 +233,15 @@ export const projects: CaseStudy[] = [
             description: 'A per-load log of every attempt the agent made, so the operations team could see what happened without needing direct access to the underlying platform.',
           },
         ],
+        artifact: {
+          src: '/work/bob-voice-workflows-overview.png',
+          alt: 'A Miro board mapping over 10 of the agent\'s automated tracking workflows, including in-transit location updates, shipper arrival and departure confirmations, an after-hours SOP, and inbound requests.',
+          caption: 'What the reporting layer actually covers: a portion of the 10+ workflows tracked at the task and outreach level.',
+        },
       },
       {
         heading: 'The outcome',
-        body: "The two highest-volume request types are now fully automated: 4,000+ loads worked since release, roughly 200 a day, at a 90%+ SOP success rate. That's cut manual workload by an estimated 20% and moved the team toward 24/7 coverage, numbers read straight off the same task and outreach metrics built into the reporting layer, not a guess. Just as important, the framework outlived the project and now shapes how other teams scope agent work.",
+        body: "The two highest-volume request types are now fully automated. Roughly 600 loads a day now route through the agent, with 27,500+ track-and-trace calls and 6,500+ emails sent on its behalf year-to-date, at a 90%+ SOP success rate. That's cut manual workload by an estimated 20%, moved the team toward 24/7 coverage, and let Tracking absorb rising load volume without hiring to match it, numbers read straight off the same task and outreach metrics built into the reporting layer, not a guess. Just as important, the framework outlived the project and now shapes how other teams scope agent work.",
         artifact: {
           src: '/work/bob-tracking-ui.png',
           alt: "A real Tracking panel entry showing a Bob-logged location update for a load in Golden, CO, with the check call reason, timestamp, and drop trailer status.",
