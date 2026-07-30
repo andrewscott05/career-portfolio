@@ -166,14 +166,14 @@ export const projects: CaseStudy[] = [
     sections: [
       {
         heading: 'The problem',
-        body: "Every highest-volume tracking request landed on a person: status checks, location updates, delivery confirmations. Load volume kept climbing, and the default answer was always to hire more people onto Tracking to keep pace with it. Each of those requests interrupted someone, none got answered outside business hours, and the work was repetitive enough that headcount was never going to be a sustainable way to keep up.",
+        body: "Every highest-volume tracking request landed on a person: status checks, location updates, delivery confirmations. Load volume kept climbing, and the default answer was always to hire more people onto Tracking to keep pace with it. Each of those requests interrupted someone, and the work was repetitive enough that headcount was never going to be a sustainable way to keep up.",
       },
       {
         heading: 'Creating the agent',
-        body: "This was the company's first AI agent for tracking, so there was no roadmap to inherit. I owned it from concept through launch: 10+ automated workflows spanning status tracking, document collection, and inbound requests across voice, text, and email, wired through the integration platform so the agent could actually read and write to the systems of record instead of just relaying updates back to a rep. Every workflow runs the same core loop underneath it: a load gets flagged, the SOP tries voice, text, or email, and anything with an actual issue lands with a rep instead of getting forced through.",
+        body: "This was the company's first AI agent for tracking, so there was no roadmap to inherit. I owned it from concept through launch: 10+ automated workflows spanning status tracking, document collection, and carrier outreach across voice, text, and email, wired through the integration platform so the agent could actually read and write to the systems of record instead of just relaying updates back to a rep. Every workflow runs the same core loop underneath it: a load gets flagged, the agent reaches out to the carrier by voice, text, or email, and anything with an actual issue lands with a rep instead of getting forced through.",
         artifact: {
           src: '/work/bob-voice-workflows-overview.png',
-          alt: 'A Miro board mapping over 10 of the agent\'s automated tracking workflows, including in-transit location updates, shipper arrival and departure confirmations, an after-hours SOP, and inbound requests.',
+          alt: 'A Miro board mapping over 10 of the agent\'s automated tracking workflows, including in-transit location updates, shipper arrival and departure confirmations, and an after-hours SOP.',
           caption: 'A portion of the workflow mapping behind the agent: every branch, confirmation, and fallback mapped before a line of it went live.',
         },
       },
@@ -181,9 +181,9 @@ export const projects: CaseStudy[] = [
         heading: "Teaching the agent when it's allowed to act",
         body: "The agent didn't start with write access. In the first phase it could only call, text, and escalate, a rep still had to update the load themselves. Giving it permission to move a load status directly meant a bad write could do more damage than a missed call, so before that shipped I mapped every legal status transition end to end: what data was mandatory, which transitions could be trusted to tracking data alone versus always needing a live call, and the disqualifiers that blocked a write outright, an unresolved OS&D issue, an appointment window already missed, conflicting driver information. If a load didn't clear the bar, the agent didn't touch the status. It escalated to a rep instead. Every failure mode got the same standardized treatment too: retry once, then escalate with one consistent message instead of a dozen slightly different ones, with retries batched into a single clean comment instead of spamming the load record. Full write access across every tracking task type is the next milestone on the roadmap, not something I'd have shipped on day one.",
         artifact: {
-          src: '/work/bob-status-guardrails.svg',
-          alt: 'A diagram of the load status chain from Booked through Delivered, with a gate on every transition: if a disqualifier is present, the load escalates to a rep instead of the status changing.',
-          caption: 'Every status transition sits behind the same gate: a disqualifier breaks the chain and hands the load to a rep instead of writing a bad status.',
+          src: '/work/bob-outreach-flow.svg',
+          alt: 'A diagram showing a load flagged for tracking routed through the Bob outreach SOP across voice, text, and email, converging on a decision: no issue logs the update in ARRIVEnow, an issue escalates to the Arrive team.',
+          caption: 'The decision behind every write: no issue logs the update, an issue hands the load to a rep instead.',
         },
       },
       {
@@ -211,15 +211,10 @@ export const projects: CaseStudy[] = [
             description: 'A per-load log of every attempt the agent made, so the operations team could see what happened without needing direct access to the underlying platform.',
           },
         ],
-        artifact: {
-          src: '/work/bob-outreach-flow.svg',
-          alt: 'A diagram showing a load flagged for tracking routed through the Bob outreach SOP across voice, text, and email, converging on a decision: no issue logs the update in ARRIVEnow, an issue escalates to the Arrive team.',
-          caption: 'The same loop the metrics track: every channel attempt and every escalation logged at the point it happens.',
-        },
       },
       {
         heading: 'The outcome',
-        body: "The two highest-volume request types are now fully automated. Roughly 600 loads a day now route through the agent, with 27,500+ track-and-trace calls and 6,500+ emails sent on its behalf year-to-date, at a 90%+ SOP success rate. That's cut manual workload by an estimated 20%, moved the team toward 24/7 coverage, and let Tracking absorb rising load volume without hiring to match it, numbers read straight off the same task and outreach metrics built into the reporting layer, not a guess. Just as important, the framework outlived the project and now shapes how other teams scope agent work.",
+        body: "The two highest-volume request types are now fully automated. Roughly 600 loads a day now route through the agent, with 27,500+ track-and-trace calls and 6,500+ emails sent on its behalf year-to-date, at a 90%+ SOP success rate. That's cut manual workload by an estimated 20% and let Tracking absorb rising load volume without hiring to match it. After-hours was the clearest case: the team there didn't need to grow headcount as volume climbed, because the agent was carrying the load alongside them. The numbers are read straight off the same task and outreach metrics built into the reporting layer, not a guess. Just as important, the framework outlived the project and now shapes how other teams scope agent work.",
         artifact: {
           src: '/work/bob-tracking-ui.png',
           alt: "A real Tracking panel entry showing a Bob-logged location update for a load in Golden, CO, with the check call reason, timestamp, and drop trailer status.",
