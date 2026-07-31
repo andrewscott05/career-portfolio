@@ -36,92 +36,146 @@ type BlockCfg = {
   from: number // progress where this block starts converging
   to: number // progress where it locks in
   mobileHidden?: boolean // thinned out so phone bars stay legible
+  seamOffset?: number // segment index, used to overlap borders into one rule
   cap?: boolean
 }
 
-/* Desktop: 9 bars, 4vw wide on a 5vw pitch, shared baseline at 80vh.
-   Mobile: every other bar drops out, leaving 5 at 13vw on an 18vw pitch,
-   baseline 91vh, sitting below the headline. */
+/* Desktop: 11 bars, 3.3vw wide on a 4.1vw pitch, shared baseline at 80vh.
+   Mobile: thinned to 5 bars at 13vw on an 18vw pitch, baseline 91vh,
+   sitting below the headline. */
+const DESK = { x0: 50, pitch: 4.1, w: 3.3, base: 80 }
+const MOB = { x0: 6, pitch: 18, w: 13, base: 91 }
+
 const BARS: Array<{
   h: number
   mh: number
   fill: BlockCfg['fill']
-  sx: number
-  sy: number
-  rot: number
   mobileHidden?: boolean
 }> = [
-  { h: 8,  mh: 5,  fill: 'surface', sx: 6,  sy: 14, rot: -18 },
-  { h: 12, mh: 7,  fill: 'ink',     sx: 30, sy: 5,  rot: 13, mobileHidden: true },
-  { h: 17, mh: 8,  fill: 'surface', sx: 52, sy: 9,  rot: -9 },
-  { h: 22, mh: 10, fill: 'ochre',   sx: 78, sy: 4,  rot: 16, mobileHidden: true },
-  { h: 28, mh: 12, fill: 'surface', sx: 88, sy: 28, rot: -14 },
-  { h: 35, mh: 15, fill: 'ink',     sx: 14, sy: 66, rot: 12, mobileHidden: true },
-  { h: 43, mh: 18, fill: 'surface', sx: 42, sy: 74, rot: -11, mobileHidden: true },
-  { h: 52, mh: 22, fill: 'ochre',   sx: 68, sy: 70, rot: 9 },
-  { h: 62, mh: 27, fill: 'surface', sx: 34, sy: 40, rot: -22 },
+  { h: 6,  mh: 5,  fill: 'surface' },
+  { h: 9,  mh: 0,  fill: 'ink',     mobileHidden: true },
+  { h: 12, mh: 8,  fill: 'surface' },
+  { h: 16, mh: 0,  fill: 'ochre',   mobileHidden: true },
+  { h: 20, mh: 12, fill: 'surface' },
+  { h: 25, mh: 0,  fill: 'ink',     mobileHidden: true },
+  { h: 30, mh: 0,  fill: 'surface', mobileHidden: true },
+  { h: 37, mh: 18, fill: 'ochre' },
+  { h: 44, mh: 0,  fill: 'surface', mobileHidden: true },
+  { h: 52, mh: 0,  fill: 'ink',     mobileHidden: true },
+  { h: 62, mh: 27, fill: 'surface' },
 ]
 
-/* Each bar is built from stacked segments rather than one slab, so the chart
-   reads as assembling piece by piece. Segments in a bar land bottom-up. */
-const SEG_GAP = 0.5 // vh between segments, so the seams stay visible
+/* Scatter positions are generated deterministically and kept clear of the
+   copy, so the pieces are actually visible while they are still in chaos. */
+const makeRand = (() => {
+  let s = 20260731
+  return () => {
+    s = (s * 16807) % 2147483647
+    return (s - 1) / 2147483646
+  }
+})()
 
+function scatter(mobileVisible: boolean) {
+  for (let k = 0; k < 60; k++) {
+    const x = 2 + makeRand() * 92
+    const y = 3 + makeRand() * 90
+    // desktop copy occupies the left half, middle band
+    const overDesktopCopy = x < 50 && y > 18 && y < 76
+    if (overDesktopCopy) continue
+    if (mobileVisible) {
+      // mobile copy runs across the top two thirds
+      const overMobileCopy = y > 8 && y < 60
+      if (overMobileCopy) continue
+    }
+    return { x, y }
+  }
+  return { x: 62 + makeRand() * 30, y: 78 + makeRand() * 14 }
+}
+
+/* Each bar is built from stacked segments rather than one slab, so the chart
+   reads as assembling piece by piece. Segments land bottom-up and butt
+   together into one solid bar: adjacent 3px borders are overlapped in px so
+   the seam reads as a single rule, not a gap. */
 const BLOCKS: BlockCfg[] = []
 
 BARS.forEach((bar, i) => {
   const mobileIndex = BARS.slice(0, i).filter((b) => !b.mobileHidden).length
-  const segs = Math.min(4, 1 + Math.floor(i / 2)) // taller bars, more pieces
-  const dSeg = (bar.h - SEG_GAP * (segs - 1)) / segs
-  const mSeg = (bar.mh - SEG_GAP * (segs - 1)) / segs
-  const barStart = 0.08 + i * 0.028
-  const barEnd = 0.46 + i * 0.036
+  const segs = Math.min(5, 1 + Math.floor(i / 2)) // taller bars, more pieces
+  const dSeg = bar.h / segs
+  const mSeg = bar.mh / segs
+  const barStart = 0.06 + i * 0.024
+  const barEnd = 0.44 + i * 0.032
 
   for (let s = 0; s < segs; s++) {
     // s = 0 is the bottom segment of the bar and lands first
     const t = segs === 1 ? 0 : s / (segs - 1)
+    const pt = scatter(!bar.mobileHidden)
     BLOCKS.push({
-      sx: (bar.sx + s * 21) % 92,
-      sy: (bar.sy + s * 17) % 82,
-      rot: bar.rot + (s % 2 === 0 ? 9 : -12) * (s + 1) * 0.5,
+      sx: pt.x,
+      sy: pt.y,
+      rot: (s % 2 === 0 ? 1 : -1) * (8 + ((i * 7 + s * 13) % 16)),
       fill: bar.fill,
       mobileHidden: bar.mobileHidden,
-      desktop: {
-        tx: 50 + i * 5,
-        ty: 80 - dSeg * (s + 1) - SEG_GAP * s,
-        w: 4,
-        h: dSeg,
-      },
-      mobile: {
-        tx: 6 + mobileIndex * 18,
-        ty: 91 - mSeg * (s + 1) - SEG_GAP * s,
-        w: 13,
-        h: mSeg,
-      },
-      from: barStart + t * 0.05,
-      to: barEnd + t * 0.06,
+      seamOffset: s, // shifts down 3px per segment so borders overlap
+      desktop: { tx: DESK.x0 + i * DESK.pitch, ty: DESK.base - dSeg * (s + 1), w: DESK.w, h: dSeg },
+      mobile: { tx: MOB.x0 + mobileIndex * MOB.pitch, ty: MOB.base - mSeg * (s + 1), w: MOB.w, h: mSeg },
+      from: barStart + t * 0.045,
+      to: barEnd + t * 0.055,
     })
   }
 })
 
 // The data point that crowns the tallest bar, landing last
-const TALLEST = BARS[BARS.length - 1]
+const LAST = BARS.length - 1
+const TALLEST = BARS[LAST]
 const TALLEST_MOBILE_INDEX = BARS.filter((b) => !b.mobileHidden).length - 1
 BLOCKS.push({
-  sx: 60,
-  sy: 34,
+  sx: 58,
+  sy: 12,
   rot: -26,
   fill: 'green',
-  desktop: { tx: 50 + 8 * 5 + 0.5, ty: 80 - TALLEST.h - 4.4, w: 3, h: 3.2 },
+  desktop: {
+    tx: DESK.x0 + LAST * DESK.pitch + (DESK.w - 2.6) / 2,
+    ty: DESK.base - TALLEST.h - 4.4,
+    w: 2.6,
+    h: 3.2,
+  },
   mobile: {
-    tx: 6 + TALLEST_MOBILE_INDEX * 18 + 3.5,
-    ty: 91 - TALLEST.mh - 5,
+    tx: MOB.x0 + TALLEST_MOBILE_INDEX * MOB.pitch + (MOB.w - 6) / 2,
+    ty: MOB.base - TALLEST.mh - 5,
     w: 6,
     h: 3.6,
   },
-  from: 0.36,
-  to: 0.82,
+  from: 0.34,
+  to: 0.8,
   cap: true,
 })
+
+/* Trend line traced across the bar tops, plus where the arrowhead lands */
+const trendPath = (m: boolean) => {
+  const cfg = m ? MOB : DESK
+  return BARS.map((b, i) => {
+    if (m && b.mobileHidden) return null
+    const mi = BARS.slice(0, i).filter((x) => !x.mobileHidden).length
+    const x = cfg.x0 + (m ? mi : i) * cfg.pitch + cfg.w / 2
+    const y = cfg.base - (m ? b.mh : b.h)
+    return `${x.toFixed(2)} ${y.toFixed(2)}`
+  })
+    .filter(Boolean)
+    .map((p, idx) => (idx === 0 ? `M ${p}` : `L ${p}`))
+    .join(' ')
+}
+
+const TREND_DESKTOP = trendPath(false)
+const TREND_MOBILE = trendPath(true)
+const TREND_END_DESKTOP = {
+  x: DESK.x0 + LAST * DESK.pitch + DESK.w / 2,
+  y: DESK.base - TALLEST.h,
+}
+const TREND_END_MOBILE = {
+  x: MOB.x0 + TALLEST_MOBILE_INDEX * MOB.pitch + MOB.w / 2,
+  y: MOB.base - TALLEST.mh,
+}
 
 const FILLS: Record<BlockCfg['fill'], { bg: string; shadow: string }> = {
   surface: { bg: 'var(--color-surface)', shadow: '5px 5px 0 var(--color-ink)' },
@@ -144,8 +198,15 @@ function Block({
   refFn: (el: HTMLDivElement | null) => void
 }) {
   const target = isMobile ? cfg.mobile : cfg.desktop
+  // Each segment sits 3px lower than the one below it, so their borders
+  // overlap into a single rule and the bar reads as solid, not stacked.
+  const seam = (cfg.seamOffset ?? 0) * 3
   const x = useTransform(progress, [cfg.from, cfg.to], ['0vw', `${target.tx - cfg.sx}vw`])
-  const y = useTransform(progress, [cfg.from, cfg.to], ['0vh', `${target.ty - cfg.sy}vh`])
+  const y = useTransform(
+    progress,
+    [cfg.from, cfg.to],
+    ['0vh', `calc(${target.ty - cfg.sy}vh + ${seam}px)`],
+  )
   const rotate = useTransform(progress, [cfg.from, cfg.to], [cfg.rot, 0])
   // The completion click: once the chart locks, the cap pops its asterisk
   const capOpacity = useTransform(progress, [0.82, 0.88], [0, 1])
@@ -160,9 +221,9 @@ function Block({
       className="absolute transition-transform duration-300 ease-out"
       style={{
         left: reduced ? `${target.tx}vw` : `${cfg.sx}vw`,
-        top: reduced ? `${target.ty}vh` : `${cfg.sy}vh`,
+        top: reduced ? `calc(${target.ty}vh + ${seam}px)` : `${cfg.sy}vh`,
         width: `${target.w}vw`,
-        height: `${target.h}vh`,
+        height: `calc(${target.h}vh + 3px)`,
       }}
     >
       <motion.div
@@ -229,9 +290,11 @@ export function Hero() {
   const hintOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0])
   // After the chart locks it eases down a touch, so the release feels handed off
   const settleY = useTransform(scrollYProgress, [0.9, 1], ['0vh', '4vh'])
-  // The trend line draws itself up across the finished bars
+  // The trend line draws itself up across the finished bars, arrowhead last
   const trendDraw = useTransform(scrollYProgress, [0.78, 0.93], [0, 1])
   const trendOpacity = useTransform(scrollYProgress, [0.76, 0.82], [0, 1])
+  const arrowOpacity = useTransform(scrollYProgress, [0.9, 0.95], [0, 1])
+  const arrowScale = useTransform(scrollYProgress, [0.9, 0.95], [0.5, 1])
 
   // The toy: slabs shy away from the cursor. Direct DOM writes, no re-renders.
   // Pointer-driven only, so it never fights a touch scroll.
@@ -292,46 +355,53 @@ export function Hero() {
             />
           ))}
 
-          {/* The trend line: draws up and to the right once the bars are in */}
+          {/* The trend line: draws up and to the right once the bars are in.
+              The stretched viewBox would distort an arrowhead drawn inside it,
+              so the head is a separate fixed-size element at the line's end. */}
           <svg
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
             className="absolute inset-0 w-full h-full pointer-events-none"
           >
-            <motion.g
-              style={reduced ? {} : { opacity: trendOpacity }}
+            <motion.path
+              d={isMobile ? TREND_MOBILE : TREND_DESKTOP}
+              fill="none"
+              stroke="var(--color-primary)"
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               vectorEffect="non-scaling-stroke"
-            >
-              <motion.path
-                d={
-                  isMobile
-                    ? 'M 12.5 86 L 30.5 83 L 48.5 79 L 66.5 69 L 84.5 64'
-                    : 'M 52 72 L 57 68 L 62 63 L 67 58 L 72 52 L 77 45 L 82 37 L 87 28 L 92 18'
-                }
-                fill="none"
-                stroke="var(--color-primary)"
-                strokeWidth="0.55"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                vectorEffect="non-scaling-stroke"
-                style={reduced ? {} : { pathLength: trendDraw }}
-              />
-              <motion.path
-                d={
-                  isMobile
-                    ? 'M 78.5 61 L 84.5 64 L 81.5 70'
-                    : 'M 86 14 L 92 18 L 89 25'
-                }
-                fill="none"
-                stroke="var(--color-primary)"
-                strokeWidth="0.55"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                vectorEffect="non-scaling-stroke"
-                style={reduced ? {} : { pathLength: trendDraw }}
-              />
-            </motion.g>
+              style={
+                reduced ? {} : { opacity: trendOpacity, pathLength: trendDraw }
+              }
+            />
           </svg>
+
+          <motion.div
+            className="absolute pointer-events-none"
+            style={{
+              left: `${(isMobile ? TREND_END_MOBILE : TREND_END_DESKTOP).x}vw`,
+              top: `${(isMobile ? TREND_END_MOBILE : TREND_END_DESKTOP).y}vh`,
+              ...(reduced ? {} : { opacity: arrowOpacity, scale: arrowScale }),
+            }}
+          >
+            <svg
+              width="34"
+              height="34"
+              viewBox="0 0 24 24"
+              className="-translate-x-1/2 -translate-y-1/2"
+            >
+              {/* A corner chevron: vertex up-right, matching the line's climb */}
+              <path
+                d="M 7 5 L 19 5 L 19 17"
+                fill="none"
+                stroke="var(--color-primary)"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </motion.div>
         </motion.div>
 
         <div className="relative z-10 h-full flex items-start md:items-center pt-[14vh] md:pt-0 px-6 sm:px-10 md:px-14 pointer-events-none">
