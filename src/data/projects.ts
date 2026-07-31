@@ -136,6 +136,10 @@ export const projects: CaseStudy[] = [
     tag: 'ML PRICING',
     summary:
       'Built the ML-driven Rate API from 0 to 1. Scaled segment revenue 2.3x to a $400M+ run rate.',
+    cardPeek: {
+      src: '/work/pricing-ecosystem.png',
+      alt: 'The full pricing ecosystem: Rate API, quoting service, pricing database and the tools built on top.',
+    },
     sections: [
       {
         heading: 'The problem',
@@ -346,6 +350,10 @@ export const projects: CaseStudy[] = [
     tag: 'WAYS OF WORKING',
     summary:
       'Rebuilt the Jira workflow and PRD template. Cut SDLC time 20%, project turnaround 15%.',
+    cardPeek: {
+      src: '/work/jira-workflow-before-after.png',
+      alt: 'The Jira story workflow before and after: tangled redundant statuses replaced by a clean path from open to done.',
+    },
     sections: [
       {
         heading: 'The problem',

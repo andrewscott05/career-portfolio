@@ -30,6 +30,7 @@ type BlockCfg = {
   msx: number // scatter x (vw), mobile
   msy: number // scatter y (vh), mobile
   rot: number // scatter rotation (deg)
+  scatterScale: number // size while scattered, resolving to 1 on landing
   desktop: Coords
   mobile: Coords
   fill: 'surface' | 'ink' | 'green' | 'ochre'
@@ -95,15 +96,23 @@ function gap(a: Rect, b: Rect) {
 }
 
 /* Each breakpoint gets its own scatter. Sharing one set meant reserving the
-   wide mobile footprint on desktop too, which shoved everything into a corner. */
+   wide mobile footprint on desktop too, which shoved everything into a corner.
+
+   Placement deliberately mixes two behaviours. Most pieces take the best of
+   many candidates, which spreads them out; a minority take the first legal
+   spot they find, which lets them fall near a neighbour. Even spacing alone
+   reads as a pattern, and the point is spill, not confetti. */
 const placedDesktop: Rect[] = []
 const placedMobile: Rect[] = []
 
-function scatterIn(w: number, h: number, copy: Rect, placed: Rect[]) {
+function scatterIn(w: number, h: number, copy: Rect, placed: Rect[], clumpy: boolean) {
   let best = { x: 60, y: 80 }
   let bestScore = -Infinity
+  const tries = clumpy ? 40 : 400
+  // A clumping piece only needs to avoid burying another, not stand apart
+  const enough = clumpy ? -Math.min(w, h) * 0.35 : 4
 
-  for (let k = 0; k < 400; k++) {
+  for (let k = 0; k < tries; k++) {
     const x = 1.5 + makeRand() * Math.max(1, 97 - w)
     const y = 2 + makeRand() * Math.max(1, 94 - h)
     const box = { x, y, w, h }
@@ -114,7 +123,7 @@ function scatterIn(w: number, h: number, copy: Rect, placed: Rect[]) {
     if (nearest > bestScore) {
       bestScore = nearest
       best = { x, y }
-      if (nearest > 4) break // comfortably clear, take it
+      if (nearest > enough) break
     }
   }
 
@@ -148,16 +157,23 @@ BARS.forEach((bar, i) => {
     // run slightly tall so they overlap downward into the piece below
     const t = segs === 1 ? 0 : s / (segs - 1)
     const overlap = s > 0 ? PIECE_OVERLAP_VH : 0
-    const dPt = scatterIn(DESK.w, dSeg + overlap, COPY_DESKTOP, placedDesktop)
+    // Roughly a third of the pieces are allowed to settle near a neighbour,
+    // so the field has clusters and clearings rather than even spacing
+    const clumpy = makeRand() < 0.34
+    const dPt = scatterIn(DESK.w, dSeg + overlap, COPY_DESKTOP, placedDesktop, clumpy)
     const mPt = bar.mobileHidden
       ? dPt
-      : scatterIn(MOB.w, mSeg + overlap, COPY_MOBILE, placedMobile)
+      : scatterIn(MOB.w, mSeg + overlap, COPY_MOBILE, placedMobile, clumpy)
     BLOCKS.push({
       sx: dPt.x,
       sy: dPt.y,
       msx: mPt.x,
       msy: mPt.y,
-      rot: (s % 2 === 0 ? 1 : -1) * (8 + ((i * 7 + s * 13) % 16)),
+      // Wide rotation range: a narrow one left everything leaning the same way
+      rot: (makeRand() < 0.5 ? 1 : -1) * (5 + makeRand() * 36),
+      // Scattered pieces read at slightly different sizes, then resolve to
+      // exact bar dimensions as they land
+      scatterScale: 0.82 + makeRand() * 0.5,
       fill: bar.fill,
       mobileHidden: bar.mobileHidden,
       fade,
@@ -267,6 +283,7 @@ function Block({
   const x = useTransform(progress, [cfg.from, cfg.to], ['0vw', `${target.tx - sx}vw`])
   const y = useTransform(progress, [cfg.from, cfg.to], ['0vh', `${target.ty - sy}vh`])
   const rotate = useTransform(progress, [cfg.from, cfg.to], [cfg.rot, 0])
+  const scale = useTransform(progress, [cfg.from, cfg.to], [cfg.scatterScale, 1])
   // Chip chrome (border + shadow) dissolves once this piece's bar is whole
   const chipOpacity = useTransform(progress, cfg.fade, [1, 0])
 
@@ -288,7 +305,7 @@ function Block({
         style={
           reduced
             ? { background: FILLS[cfg.fill] }
-            : { x, y, rotate, background: FILLS[cfg.fill] }
+            : { x, y, rotate, scale, background: FILLS[cfg.fill] }
         }
       >
         {!reduced && (
