@@ -15,6 +15,10 @@ function fallbackCopy(text: string) {
   document.body.removeChild(ta)
 }
 
+/* Full-bleed poster, not a banner in a box: the page itself turns green,
+   type is left-aligned and oversized, and the email is a giant underlined
+   link rather than a button. */
+
 export function Contact() {
   const [copied, setCopied] = useState(false)
 
@@ -29,48 +33,37 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="px-6 sm:px-10 md:px-14 pb-20">
-      <div className="max-w-[1100px] mx-auto w-full">
-        <motion.div
-          initial={{
-            opacity: 0,
-            scale: 1.04,
-            y: -10,
-            boxShadow: '0px 0px 0px var(--color-ink)',
-          }}
-          whileInView={{
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            boxShadow: '10px 10px 0px var(--color-ink)',
-          }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.55, ease: EASE }}
-          className="bg-[var(--color-primary)] border-[3px] border-[var(--color-ink)] px-8 py-12 sm:p-14 text-center"
+    <section
+      id="contact"
+      className="bg-[var(--color-primary)] border-t-[3px] border-[var(--color-ink)]"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.55, ease: EASE }}
+        className="max-w-[1100px] mx-auto w-full px-6 sm:px-10 md:px-14 py-20 sm:py-28"
+      >
+        <p className="font-mono text-[11px] tracking-[0.12em] text-[var(--color-ink-subtext)] mb-6">
+          CONTACT
+        </p>
+        <h2 className="font-display text-[clamp(2.25rem,6.5vw,4.25rem)] text-[var(--color-bg)] leading-[1.0] mb-10 sm:mb-12 max-w-[16ch]">
+          Let&apos;s build something{' '}
+          <span className="text-[var(--color-secondary)]">people rely on.</span>
+        </h2>
+        <a
+          href={`mailto:${EMAIL}`}
+          onClick={handleEmailClick}
+          className="group inline-block"
         >
-          <h2 className="font-display text-[clamp(1.75rem,5vw,2.375rem)] text-[var(--color-bg)] leading-[1.05] mb-8">
-            Let&apos;s build something{' '}
-            <span className="text-[var(--color-secondary)]">people rely on.</span>
-          </h2>
-          <a
-            href={`mailto:${EMAIL}`}
-            onClick={handleEmailClick}
-            className="press inline-flex items-center gap-2 sm:gap-2.5 font-display text-xs sm:text-xl text-[var(--color-ink)] bg-[var(--color-secondary)] px-4 sm:px-7 py-3 sm:py-3.5 border-[3px] border-[var(--color-ink)] max-w-full"
-          >
-            <span className="break-all">{copied ? 'Copied to clipboard!' : EMAIL}</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
-              {copied ? (
-                <polyline points="20 6 9 17 4 12" />
-              ) : (
-                <>
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                </>
-              )}
-            </svg>
-          </a>
-        </motion.div>
-      </div>
+          <span className="inline-block font-display text-[clamp(1.2rem,4.5vw,2.6rem)] leading-tight pb-1.5 text-[var(--color-bg)] border-b-[4px] border-[var(--color-bg)] group-hover:text-[var(--color-secondary)] group-hover:border-[var(--color-secondary)] transition-colors break-all">
+            {copied ? 'Copied to clipboard!' : EMAIL}
+          </span>
+        </a>
+        <p className="font-serif italic text-[15px] sm:text-base text-[var(--color-ink-subtext)] mt-6">
+          Click to copy, or just say hello.
+        </p>
+      </motion.div>
     </section>
   )
 }

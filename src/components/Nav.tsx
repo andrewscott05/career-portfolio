@@ -24,7 +24,7 @@ export function Nav() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-[var(--color-bg)] border-b-[3px] border-[var(--color-ink)]">
+    <nav className="sticky top-0 z-50 bg-[var(--color-bg)]">
       <div className="max-w-[1100px] mx-auto w-full flex items-center justify-between px-6 sm:px-10 md:px-14 py-5">
         <Link to="/" className="font-display text-base text-[var(--color-ink)]">
           A.SCOTT
