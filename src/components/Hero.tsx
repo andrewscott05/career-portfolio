@@ -13,21 +13,42 @@ const fade = (delay: number) => ({
   transition: { duration: 0.5, ease: EASE, delay },
 })
 
+function Word({
+  children,
+  i,
+  className = '',
+}: {
+  children: string
+  i: number
+  className?: string
+}) {
+  return (
+    <motion.span
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: EASE, delay: 0.05 * i }}
+      className={'inline-block' + (className ? ' ' + className : '')}
+    >
+      {children}
+    </motion.span>
+  )
+}
+
 export function Hero() {
   return (
     <header id="top" className="px-6 sm:px-10 md:px-14">
       <div className="max-w-[1100px] mx-auto w-full pt-14 pb-16 sm:pt-16 sm:pb-20">
-        <motion.h1
-          {...fade(0)}
-          className="font-display text-[clamp(2.75rem,10vw,5.5rem)] text-[var(--color-ink)] leading-[0.98] tracking-[-0.01em] mb-9 sm:mb-10"
-        >
-          Turning operational
+        <h1 className="font-display text-[clamp(2.75rem,10vw,5.5rem)] text-[var(--color-ink)] leading-[0.98] tracking-[-0.01em] mb-9 sm:mb-10">
+          <Word i={0}>Turning</Word> <Word i={1}>operational</Word>
           <br />
-          chaos into systems
+          <Word i={2}>chaos</Word> <Word i={3}>into</Word> <Word i={4}>systems</Word>
           <br />
-          that <span className="text-[var(--color-primary)]">scale.</span>
-        </motion.h1>
-        <motion.div {...fade(0.16)} className="flex flex-wrap gap-4 sm:gap-[18px]">
+          <Word i={5}>that</Word>{' '}
+          <Word i={6} className="text-[var(--color-primary)]">
+            scale.
+          </Word>
+        </h1>
+        <motion.div {...fade(0.5)} className="flex flex-wrap gap-4 sm:gap-[18px]">
           <a
             href={LINK.resume}
             target="_blank"

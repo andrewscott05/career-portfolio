@@ -4,7 +4,7 @@ import { useRef, useState, type MouseEvent } from 'react'
 import { projects, developerPortal, type CaseStudy } from '../data/projects'
 
 const EASE = [0.22, 1, 0.36, 1] as const
-const TILT_MAX = 5 // degrees, kept small so it reads as tactile, not gimmicky
+const TILT_MAX = 2.5 // degrees, kept small so it reads as tactile, not gimmicky
 
 function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
   const cardRef = useRef<HTMLAnchorElement>(null)
@@ -30,7 +30,7 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, ease: EASE, delay: index * 0.08 }}
-      style={{ perspective: 1000 }}
+      style={{ perspective: 2000 }}
     >
       <Link
         ref={cardRef}
