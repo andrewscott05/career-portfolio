@@ -25,9 +25,8 @@ export function AboutPage() {
             <p className="font-serif text-[17px] sm:text-lg text-[var(--color-text-secondary)] leading-[1.7]">
               I&apos;ve spent most of my career taking on messy, ambiguous
               problems and turning them into something that runs well. I like
-              being the person pulling the pieces into line, and I&apos;m not
-              usually satisfied until it&apos;s actually right, not just good
-              enough.
+              being the person pulling the pieces into line, and I don&apos;t
+              stop until it&apos;s right, not just good enough.
             </p>
           </motion.header>
 

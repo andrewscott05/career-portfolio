@@ -71,7 +71,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'Creating the agent',
-        body: "This was the company's first AI agent for tracking, so there was no roadmap to inherit. I owned it from concept through launch: 10+ automated workflows spanning status tracking, document collection, and carrier outreach across voice, text, and email, wired through the integration platform so the agent could actually read and write to the systems of record instead of just relaying updates back to a rep. Every workflow runs the same core loop underneath it: a load gets flagged, the agent reaches out to the carrier by voice, text, or email, and anything with an actual issue lands with a rep instead of getting forced through.",
+        body: "This was the company's first AI agent for tracking, so there was no roadmap to inherit. I owned it from concept through launch: 10+ automated workflows spanning status tracking, document collection, and carrier outreach across voice, text, and email, wired through the integration platform so the agent could read and write to the systems of record directly, no relay through a rep required. Every workflow runs the same core loop: a load gets flagged, the agent reaches out to the carrier by voice, text, or email, and anything with a real issue routes straight to a rep rather than getting pushed through automatically.",
         artifact: {
           src: '/work/bob-voice-workflows-overview.png',
           alt: 'A Miro board mapping over 10 of the agent\'s automated tracking workflows, including in-transit location updates, shipper arrival and departure confirmations, and an after-hours SOP.',
@@ -80,7 +80,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: "Teaching the agent when it's allowed to act",
-        body: "The agent didn't start with write access. In the first phase it could only call, text, and escalate, a rep still had to update the load themselves. Giving it permission to move a load status directly meant a bad write could do more damage than a missed call, so before that shipped I mapped every legal status transition end to end: what data was mandatory, which transitions could be trusted to tracking data alone versus always needing a live call, and the disqualifiers that blocked a write outright, an unresolved OS&D issue, an appointment window already missed, conflicting driver information. If a load didn't clear the bar, the agent didn't touch the status. It escalated to a rep instead. Every failure mode got the same standardized treatment too: retry once, then escalate with one consistent message instead of a dozen slightly different ones, with retries batched into a single clean comment instead of spamming the load record. Full write access across every tracking task type is the next milestone on the roadmap, not something I'd have shipped on day one.",
+        body: "The agent didn't start with write access. In the first phase it could only call, text, and escalate; a rep still had to update the load themselves. Giving it permission to move a load status directly meant a bad write could do more damage than a missed call, so before that shipped I mapped every legal status transition end to end: what data was mandatory, which transitions could be trusted to tracking data alone versus always needing a live call, and the disqualifiers that blocked a write outright, an unresolved OS&D issue, an appointment window already missed, conflicting driver information. If a load didn't clear the bar, the agent left the status alone and escalated to a rep. Every failure mode got the same treatment too: retry once, then escalate with one consistent message rather than a dozen slightly different ones, with retries batched into a single clean comment so the load record didn't get spammed with noise. Full write access across every tracking task type is the next milestone, not something I'd have shipped on day one.",
         artifact: {
           src: '/work/bob-outreach-flow.svg',
           alt: 'A diagram showing a load flagged for tracking routed through the Bob outreach SOP across voice, text, and email, converging on a decision: no issue logs the update in ARRIVEnow, an issue escalates to the Arrive team.',
@@ -89,11 +89,11 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'Deciding what to automate',
-        body: "The harder question was never whether an LLM could do the work, but whether it should. I built a decision framework with clear criteria for when to hand a workflow to an agent, backed by an Agent Impact Score that weighs cost per completed workflow against how often the agent finishes the job. It gave teams an honest way to tell real automation from hype. The scale made that discipline necessary: the same analysis sized roughly 18,000 automatable tasks a day across the org, an opportunity too large to take on workflow by workflow without a way to prioritize.",
+        body: "The harder question was never whether an LLM could do the work. It was whether it should. I built a decision framework with clear criteria for when to hand a workflow to an agent, backed by an Agent Impact Score weighing cost per completed workflow against how often the agent finishes the job. It gave teams a straight way to separate real automation from hype. The scale made that discipline necessary: the same analysis sized roughly 18,000 automatable tasks a day across the org, more than any team could reasonably prioritize one workflow at a time.",
       },
       {
         heading: 'Measuring what the agent actually did',
-        body: "Shipping the agent wasn't the finish line. Before launch I defined the reporting layer that would tell us whether it was actually working, not just running: every workflow tracked at the task level and the outreach level, broken out by contact channel, with failures grouped into a taxonomy instead of one catch-all bucket.",
+        body: "Shipping the agent wasn't the finish line. Before launch I defined the reporting layer that would tell us whether it was working, not just running: every workflow tracked at the task level and the outreach level, broken out by contact channel, with failures grouped into a real taxonomy rather than one catch-all bucket.",
         criteria: [
           {
             label: 'Task and outreach metrics',
@@ -115,7 +115,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'The outcome',
-        body: "The two highest-volume request types are now fully automated. Roughly 600 loads a day now route through the agent, with 27,500+ track-and-trace calls and 6,500+ emails sent on its behalf year-to-date, at a 90%+ SOP success rate. That's cut manual workload by an estimated 20% and let Tracking absorb rising load volume without hiring to match it. After-hours was the clearest case: the team there didn't need to grow headcount as volume climbed, because the agent was carrying the load alongside them. The numbers are read straight off the same task and outreach metrics built into the reporting layer, not a guess. Just as important, the framework outlived the project and now shapes how other teams scope agent work.",
+        body: "The two highest-volume request types are now fully automated. Roughly 600 loads a day now route through the agent, with 27,500+ track-and-trace calls and 6,500+ emails sent on its behalf year-to-date, at a 90%+ SOP success rate. That's cut manual workload by an estimated 20% and let Tracking absorb rising load volume without hiring to match it. After-hours was the clearest case: the team there didn't need to grow headcount as volume climbed, because the agent was carrying the load alongside them. These numbers come straight off the task and outreach metrics built into the reporting layer, not a guess, and that same reporting model is now how other automation efforts on the team get measured.",
         artifact: {
           src: '/work/bob-tracking-ui.png',
           alt: "A real Tracking panel entry showing a Bob-logged location update for a load in Golden, CO, with the check call reason, timestamp, and drop trailer status.",
@@ -155,7 +155,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'The last piece: manual quotes',
-        body: "Rate API and the database covered automated quoting, but not every request could go through it, reps still needed a way to quote manually. The Spot Quote Tool covered that gap, and we rebuilt its layout around what a rep actually needed first, cost history, market capacity, and risk, instead of a wall of numbers. A Quote Activity Board gave account teams a searchable log of every quote, automated or manual, so Client Solutions could pull one up and make an adjustment instead of digging through email threads to find what it was based on.",
+        body: "Rate API and the database covered automated quoting, but not every request could go through it, reps still needed a way to quote manually. The Spot Quote Tool covered that gap, and we rebuilt its layout around what a rep needed first, cost history, market capacity, and risk, rather than a wall of numbers. A Quote Activity Board gave account teams a searchable log of every quote, automated or manual, so Client Solutions could pull one up and make an adjustment without digging through email threads to find what it was based on.",
         artifact: {
           src: '/work/pricing-spot-quote-before-after.png',
           alt: 'A before and after comparison of the Spot Quote Tool: the original layout is dense and hard to scan, the redesigned layout leads with rate calculator, cost history, and market capacity.',
@@ -164,7 +164,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'The outcome',
-        body: "Segment revenue scaled 2.3x, from roughly $170M to a $400M+ run rate, about 10% of total company revenue. More quotes moving through the system, automated and manual together, is what actually drove that, priced by a system built from 0 to 1 instead of a person. I led the go-to-market alongside building it, sitting between sales and engineering to get it adopted. Years later, it's still the same core architecture: one Rate API, one pricing database, and the tools built on top of it.",
+        body: "Segment revenue scaled 2.3x, from roughly $170M to a $400M+ run rate, about 10% of total company revenue. More quotes moving through the system, automated and manual together, is what drove that, priced by a system built from 0 to 1 instead of a person. I led the go-to-market alongside building it, sitting between sales and engineering to get it adopted. Years later, it's still the same core architecture: one Rate API, one pricing database, and the tools built on top of it.",
         artifact: {
           src: '/work/pricing-ecosystem.png',
           alt: 'An architecture diagram showing the full pricing ecosystem: API Gateway, Rate API, Quoting Service, a config sync service, the Integrated Pricing Database, Snowflake, and the Rate API Configs and Quote Activity Board UIs.',
@@ -200,7 +200,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'Measuring the impact',
-        body: "Clearing the bar to build is only half of it. What actually matters is whether the thing you built is worth what it costs to run, so I built the Agent Impact Score: cost per completed workflow combined with completion rate, one operational scorecard instead of a gut feeling. Cost without quality misleads, and completion without cost misleads just as badly, so the score has to weigh both.",
+        body: "Clearing the bar to build is only half of it. What matters is whether the thing you built is worth what it costs to run, so I built the Agent Impact Score: cost per completed workflow combined with completion rate, one operational scorecard instead of a gut feeling. Cost without quality misleads, and completion without cost misleads just as badly, so the score has to weigh both.",
         artifact: {
           src: '/work/agentic-impact-economics.png',
           alt: 'A slide on measuring impact and unit economics: cost per completed workflow, completion rate, and the Agent Impact Score combining both into one operational scorecard.',
@@ -331,7 +331,7 @@ export const projects: CaseStudy[] = [
     sections: [
       {
         heading: 'The problem',
-        body: 'Every team ran Jira differently: too many statuses, confusing names, tickets that got stuck with no way out and no way to close what we would never actually do. PRDs had the same problem from the other direction. No shared structure, so reviews dragged and sign-off depended on who was asking.',
+        body: "Every team ran Jira differently: too many statuses, confusing names, tickets that got stuck with no way out and no way to close what we'd never do. PRDs had the same problem from the other direction. No shared structure, so reviews dragged and sign-off depended on who was asking.",
         artifact: {
           src: '/work/jira-workflow-problem.png',
           alt: 'A slide listing common team complaints about the Jira workflow: too many statuses and transitions, tickets that get stuck, and inconsistent process across teams.',
@@ -340,11 +340,11 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'Rebuilding the Jira workflow',
-        body: "A few of us at the Staff level took this on together. We simplified the choices in each status, made sure a ticket could never get permanently stuck, and gave every team two honest ways to close a story out: Done for what shipped, Archived for what we won't do. Then we rebuilt the workflow for every issue type, stories, bugs, tasks, sub-tasks, spikes, and design work, and rolled it out everywhere.",
+        body: "A few of us at the Staff level took this on together. We simplified the choices in each status, made sure a ticket could never get permanently stuck, and gave every team two clear ways to close a story out: Done for what shipped, Archived for what we won't do. Then we rebuilt the workflow for every issue type, stories, bugs, tasks, sub-tasks, spikes, and design work, and rolled it out everywhere.",
         artifact: {
           src: '/work/jira-workflow-before-after.png',
           alt: 'A before-and-after comparison of the Jira story workflow: the old version has tangled, redundant statuses, the new version is a cleaner path from open to done with a closed state added at the front.',
-          caption: 'The story workflow before and after: fewer dead ends, two honest ways to close something out.',
+          caption: 'The story workflow before and after: fewer dead ends, two clear ways to close something out.',
         },
       },
       {
@@ -358,7 +358,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'The outcome',
-        body: 'Both efforts shipped together and cut SDLC time 20% and project turnaround 15%. The Jira workflow is still what every team builds on, and PRDs move through the same channel and format we set up, with a monthly audit keeping the process honest instead of letting it drift back to how things were.',
+        body: 'Both efforts shipped together and cut SDLC time 20% and project turnaround 15%. The Jira workflow is still what every team builds on, and PRDs move through the same channel and format we set up, with a monthly audit keeping the process from drifting back to how things were.',
         artifact: {
           src: '/work/prd-slack-format.png',
           alt: 'A standardized Slack message format for posting a PRD to the #prd-reviews channel, showing the PRD link, reviewers needed, and where to leave comments.',
@@ -374,6 +374,6 @@ export const developerPortal: SecondaryProject = {
   id: 'developer-portal',
   title: 'Developer Portal',
   description:
-    'External APIs from concept to launch, the pricing engine behind the automation above.',
+    'Built the external APIs, from concept to launch, powering the pricing engine above.',
   href: 'https://developer.arrivenow.com/',
 }
