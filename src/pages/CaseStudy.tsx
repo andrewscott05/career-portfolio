@@ -1,10 +1,76 @@
 import { Link, useParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { useEffect } from 'react'
+import { motion, useInView } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 import { Nav } from '../components/Nav'
 import { projects, type Artifact, type CriteriaItem, type Embed } from '../data/projects'
 
 const EASE = [0.22, 1, 0.36, 1] as const
+
+/** A small illustrative recreation of a live Bob update, not an actual screenshot. */
+function LiveTrackingDemo() {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-100px' })
+  const note = 'Called the driver, confirmed location: Denver, CO. ETA to next stop: 45 min.'
+  const [typed, setTyped] = useState('')
+  const [logged, setLogged] = useState(false)
+
+  useEffect(() => {
+    if (!inView) return
+    let i = 0
+    const interval = setInterval(() => {
+      i += 1
+      setTyped(note.slice(0, i))
+      if (i >= note.length) {
+        clearInterval(interval)
+        setTimeout(() => setLogged(true), 350)
+      }
+    }, 22)
+    return () => clearInterval(interval)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView])
+
+  return (
+    <figure ref={ref} className="mt-8">
+      <div
+        className="border-[3px] border-[var(--color-ink)]"
+        style={{ boxShadow: '8px 8px 0 var(--color-ink)' }}
+      >
+        <div className="bg-[#4A90D9] text-white font-display text-[13px] px-5 py-3">
+          Tracking
+        </div>
+        <div className="p-5 bg-[var(--color-surface)]">
+          <div className="flex justify-between items-baseline mb-1 gap-3">
+            <p className="font-display text-[14px] text-[var(--color-ink)]">
+              Location Update
+            </p>
+            {logged && (
+              <motion.span
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.25, ease: EASE }}
+                className="font-mono text-[10px] tracking-[0.08em] text-[var(--color-primary)] border border-[var(--color-primary)] px-2 py-0.5 whitespace-nowrap"
+              >
+                LOGGED
+              </motion.span>
+            )}
+          </div>
+          <p className="font-mono text-[11px] text-[var(--color-text-muted)] mb-4">
+            Bob Broker
+          </p>
+          <p className="font-serif text-[14px] text-[var(--color-text-secondary)] leading-[1.6] min-h-[3.2em]">
+            {typed}
+            {!logged && (
+              <span className="inline-block w-[2px] h-[1em] bg-[var(--color-ink)] ml-0.5 align-middle animate-pulse" />
+            )}
+          </p>
+        </div>
+      </div>
+      <figcaption className="font-serif italic text-[13px] text-[var(--color-text-muted)] mt-4">
+        A recreation of the update flow, not an actual screenshot, the real one is further down.
+      </figcaption>
+    </figure>
+  )
+}
 
 function ArtifactFigure({ artifact }: { artifact: Artifact }) {
   const isSmall = artifact.size === 'small'
@@ -134,6 +200,7 @@ export function CaseStudy() {
           </motion.header>
 
           {project.embed && <EmbedFigure embed={project.embed} />}
+          {project.id === 'bob-ai-voice' && <LiveTrackingDemo />}
 
           {project.sections.map((section, i) => (
             <motion.section

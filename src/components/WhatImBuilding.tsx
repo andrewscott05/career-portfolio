@@ -1,21 +1,49 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useRef, useState, type MouseEvent } from 'react'
 import { projects, developerPortal, type CaseStudy } from '../data/projects'
 
 const EASE = [0.22, 1, 0.36, 1] as const
+const TILT_MAX = 5 // degrees, kept small so it reads as tactile, not gimmicky
 
 function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
+  const cardRef = useRef<HTMLAnchorElement>(null)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+
+  const handleMouseMove = (e: MouseEvent<HTMLAnchorElement>) => {
+    const card = cardRef.current
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const px = (e.clientX - rect.left) / rect.width // 0 -> 1
+    const py = (e.clientY - rect.top) / rect.height // 0 -> 1
+    setTilt({
+      x: (0.5 - py) * TILT_MAX * 2, // rotateX: top half tilts back, bottom tilts forward
+      y: (px - 0.5) * TILT_MAX * 2, // rotateY: left half tilts left, right tilts right
+    })
+  }
+
+  const handleMouseLeave = () => setTilt({ x: 0, y: 0 })
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, ease: EASE, delay: index * 0.08 }}
+      style={{ perspective: 1000 }}
     >
       <Link
+        ref={cardRef}
         to={`/work/${project.id}`}
-        className="group block bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)] transition-transform hover:translate-x-[2px] hover:translate-y-[2px]"
-        style={{ boxShadow: '8px 8px 0 var(--color-secondary)' }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="group block bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)]"
+        style={{
+          boxShadow: '8px 8px 0 var(--color-secondary)',
+          transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+          transition: 'transform 0.2s ease-out',
+          transformStyle: 'preserve-3d',
+        }}
       >
         {project.thumbnail && (
           <img
