@@ -29,6 +29,9 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
 
   const handleMouseLeave = () => setTilt({ x: 0, y: 0 })
 
+  // First real artifact in the case study, used for the hover peek
+  const peek = project.sections.find((s) => s.artifact)?.artifact
+
   return (
     <motion.div
       variants={{
@@ -58,7 +61,7 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
             visible: { boxShadow: '8px 8px 0px var(--color-secondary)' },
           }}
           transition={{ duration: 0.5, ease: EASE, delay: index * 0.06 }}
-          className="group block bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)]"
+          className="group relative overflow-hidden block bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)]"
         >
           {project.thumbnail && (
             <img
@@ -67,12 +70,26 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
               className="w-full border-b-[3px] border-[var(--color-ink)]"
             />
           )}
-          <div className="p-7 sm:p-9">
+
+          {/* Artifact peek: the real work slides in from the edge on hover,
+              hard-clipped, so the card previews the thing before the click */}
+          {peek && (
+            <div
+              aria-hidden
+              className="hidden md:block absolute inset-y-0 right-0 w-[38%] border-l-[3px] border-[var(--color-ink)] bg-[var(--color-surface)] translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out"
+            >
+              <img
+                src={peek.src}
+                alt=""
+                loading="lazy"
+                className="w-full h-full object-cover object-left-top"
+              />
+            </div>
+          )}
+
+          <div className="relative p-7 sm:p-9">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4 mb-3">
               <h3 className="font-display text-[clamp(1.25rem,3.5vw,1.75rem)] text-[var(--color-ink)]">
-                <span className="font-mono text-[12px] font-medium text-[var(--color-text-muted)] mr-3 align-middle">
-                  0{index + 1}
-                </span>
                 {project.title}
               </h3>
               <span className="font-mono text-[11px] text-[var(--color-primary)] whitespace-nowrap">

@@ -25,8 +25,10 @@ const EASE = [0.22, 1, 0.36, 1] as const
 type Coords = { tx: number; ty: number; w: number; h: number }
 
 type BlockCfg = {
-  sx: number // scatter x (vw)
-  sy: number // scatter y (vh)
+  sx: number // scatter x (vw), desktop
+  sy: number // scatter y (vh), desktop
+  msx: number // scatter x (vw), mobile
+  msy: number // scatter y (vh), mobile
   rot: number // scatter rotation (deg)
   desktop: Coords
   mobile: Coords
@@ -67,8 +69,10 @@ const BARS: Array<{
   { h: 62, mh: 27, fill: 'surface' },
 ]
 
-/* Scatter positions are generated deterministically and kept clear of the
-   copy, so the pieces are actually visible while they are still in chaos. */
+/* Scatter positions are generated deterministically, on the piece's real
+   footprint rather than a bare point: kept inside the frame, clear of the
+   copy, and spaced off each other so the chaos reads as strewn rather than
+   piled. Best-candidate sampling gives an even spread without a grid. */
 const makeRand = (() => {
   let s = 20260731
   return () => {
@@ -77,21 +81,45 @@ const makeRand = (() => {
   }
 })()
 
-function scatter(mobileVisible: boolean) {
-  for (let k = 0; k < 60; k++) {
-    const x = 2 + makeRand() * 92
-    const y = 3 + makeRand() * 90
-    // desktop copy occupies the left half, middle band
-    const overDesktopCopy = x < 50 && y > 18 && y < 76
-    if (overDesktopCopy) continue
-    if (mobileVisible) {
-      // mobile copy runs across the top two thirds
-      const overMobileCopy = y > 8 && y < 60
-      if (overMobileCopy) continue
+type Rect = { x: number; y: number; w: number; h: number }
+
+// Boxes the copy sits in, per breakpoint, in vw/vh
+const COPY_DESKTOP: Rect = { x: 0, y: 15, w: 53, h: 68 }
+const COPY_MOBILE: Rect = { x: 0, y: 5, w: 100, h: 54 }
+
+/** Separation between two boxes; negative means they overlap. */
+function gap(a: Rect, b: Rect) {
+  const dx = Math.max(b.x - (a.x + a.w), a.x - (b.x + b.w))
+  const dy = Math.max(b.y - (a.y + a.h), a.y - (b.y + b.h))
+  return Math.max(dx, dy)
+}
+
+/* Each breakpoint gets its own scatter. Sharing one set meant reserving the
+   wide mobile footprint on desktop too, which shoved everything into a corner. */
+const placedDesktop: Rect[] = []
+const placedMobile: Rect[] = []
+
+function scatterIn(w: number, h: number, copy: Rect, placed: Rect[]) {
+  let best = { x: 60, y: 80 }
+  let bestScore = -Infinity
+
+  for (let k = 0; k < 400; k++) {
+    const x = 1.5 + makeRand() * Math.max(1, 97 - w)
+    const y = 2 + makeRand() * Math.max(1, 94 - h)
+    const box = { x, y, w, h }
+    if (gap(box, copy) < 1.5) continue
+
+    let nearest = Infinity
+    for (const p of placed) nearest = Math.min(nearest, gap(box, p))
+    if (nearest > bestScore) {
+      bestScore = nearest
+      best = { x, y }
+      if (nearest > 4) break // comfortably clear, take it
     }
-    return { x, y }
   }
-  return { x: 62 + makeRand() * 30, y: 78 + makeRand() * 14 }
+
+  placed.push({ x: best.x, y: best.y, w, h })
+  return best
 }
 
 const BLOCKS: BlockCfg[] = []
@@ -120,10 +148,15 @@ BARS.forEach((bar, i) => {
     // run slightly tall so they overlap downward into the piece below
     const t = segs === 1 ? 0 : s / (segs - 1)
     const overlap = s > 0 ? PIECE_OVERLAP_VH : 0
-    const pt = scatter(!bar.mobileHidden)
+    const dPt = scatterIn(DESK.w, dSeg + overlap, COPY_DESKTOP, placedDesktop)
+    const mPt = bar.mobileHidden
+      ? dPt
+      : scatterIn(MOB.w, mSeg + overlap, COPY_MOBILE, placedMobile)
     BLOCKS.push({
-      sx: pt.x,
-      sy: pt.y,
+      sx: dPt.x,
+      sy: dPt.y,
+      msx: mPt.x,
+      msy: mPt.y,
       rot: (s % 2 === 0 ? 1 : -1) * (8 + ((i * 7 + s * 13) % 16)),
       fill: bar.fill,
       mobileHidden: bar.mobileHidden,
@@ -165,11 +198,13 @@ const buildTrend = (m: boolean) => {
   const bars = BARS.filter((b) => !(m && b.mobileHidden))
   const pts = bars.map((b, k) => {
     const top = cfg.base - (m ? b.mh : b.h)
-    return {
-      x: cfg.x0 + k * cfg.pitch + cfg.w / 2,
-      top,
-      y: top - TREND_CLEAR - (k % 2 === 1 ? TREND_AMP : 0),
-    }
+    const isLast = k === bars.length - 1
+    // The zigzag stops before the end: the final leg is the steepest climb of
+    // the run, so the arrow leaves the chart still rising rather than levelling.
+    const lift = isLast
+      ? TREND_CLEAR + TREND_AMP * 2.4
+      : TREND_CLEAR + (k % 2 === 1 ? TREND_AMP : 0)
+    return { x: cfg.x0 + k * cfg.pitch + cfg.w / 2, top, y: top - lift }
   })
 
   // Nudge points up until no segment passes through a bar
@@ -226,8 +261,10 @@ function Block({
   refFn: (el: HTMLDivElement | null) => void
 }) {
   const target = isMobile ? cfg.mobile : cfg.desktop
-  const x = useTransform(progress, [cfg.from, cfg.to], ['0vw', `${target.tx - cfg.sx}vw`])
-  const y = useTransform(progress, [cfg.from, cfg.to], ['0vh', `${target.ty - cfg.sy}vh`])
+  const sx = isMobile ? cfg.msx : cfg.sx
+  const sy = isMobile ? cfg.msy : cfg.sy
+  const x = useTransform(progress, [cfg.from, cfg.to], ['0vw', `${target.tx - sx}vw`])
+  const y = useTransform(progress, [cfg.from, cfg.to], ['0vh', `${target.ty - sy}vh`])
   const rotate = useTransform(progress, [cfg.from, cfg.to], [cfg.rot, 0])
   // Chip chrome (border + shadow) dissolves once this piece's bar is whole
   const chipOpacity = useTransform(progress, cfg.fade, [1, 0])
@@ -239,8 +276,8 @@ function Block({
       ref={refFn}
       className="absolute transition-transform duration-300 ease-out"
       style={{
-        left: reduced ? `${target.tx}vw` : `${cfg.sx}vw`,
-        top: reduced ? `${target.ty}vh` : `${cfg.sy}vh`,
+        left: reduced ? `${target.tx}vw` : `${sx}vw`,
+        top: reduced ? `${target.ty}vh` : `${sy}vh`,
         width: `${target.w}vw`,
         height: `${target.h}vh`,
       }}
