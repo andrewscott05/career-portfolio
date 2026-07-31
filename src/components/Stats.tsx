@@ -64,10 +64,7 @@ export function Stats() {
     <section className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
         <h2 className="font-display text-[clamp(1.5rem,4vw,2rem)] text-[var(--color-ink)] mb-8 sm:mb-10">
-          By the numbers{' '}
-          <span className="font-mono text-[13px] font-medium text-[var(--color-text-muted)] align-middle">
-            (0{STATS.length})
-          </span>
+          By the numbers
         </h2>
         <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-x-8 sm:gap-x-16 gap-y-9 sm:gap-y-10">
           {STATS.map((stat, i) => (

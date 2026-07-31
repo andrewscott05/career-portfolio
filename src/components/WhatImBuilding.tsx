@@ -90,14 +90,13 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
           {/* Content stays clear of the peek panel's lane, so the tag on the
               right never collides with the artifact sliding in */}
           <div className="relative p-7 sm:p-9 md:pr-[42%]">
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4 mb-3">
-              <h3 className="font-display text-[clamp(1.25rem,3.5vw,1.75rem)] text-[var(--color-ink)]">
-                {project.title}
-              </h3>
-              <span className="font-mono text-[11px] text-[var(--color-primary)] whitespace-nowrap">
-                {project.tag}
-              </span>
-            </div>
+            {/* Kicker above the title, matching the case study page header */}
+            <p className="font-mono text-[11px] tracking-[0.12em] text-[var(--color-primary)] mb-3">
+              {project.tag}
+            </p>
+            <h3 className="font-display text-[clamp(1.25rem,3.5vw,1.75rem)] text-[var(--color-ink)] mb-3">
+              {project.title}
+            </h3>
             <p className="font-serif text-[15px] sm:text-base text-[var(--color-text-secondary)] leading-[1.7] max-w-[62ch]">
               {project.summary}
             </p>
@@ -116,10 +115,7 @@ export function WhatImBuilding() {
     <section id="work" className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
         <h2 className="font-display text-[clamp(1.5rem,4vw,2rem)] text-[var(--color-ink)] mb-6 sm:mb-7">
-          Built &amp; shipped{' '}
-          <span className="font-mono text-[13px] font-medium text-[var(--color-text-muted)] align-middle">
-            (0{projects.length})
-          </span>
+          Built &amp; shipped
         </h2>
 
         <div className="space-y-6">
