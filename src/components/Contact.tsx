@@ -32,12 +32,21 @@ export function Contact() {
     <section id="contact" className="px-6 sm:px-10 md:px-14 pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{
+            opacity: 0,
+            scale: 1.04,
+            y: -10,
+            boxShadow: '0px 0px 0px var(--color-ink)',
+          }}
+          whileInView={{
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            boxShadow: '10px 10px 0px var(--color-ink)',
+          }}
           viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5, ease: EASE }}
+          transition={{ duration: 0.55, ease: EASE }}
           className="bg-[var(--color-primary)] border-[3px] border-[var(--color-ink)] px-8 py-12 sm:p-14 text-center"
-          style={{ boxShadow: '10px 10px 0 var(--color-ink)' }}
         >
           <h2 className="font-display text-[clamp(1.75rem,5vw,2.375rem)] text-[var(--color-bg)] leading-[1.05] mb-8">
             Let&apos;s build something{' '}

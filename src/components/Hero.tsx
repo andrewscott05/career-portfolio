@@ -32,20 +32,22 @@ type BlockCfg = {
   from: number // progress where this block starts converging
   to: number // progress where it locks in
   desktopOnly?: boolean
+  cap?: boolean
 }
 
-const TOWER_X = 64
+/* The slabs assemble into an ascending bar chart on a shared baseline:
+   systems that scale, drawn in the site's own shape language. Bars land
+   left to right, shortest first, and the green block arrives last as the
+   data point crowning the tallest bar. */
 
 const BLOCKS: BlockCfg[] = [
-  // Converge windows are staggered so the tower assembles top-down, one landing after another.
-  { sx: 26, sy: 36, rot: -24, tx: TOWER_X, ty: 9,  w: 5,  h: 6, fill: 'green',   from: 0.06, to: 0.5 },
-  { sx: 6,  sy: 10, rot: -16, tx: TOWER_X, ty: 17, w: 20, h: 8, fill: 'surface', from: 0.1,  to: 0.54 },
-  { sx: 40, sy: 5,  rot: 12,  tx: TOWER_X, ty: 26.6, w: 13, h: 8, fill: 'ink',   from: 0.14, to: 0.58 },
-  { sx: 74, sy: 9,  rot: -9,  tx: TOWER_X, ty: 36.2, w: 22, h: 8, fill: 'surface', from: 0.18, to: 0.62 },
-  { sx: 85, sy: 34, rot: 18,  tx: TOWER_X, ty: 45.8, w: 9,  h: 8, fill: 'ochre', from: 0.22, to: 0.66 },
-  { sx: 10, sy: 68, rot: 14,  tx: TOWER_X, ty: 55.4, w: 17, h: 8, fill: 'surface', from: 0.26, to: 0.7, desktopOnly: true },
-  { sx: 46, sy: 76, rot: -13, tx: TOWER_X, ty: 65,  w: 11, h: 8, fill: 'ink',    from: 0.3,  to: 0.74, desktopOnly: true },
-  { sx: 74, sy: 64, rot: 8,   tx: TOWER_X, ty: 74.6, w: 20, h: 8, fill: 'surface', from: 0.34, to: 0.78, desktopOnly: true },
+  { sx: 8,  sy: 12, rot: -18, tx: 54,    ty: 68,   w: 5.5, h: 10, fill: 'surface', from: 0.08, to: 0.5,  desktopOnly: true },
+  { sx: 38, sy: 6,  rot: 12,  tx: 60.8,  ty: 62,   w: 5.5, h: 16, fill: 'ink',     from: 0.12, to: 0.55, desktopOnly: true },
+  { sx: 72, sy: 8,  rot: -9,  tx: 67.6,  ty: 54,   w: 5.5, h: 24, fill: 'surface', from: 0.16, to: 0.6 },
+  { sx: 85, sy: 32, rot: 18,  tx: 74.4,  ty: 45,   w: 5.5, h: 33, fill: 'ochre',   from: 0.2,  to: 0.65 },
+  { sx: 12, sy: 70, rot: 14,  tx: 81.2,  ty: 35,   w: 5.5, h: 43, fill: 'surface', from: 0.24, to: 0.7 },
+  { sx: 46, sy: 76, rot: -13, tx: 88,    ty: 24,   w: 5.5, h: 54, fill: 'surface', from: 0.28, to: 0.75 },
+  { sx: 26, sy: 38, rot: -24, tx: 88.25, ty: 16.8, w: 5,   h: 6,  fill: 'green',   from: 0.34, to: 0.8, cap: true },
 ]
 
 const FILLS: Record<BlockCfg['fill'], { bg: string; shadow: string }> = {
@@ -60,15 +62,20 @@ function Block({
   progress,
   reduced,
   refFn,
+  cap = false,
 }: {
   cfg: BlockCfg
   progress: MotionValue<number>
   reduced: boolean
   refFn: (el: HTMLDivElement | null) => void
+  cap?: boolean
 }) {
   const x = useTransform(progress, [cfg.from, cfg.to], ['0vw', `${cfg.tx - cfg.sx}vw`])
   const y = useTransform(progress, [cfg.from, cfg.to], ['0vh', `${cfg.ty - cfg.sy}vh`])
   const rotate = useTransform(progress, [cfg.from, cfg.to], [cfg.rot, 0])
+  // The completion click: once the chart locks, the cap pops its asterisk
+  const capOpacity = useTransform(progress, [0.8, 0.86], [0, 1])
+  const capScale = useTransform(progress, [0.8, 0.86], [0.3, 1])
   const fill = FILLS[cfg.fill]
 
   return (
@@ -86,13 +93,22 @@ function Block({
       }}
     >
       <motion.div
-        className="w-full h-full border-[3px] border-[var(--color-ink)]"
+        className="relative w-full h-full border-[3px] border-[var(--color-ink)]"
         style={
           reduced
             ? { background: fill.bg, boxShadow: fill.shadow }
             : { x, y, rotate, background: fill.bg, boxShadow: fill.shadow }
         }
-      />
+      >
+        {cap && (
+          <motion.span
+            style={reduced ? {} : { opacity: capOpacity, scale: capScale }}
+            className="absolute inset-0 flex items-center justify-center font-display text-[clamp(1.25rem,3.2vh,2rem)] text-[var(--color-bg)] leading-none"
+          >
+            *
+          </motion.span>
+        )}
+      </motion.div>
     </div>
   )
 }
@@ -129,6 +145,11 @@ export function Hero() {
   })
 
   const hintOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0])
+  // After the chart locks, it settles downward and hands off into the page
+  const settleY = useTransform(scrollYProgress, [0.88, 1], ['0vh', '9vh'])
+  // A rubber-stamp across the finished chart: the payoff for the assembly
+  const stampOpacity = useTransform(scrollYProgress, [0.82, 0.875], [0, 1])
+  const stampScale = useTransform(scrollYProgress, [0.82, 0.875], [1.6, 1])
 
   // The toy: slabs shy away from the cursor. Direct DOM writes, no re-renders.
   const handlePointerMove = (e: PointerEvent<HTMLDivElement>) => {
@@ -170,17 +191,35 @@ export function Hero() {
         onPointerLeave={handlePointerLeave}
       >
         {/* The slabs: chaos on arrival, a tower by the time you leave */}
-        <div className="absolute inset-0" aria-hidden>
+        <motion.div
+          className="absolute inset-0"
+          style={reduced ? {} : { y: settleY }}
+          aria-hidden
+        >
           {BLOCKS.map((cfg, i) => (
             <Block
               key={i}
               cfg={cfg}
               progress={scrollYProgress}
               reduced={reduced}
+              cap={cfg.cap}
               refFn={(el) => (blockRefs.current[i] = el)}
             />
           ))}
-        </div>
+
+          <motion.div
+            style={
+              reduced
+                ? { rotate: -8 }
+                : { opacity: stampOpacity, scale: stampScale, rotate: -8 }
+            }
+            className="absolute left-[59vw] top-[29vh] border-[3px] border-[var(--color-secondary)] px-3 py-1.5 bg-[var(--color-bg)]"
+          >
+            <span className="font-mono font-medium text-[12px] sm:text-[13px] tracking-[0.14em] text-[var(--color-secondary)]">
+              OPERATIONAL
+            </span>
+          </motion.div>
+        </motion.div>
 
         <div className="relative z-10 h-full flex items-center px-6 sm:px-10 md:px-14 pointer-events-none">
           <div className="max-w-[1100px] mx-auto w-full">
