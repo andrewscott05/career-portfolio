@@ -19,8 +19,8 @@ const EASE = [0.22, 1, 0.36, 1] as const
    and land into an ascending bar chart on a shared baseline. While flying,
    each piece is a bordered chip; the moment its bar completes, the per-piece
    borders and shadows dissolve and a single outline wraps the whole bar, so
-   every bar reads as one solid slab. A thick trend line then draws up across
-   the tops and fires a solid arrowhead: chaos, systems, scale. */
+   every bar reads as one solid slab. A thick cased trend line then draws up
+   across the tops and fires a solid arrowhead: chaos, systems, scale. */
 
 type Coords = { tx: number; ty: number; w: number; h: number }
 
@@ -33,9 +33,8 @@ type BlockCfg = {
   fill: 'surface' | 'ink' | 'green' | 'ochre'
   from: number // progress where this piece starts converging
   to: number // progress where it locks in
-  fade?: [number, number] // window where its chip border/shadow dissolves
+  fade: [number, number] // window where its chip border/shadow dissolves
   mobileHidden?: boolean // thinned out so phone bars stay legible
-  cap?: boolean
 }
 
 /* Desktop: 11 bars, 3.3vw wide on a 4.1vw pitch, shared baseline at 80vh.
@@ -43,6 +42,11 @@ type BlockCfg = {
    sitting below the headline. */
 const DESK = { x0: 50, pitch: 4.1, w: 3.3, base: 80 }
 const MOB = { x0: 6, pitch: 18, w: 13, base: 91 }
+
+/* Pieces overlap the piece below by this much once landed. Same fill, no
+   border, so the overlap is invisible; it exists to swallow the sub-pixel
+   cracks that fractional viewport units leave between separate divs. */
+const PIECE_OVERLAP_VH = 0.8
 
 const BARS: Array<{
   h: number
@@ -96,7 +100,6 @@ const BLOCKS: BlockCfg[] = []
 type BarOutlineCfg = {
   desktop: Coords
   mobile: Coords
-  fill: BlockCfg['fill']
   fade: [number, number]
   mobileHidden?: boolean
 }
@@ -113,8 +116,10 @@ BARS.forEach((bar, i) => {
   const fade: [number, number] = [lastTo, Math.min(lastTo + 0.04, 0.86)]
 
   for (let s = 0; s < segs; s++) {
-    // s = 0 is the bottom piece of the bar and lands first
+    // s = 0 is the bottom piece of the bar and lands first; pieces above it
+    // run slightly tall so they overlap downward into the piece below
     const t = segs === 1 ? 0 : s / (segs - 1)
+    const overlap = s > 0 ? PIECE_OVERLAP_VH : 0
     const pt = scatter(!bar.mobileHidden)
     BLOCKS.push({
       sx: pt.x,
@@ -123,8 +128,18 @@ BARS.forEach((bar, i) => {
       fill: bar.fill,
       mobileHidden: bar.mobileHidden,
       fade,
-      desktop: { tx: DESK.x0 + i * DESK.pitch, ty: DESK.base - dSeg * (s + 1), w: DESK.w, h: dSeg },
-      mobile: { tx: MOB.x0 + mobileIndex * MOB.pitch, ty: MOB.base - mSeg * (s + 1), w: MOB.w, h: mSeg },
+      desktop: {
+        tx: DESK.x0 + i * DESK.pitch,
+        ty: DESK.base - dSeg * (s + 1),
+        w: DESK.w,
+        h: dSeg + overlap,
+      },
+      mobile: {
+        tx: MOB.x0 + mobileIndex * MOB.pitch,
+        ty: MOB.base - mSeg * (s + 1),
+        w: MOB.w,
+        h: mSeg + overlap,
+      },
       from: barStart + t * 0.045,
       to: barEnd + t * 0.055,
     })
@@ -133,39 +148,16 @@ BARS.forEach((bar, i) => {
   BAR_OUTLINES.push({
     desktop: { tx: DESK.x0 + i * DESK.pitch, ty: DESK.base - bar.h, w: DESK.w, h: bar.h },
     mobile: { tx: MOB.x0 + mobileIndex * MOB.pitch, ty: MOB.base - bar.mh, w: MOB.w, h: bar.mh },
-    fill: bar.fill,
     fade,
     mobileHidden: bar.mobileHidden,
   })
 })
 
-// The data point that crowns the tallest bar, landing last
+/* Trend line traced across the bar tops, plus where the arrowhead lands */
 const LAST = BARS.length - 1
 const TALLEST = BARS[LAST]
 const TALLEST_MOBILE_INDEX = BARS.filter((b) => !b.mobileHidden).length - 1
-BLOCKS.push({
-  sx: 58,
-  sy: 12,
-  rot: -26,
-  fill: 'green',
-  desktop: {
-    tx: DESK.x0 + LAST * DESK.pitch + (DESK.w - 2.6) / 2,
-    ty: DESK.base - TALLEST.h - 8,
-    w: 2.6,
-    h: 3.2,
-  },
-  mobile: {
-    tx: MOB.x0 + TALLEST_MOBILE_INDEX * MOB.pitch + (MOB.w - 6) / 2,
-    ty: MOB.base - TALLEST.mh - 7,
-    w: 6,
-    h: 3.6,
-  },
-  from: 0.34,
-  to: 0.8,
-  cap: true,
-})
 
-/* Trend line traced across the bar tops, plus where the arrowhead lands */
 const trendPath = (m: boolean) => {
   const cfg = m ? MOB : DESK
   return BARS.map((b, i) => {
@@ -190,16 +182,20 @@ const TREND_END_MOBILE = {
   x: MOB.x0 + TALLEST_MOBILE_INDEX * MOB.pitch + MOB.w / 2,
   y: MOB.base - TALLEST.mh,
 }
-// Screen-space angle of the final climb, per breakpoint (viewBox is stretched)
-const ARROW_ROT_DESKTOP = -55
-const ARROW_ROT_MOBILE = -47
+/* Final climb of the line, in viewport units, per breakpoint. The real
+   screen angle depends on the viewport's aspect, so it is computed at
+   runtime from these plus the measured container size. */
+const CLIMB_DESKTOP = { dxVw: DESK.pitch, dyVh: (DESK.base - BARS[LAST - 1].h) - (DESK.base - TALLEST.h) }
+const CLIMB_MOBILE = { dxVw: MOB.pitch, dyVh: (MOB.base - BARS[7].mh) - (MOB.base - TALLEST.mh) }
 
-const FILLS: Record<BlockCfg['fill'], { bg: string; shadow: string }> = {
-  surface: { bg: 'var(--color-surface)', shadow: '5px 5px 0 var(--color-ink)' },
-  ink: { bg: 'var(--color-ink)', shadow: '5px 5px 0 var(--color-secondary)' },
-  green: { bg: 'var(--color-primary)', shadow: '5px 5px 0 var(--color-ink)' },
-  ochre: { bg: 'var(--color-secondary)', shadow: '5px 5px 0 var(--color-ink)' },
+const FILLS: Record<BlockCfg['fill'], string> = {
+  surface: 'var(--color-surface)',
+  ink: 'var(--color-ink)',
+  green: 'var(--color-primary)',
+  ochre: 'var(--color-secondary)',
 }
+/* One shadow for everything: the chart reads as a single printed object */
+const HARD_SHADOW = '5px 5px 0 var(--color-ink)'
 
 function Block({
   cfg,
@@ -219,11 +215,7 @@ function Block({
   const y = useTransform(progress, [cfg.from, cfg.to], ['0vh', `${target.ty - cfg.sy}vh`])
   const rotate = useTransform(progress, [cfg.from, cfg.to], [cfg.rot, 0])
   // Chip chrome (border + shadow) dissolves once this piece's bar is whole
-  const chipOpacity = useTransform(progress, cfg.fade ?? [2, 3], [1, 0])
-  // The completion click: once the chart locks, the cap pops its asterisk
-  const capOpacity = useTransform(progress, [0.82, 0.88], [0, 1])
-  const capScale = useTransform(progress, [0.82, 0.88], [0.3, 1])
-  const fill = FILLS[cfg.fill]
+  const chipOpacity = useTransform(progress, cfg.fade, [1, 0])
 
   if (isMobile && cfg.mobileHidden) return null
 
@@ -238,35 +230,21 @@ function Block({
         height: `${target.h}vh`,
       }}
     >
-      {cfg.cap ? (
-        <motion.div
-          className="relative w-full h-full border-[3px] border-[var(--color-ink)]"
-          style={
-            reduced
-              ? { background: fill.bg, boxShadow: fill.shadow }
-              : { x, y, rotate, background: fill.bg, boxShadow: fill.shadow }
-          }
-        >
-          <motion.span
-            style={reduced ? {} : { opacity: capOpacity, scale: capScale }}
-            className="absolute inset-0 flex items-center justify-center font-display text-[clamp(1rem,2.6vh,1.6rem)] text-[var(--color-bg)] leading-none"
-          >
-            *
-          </motion.span>
-        </motion.div>
-      ) : (
-        <motion.div
-          className="relative w-full h-full"
-          style={reduced ? { background: fill.bg } : { x, y, rotate, background: fill.bg }}
-        >
-          {!reduced && (
-            <motion.div
-              className="absolute inset-0 border-[3px] border-[var(--color-ink)]"
-              style={{ opacity: chipOpacity, boxShadow: fill.shadow }}
-            />
-          )}
-        </motion.div>
-      )}
+      <motion.div
+        className="relative w-full h-full"
+        style={
+          reduced
+            ? { background: FILLS[cfg.fill] }
+            : { x, y, rotate, background: FILLS[cfg.fill] }
+        }
+      >
+        {!reduced && (
+          <motion.div
+            className="absolute inset-0 border-[3px] border-[var(--color-ink)]"
+            style={{ opacity: chipOpacity, boxShadow: HARD_SHADOW }}
+          />
+        )}
+      </motion.div>
     </div>
   )
 }
@@ -284,7 +262,6 @@ function BarOutline({
 }) {
   const opacity = useTransform(progress, cfg.fade, [0, 1])
   const target = isMobile ? cfg.mobile : cfg.desktop
-  const fill = FILLS[cfg.fill]
 
   if (isMobile && cfg.mobileHidden) return null
 
@@ -296,7 +273,8 @@ function BarOutline({
         top: `${target.ty}vh`,
         width: `${target.w}vw`,
         height: `${target.h}vh`,
-        boxShadow: fill.shadow,
+        boxShadow: HARD_SHADOW,
+        zIndex: 1,
         opacity: reduced ? 1 : opacity,
       }}
     />
@@ -326,9 +304,11 @@ function Word({
 
 export function Hero() {
   const trackRef = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
   const blockRefs = useRef<(HTMLDivElement | null)[]>([])
   const reduced = useReducedMotion() ?? false
   const [isMobile, setIsMobile] = useState(false)
+  const [arrowRot, setArrowRot] = useState(-50)
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)')
@@ -337,6 +317,25 @@ export function Hero() {
     mq.addEventListener('change', sync)
     return () => mq.removeEventListener('change', sync)
   }, [])
+
+  // The arrowhead's rotation must match the final climb in *screen* pixels,
+  // which depends on the viewport aspect, so measure rather than guess.
+  useEffect(() => {
+    const el = stageRef.current
+    if (!el) return
+    const climb = isMobile ? CLIMB_MOBILE : CLIMB_DESKTOP
+    const measure = () => {
+      const r = el.getBoundingClientRect()
+      if (r.width === 0 || r.height === 0) return
+      const dx = (climb.dxVw / 100) * r.width
+      const dy = (climb.dyVh / 100) * r.height
+      setArrowRot(-(Math.atan2(dy, dx) * 180) / Math.PI)
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [isMobile])
 
   const { scrollYProgress } = useScroll({
     target: trackRef,
@@ -349,8 +348,8 @@ export function Hero() {
   // The trend line draws itself up across the finished bars, arrowhead last
   const trendDraw = useTransform(scrollYProgress, [0.78, 0.93], [0, 1])
   const trendOpacity = useTransform(scrollYProgress, [0.76, 0.82], [0, 1])
-  const arrowOpacity = useTransform(scrollYProgress, [0.9, 0.95], [0, 1])
-  const arrowScale = useTransform(scrollYProgress, [0.9, 0.95], [0.5, 1])
+  const arrowOpacity = useTransform(scrollYProgress, [0.91, 0.96], [0, 1])
+  const arrowScale = useTransform(scrollYProgress, [0.91, 0.96], [0.4, 1])
 
   // The toy: pieces shy away from the cursor while they are still chaos, and
   // stop responding as the bars assemble, so a finished bar never tears apart.
@@ -393,6 +392,7 @@ export function Hero() {
       className={reduced ? 'relative' : `relative ${trackHeight}`}
     >
       <div
+        ref={stageRef}
         className={
           'top-0 overflow-hidden ' +
           (reduced ? 'relative min-h-[70vh]' : 'sticky h-screen')
@@ -428,14 +428,26 @@ export function Hero() {
             />
           ))}
 
-          {/* The trend line: thick, drawn across the bar tops. The stretched
-              viewBox would distort an arrowhead, so the head is a separate
-              fixed-size element rotated to the final climb. */}
+          {/* The trend line rides above the bars, cased in the page colour so
+              it stays readable across ink, ochre and white alike */}
           <svg
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
             className="absolute inset-0 w-full h-full pointer-events-none"
+            style={{ zIndex: 2 }}
           >
+            <motion.path
+              d={isMobile ? TREND_MOBILE : TREND_DESKTOP}
+              fill="none"
+              stroke="var(--color-bg)"
+              strokeWidth="15"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+              style={
+                reduced ? {} : { opacity: trendOpacity, pathLength: trendDraw }
+              }
+            />
             <motion.path
               d={isMobile ? TREND_MOBILE : TREND_DESKTOP}
               fill="none"
@@ -450,26 +462,32 @@ export function Hero() {
             />
           </svg>
 
+          {/* Solid stock-chart arrowhead, base tucked under the line end,
+              extending onward along the measured direction of the climb */}
           <motion.div
             className="absolute pointer-events-none"
             style={{
               left: `${trendEnd.x}vw`,
               top: `${trendEnd.y}vh`,
+              zIndex: 3,
               ...(reduced ? {} : { opacity: arrowOpacity, scale: arrowScale }),
             }}
           >
             <svg
-              width="44"
-              height="44"
+              width="58"
+              height="58"
               viewBox="0 0 24 24"
               style={{
-                transform: `translate(-50%, -50%) rotate(${
-                  isMobile ? ARROW_ROT_MOBILE : ARROW_ROT_DESKTOP
-                }deg)`,
+                transform: `translate(-50%, -50%) rotate(${arrowRot}deg)`,
               }}
             >
-              {/* Solid stock-chart arrowhead, base tucked under the line end */}
-              <polygon points="4,4 23,12 4,20" fill="var(--color-primary)" />
+              <polygon
+                points="11,5.5 23,12 11,18.5"
+                fill="var(--color-primary)"
+                stroke="var(--color-bg)"
+                strokeWidth="1.6"
+                strokeLinejoin="round"
+              />
             </svg>
           </motion.div>
         </motion.div>
