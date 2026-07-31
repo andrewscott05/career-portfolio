@@ -18,15 +18,12 @@ const ITEMS = [
   'AI AGENTS',
   'ML PRICING',
   '0 TO 1 PLATFORMS',
-  'UNIT ECONOMICS',
-  'DESIGN SYSTEMS',
-  'WAYS OF WORKING',
-  'FREIGHT TECH',
   'PRODUCT STRATEGY',
+  'UNIT ECONOMICS',
+  'WORKFLOW AUTOMATION',
+  'DESIGN SYSTEMS',
   'GO-TO-MARKET',
-  'SYSTEMS THAT SCALE',
-  'SHIPPED & MEASURED',
-  'AUSTIN, TX',
+  'WAYS OF WORKING',
 ]
 
 const wrap = (min: number, max: number, v: number) => {
@@ -39,10 +36,10 @@ function Row() {
     <div className="flex shrink-0 items-center">
       {ITEMS.map((t) => (
         <span key={t} className="flex items-center">
-          <span className="font-display text-base sm:text-lg text-[var(--color-ink)] px-5 sm:px-7">
+          <span className="font-display text-sm sm:text-lg text-[var(--color-ink)] px-4 sm:px-7 whitespace-nowrap">
             {t}
           </span>
-          <span className="font-display text-base sm:text-lg text-[var(--color-primary)]">
+          <span className="font-display text-sm sm:text-lg text-[var(--color-primary)]">
             *
           </span>
         </span>

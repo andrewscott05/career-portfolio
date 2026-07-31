@@ -10,8 +10,10 @@ export function Home() {
     <>
       <Nav />
       <Hero />
+      {/* Breathing room so the chart lands, then the ticker arrives */}
+      <div className="h-[12vh] sm:h-[16vh]" aria-hidden />
       <Ticker />
-      <div className="pt-16 sm:pt-20">
+      <div className="pt-16 sm:pt-24">
         <Stats />
       </div>
       <WhatImBuilding />
