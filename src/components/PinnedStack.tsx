@@ -7,21 +7,20 @@ import {
 } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 
-/* A pinned section: the panel sticks to the viewport while the layers below
-   advance with scroll, then releases into "Built & shipped". Fully reversible,
-   since everything is derived from scroll position rather than triggered once.
+/* A full-viewport pinned interlude, the Mercury moment: the page goes dark
+   edge to edge, core competencies advance with scroll, then the page releases
+   into "Built & shipped". Fully reversible, since everything derives from
+   scroll position rather than firing once.
 
-   Behind the text, a field of scattered particles converges into an ordered
-   lattice as the sequence advances: operational chaos into systems that scale,
-   drawn rather than said. */
+   Behind the text, scattered particles converge into an ordered lattice as
+   the sequence advances: operational chaos into systems that scale. */
 
 const LAYERS = [
-  { tag: 'AI AUTOMATION', line: 'An agent that works the queue' },
-  { tag: 'ML PRICING', line: 'A pricing engine that quotes itself' },
-  { tag: 'AI GOVERNANCE', line: 'A bar an agent has to clear first' },
-  { tag: 'TEAM ENABLEMENT', line: 'One way the whole team works with AI' },
-  { tag: 'DESIGN SYSTEMS', line: 'One library instead of a dozen rebuilds' },
-  { tag: 'WAYS OF WORKING', line: 'A process that survives the quarter' },
+  { line: 'AI agents in production', sub: 'Shipped, governed, measured. Not demoed.' },
+  { line: '0 to 1 platform builds', sub: 'From first spec to a $400M+ run rate.' },
+  { line: 'Unit economics that hold up', sub: 'Every system ships with its own scorecard.' },
+  { line: 'Teams that move as one', sub: 'Standards 10+ Product Managers actually adopted.' },
+  { line: 'Process that outlasts the quarter', sub: 'Workflows and reviews teams still run today.' },
 ]
 
 const LAYERS_END = 0.82 // progress reserved for cycling layers; rest resolves
@@ -73,9 +72,9 @@ function ParticleField({ progress }: { progress: MotionValue<number> }) {
 
       const rand = makeRand(1296)
       particles = []
-      const margin = 26
-      const cols = Math.max(10, Math.floor((rect.width - margin * 2) / 42))
-      const rows = Math.max(5, Math.floor((rect.height - margin * 2) / 46))
+      const margin = 30
+      const cols = Math.max(12, Math.floor((rect.width - margin * 2) / 52))
+      const rows = Math.max(6, Math.floor((rect.height - margin * 2) / 54))
       const gw = (rect.width - margin * 2) / (cols - 1)
       const gh = (rect.height - margin * 2) / (rows - 1)
 
@@ -92,7 +91,7 @@ function ParticleField({ progress }: { progress: MotionValue<number> }) {
             size: 2 + rand() * 1.6,
             color:
               accent > 0.94 ? '#B07D3F' : accent > 0.88 ? '#5F8B6D' : '#F5F2EA',
-            alpha: accent > 0.88 ? 0.75 : 0.28 + rand() * 0.2,
+            alpha: accent > 0.88 ? 0.6 : 0.18 + rand() * 0.16,
             phase: rand() * Math.PI * 2,
             drift: 0.4 + rand() * 0.8,
           })
@@ -110,7 +109,7 @@ function ParticleField({ progress }: { progress: MotionValue<number> }) {
       // Convergence rides the same scroll progress as the text layers
       const raw = progress.get()
       const p = reduced ? 1 : easeInOut(Math.min(Math.max(raw / LAYERS_END, 0), 1))
-      const wobble = (1 - p) * 7 // ambient float, stilled as order arrives
+      const wobble = (1 - p) * 8 // ambient float, stilled as order arrives
 
       for (const pt of particles) {
         const x =
@@ -165,15 +164,15 @@ function Layer({
   const outEnd = (index + 1) * SPAN + half
 
   const opacity = useTransform(progress, [inStart, inEnd, outStart, outEnd], [isFirst ? 1 : 0, 1, 1, 0])
-  const y = useTransform(progress, [inStart, inEnd, outStart, outEnd], [isFirst ? 0 : 22, 0, 0, -22])
+  const y = useTransform(progress, [inStart, inEnd, outStart, outEnd], [isFirst ? 0 : 24, 0, 0, -24])
 
   return (
     <motion.div style={{ opacity, y }} className="absolute inset-0 flex flex-col justify-center">
-      <p className="font-mono text-[11px] sm:text-xs tracking-[0.12em] text-[var(--color-secondary)] mb-4">
-        {layer.tag}
-      </p>
-      <p className="font-display text-[clamp(1.75rem,5.5vw,3.25rem)] text-[var(--color-bg)] leading-[1.04]">
+      <p className="font-display text-[clamp(2rem,6.5vw,4.25rem)] text-[var(--color-bg)] leading-[1.02]">
         {layer.line}
+      </p>
+      <p className="font-serif text-base sm:text-xl text-[var(--color-ink-subtext)] leading-[1.6] mt-4 sm:mt-5">
+        {layer.sub}
       </p>
     </motion.div>
   )
@@ -218,52 +217,49 @@ export function PinnedStack() {
     [LAYERS_END - half, LAYERS_END + half],
     [0, 1],
   )
-  const resolveY = useTransform(scrollYProgress, [LAYERS_END - half, LAYERS_END + half], [22, 0])
+  const resolveY = useTransform(scrollYProgress, [LAYERS_END - half, LAYERS_END + half], [24, 0])
 
   return (
     <section ref={trackRef} className="relative h-[420vh]">
-      <div className="sticky top-0 h-screen flex items-center px-6 sm:px-10 md:px-14">
-        <div className="max-w-[1100px] mx-auto w-full">
-          <div
-            className="relative overflow-hidden bg-[var(--color-ink)] min-h-[430px] sm:min-h-[500px] flex flex-col justify-center px-7 py-10 sm:px-12 sm:py-14"
-            style={{ boxShadow: '10px 10px 0 var(--color-primary)' }}
-          >
-            <ParticleField progress={scrollYProgress} />
+      {/* Full-bleed: the page itself goes dark, not a card on the page */}
+      <div className="sticky top-0 h-screen bg-[var(--color-ink)] overflow-hidden">
+        <ParticleField progress={scrollYProgress} />
 
-            <div className="relative z-10">
-              <div className="flex items-baseline justify-between mb-8 sm:mb-10">
-                <p className="font-mono text-[11px] tracking-[0.12em] text-[var(--color-text-muted)]">
-                  WHAT I BUILD
+        <div className="relative z-10 h-full flex flex-col justify-center px-6 sm:px-10 md:px-14">
+          <div className="max-w-[1100px] mx-auto w-full">
+            <div className="flex items-baseline justify-between mb-10 sm:mb-14">
+              <p className="font-mono text-[11px] tracking-[0.12em] text-[var(--color-text-muted)]">
+                CORE COMPETENCIES
+              </p>
+              <p className="font-mono text-[11px] tracking-[0.12em] text-[var(--color-text-muted)] tabular-nums">
+                0{counter} / 0{LAYERS.length}
+              </p>
+            </div>
+
+            {/* Layers cycle in this fixed-height stage so the page never jumps */}
+            <div className="relative h-[190px] sm:h-[240px]">
+              {LAYERS.map((layer, i) => (
+                <Layer key={layer.line} layer={layer} index={i} progress={scrollYProgress} />
+              ))}
+
+              <motion.div
+                style={{ opacity: resolveOpacity, y: resolveY }}
+                className="absolute inset-0 flex flex-col justify-center"
+              >
+                <p className="font-display text-[clamp(2rem,6.5vw,4.25rem)] text-[var(--color-bg)] leading-[1.02]">
+                  Six systems that{' '}
+                  <span className="text-[var(--color-secondary)]">back it up.</span>
                 </p>
-                <p className="font-mono text-[11px] tracking-[0.12em] text-[var(--color-text-muted)] tabular-nums">
-                  0{counter} / 0{LAYERS.length}
+                <p className="font-serif text-base sm:text-xl text-[var(--color-ink-subtext)] leading-[1.6] mt-4 sm:mt-5">
+                  Keep scrolling.
                 </p>
-              </div>
+              </motion.div>
+            </div>
 
-              {/* Layers cycle in this fixed-height stage so the panel never jumps */}
-              <div className="relative h-[124px] sm:h-[170px]">
-                {LAYERS.map((layer, i) => (
-                  <Layer key={layer.tag} layer={layer} index={i} progress={scrollYProgress} />
-                ))}
-
-                <motion.div
-                  style={{ opacity: resolveOpacity, y: resolveY }}
-                  className="absolute inset-0 flex flex-col justify-center"
-                >
-                  <p className="font-mono text-[11px] sm:text-xs tracking-[0.12em] text-[var(--color-secondary)] mb-4">
-                    SIX SYSTEMS, ONE PATTERN
-                  </p>
-                  <p className="font-display text-[clamp(1.75rem,5.5vw,3.25rem)] text-[var(--color-bg)] leading-[1.04]">
-                    Find the break, build the fix, measure it.
-                  </p>
-                </motion.div>
-              </div>
-
-              <div className="flex gap-1.5 mt-10 sm:mt-12">
-                {LAYERS.map((layer, i) => (
-                  <Segment key={layer.tag} index={i} progress={scrollYProgress} />
-                ))}
-              </div>
+            <div className="flex gap-1.5 mt-12 sm:mt-16">
+              {LAYERS.map((layer, i) => (
+                <Segment key={layer.line} index={i} progress={scrollYProgress} />
+              ))}
             </div>
           </div>
         </div>
