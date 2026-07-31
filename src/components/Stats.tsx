@@ -2,12 +2,13 @@ import { motion, useInView } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 
 const EASE = [0.22, 1, 0.36, 1] as const
-const STAGGER = 0.18 // seconds between each column starting, left to right
+const STAGGER = 0.18 // seconds between each stat starting, left to right
 
 const STATS = [
   { target: 400, prefix: '$', suffix: 'M+', label: 'Pricing run rate scaled 2.3x' },
   { target: 20, suffix: '%', label: 'Manual tracking workload cut' },
-  { target: 63, suffix: '%', label: 'Faster component design time' },
+  { target: 63, suffix: '%', label: 'Faster build time' },
+  { target: 15, suffix: '%', label: 'Faster project turnaround' },
 ]
 
 function CountUp({
@@ -62,26 +63,17 @@ export function Stats() {
   return (
     <section className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
-        <p className="section-label mb-6 sm:mb-7">By the numbers</p>
-        <div
-          className="bg-[var(--color-surface)] border-[3px] border-[var(--color-ink)] grid grid-cols-1 sm:grid-cols-3"
-          style={{ boxShadow: '8px 8px 0 var(--color-ink)' }}
-        >
+        <p className="section-label mb-8 sm:mb-10">By the numbers</p>
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-x-16 gap-y-10">
           {STATS.map((stat, i) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.45, ease: EASE, delay: i * STAGGER }}
-              className={
-                'px-7 sm:px-8 py-7 sm:py-8' +
-                (i > 0
-                  ? ' border-t sm:border-t-0 sm:border-l border-[var(--color-hairline)]'
-                  : '')
-              }
             >
-              <p className="font-display text-[clamp(2rem,5vw,2.75rem)] text-[var(--color-primary)] leading-none mb-3">
+              <p className="font-display text-[clamp(2.75rem,7vw,4rem)] text-[var(--color-ink)] leading-none">
                 <CountUp
                   target={stat.target}
                   prefix={stat.prefix}
@@ -89,7 +81,7 @@ export function Stats() {
                   startDelay={i * STAGGER}
                 />
               </p>
-              <p className="font-mono text-[13px] text-[var(--color-text-secondary)]">
+              <p className="font-mono text-[13px] text-[var(--color-primary)] mt-3">
                 {stat.label}
               </p>
             </motion.div>
