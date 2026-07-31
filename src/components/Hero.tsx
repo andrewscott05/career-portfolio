@@ -153,40 +153,55 @@ BARS.forEach((bar, i) => {
   })
 })
 
-/* Trend line traced across the bar tops, plus where the arrowhead lands */
-const LAST = BARS.length - 1
-const TALLEST = BARS[LAST]
-const TALLEST_MOBILE_INDEX = BARS.filter((b) => !b.mobileHidden).length - 1
+/* The trend line floats clear above the bars rather than tracing their tops,
+   and alternates its lift so it genuinely rises and falls on the way up, the
+   way a real chart does. Every point is at least CLEAR above its own bar, and
+   a pass afterwards raises any point whose segment would still clip a bar. */
+const TREND_CLEAR = 3 // vh minimum air between the line and any bar top
+const TREND_AMP = 4.5 // vh extra lift on alternating points, making the zigzag
 
-const trendPath = (m: boolean) => {
+const buildTrend = (m: boolean) => {
   const cfg = m ? MOB : DESK
-  return BARS.map((b, i) => {
-    if (m && b.mobileHidden) return null
-    const mi = BARS.slice(0, i).filter((x) => !x.mobileHidden).length
-    const x = cfg.x0 + (m ? mi : i) * cfg.pitch + cfg.w / 2
-    const y = cfg.base - (m ? b.mh : b.h)
-    return `${x.toFixed(2)} ${y.toFixed(2)}`
+  const bars = BARS.filter((b) => !(m && b.mobileHidden))
+  const pts = bars.map((b, k) => {
+    const top = cfg.base - (m ? b.mh : b.h)
+    return {
+      x: cfg.x0 + k * cfg.pitch + cfg.w / 2,
+      top,
+      y: top - TREND_CLEAR - (k % 2 === 1 ? TREND_AMP : 0),
+    }
   })
-    .filter(Boolean)
-    .map((p, idx) => (idx === 0 ? `M ${p}` : `L ${p}`))
-    .join(' ')
+
+  // Nudge points up until no segment passes through a bar
+  const half = cfg.w / 2
+  for (let pass = 0; pass < 24; pass++) {
+    let changed = false
+    for (let k = 0; k < pts.length - 1; k++) {
+      const a = pts[k]
+      const b = pts[k + 1]
+      for (let s = 0; s <= 24; s++) {
+        const t = s / 24
+        const x = a.x + (b.x - a.x) * t
+        const y = a.y + (b.y - a.y) * t
+        for (const p of pts) {
+          if (Math.abs(x - p.x) > half) continue
+          const limit = p.top - TREND_CLEAR
+          if (y > limit) {
+            const lift = y - limit
+            if (a.y >= b.y) a.y -= lift
+            else b.y -= lift
+            changed = true
+          }
+        }
+      }
+    }
+    if (!changed) break
+  }
+  return pts
 }
 
-const TREND_DESKTOP = trendPath(false)
-const TREND_MOBILE = trendPath(true)
-const TREND_END_DESKTOP = {
-  x: DESK.x0 + LAST * DESK.pitch + DESK.w / 2,
-  y: DESK.base - TALLEST.h,
-}
-const TREND_END_MOBILE = {
-  x: MOB.x0 + TALLEST_MOBILE_INDEX * MOB.pitch + MOB.w / 2,
-  y: MOB.base - TALLEST.mh,
-}
-/* Final climb of the line, in viewport units, per breakpoint. The real
-   screen angle depends on the viewport's aspect, so it is computed at
-   runtime from these plus the measured container size. */
-const CLIMB_DESKTOP = { dxVw: DESK.pitch, dyVh: (DESK.base - BARS[LAST - 1].h) - (DESK.base - TALLEST.h) }
-const CLIMB_MOBILE = { dxVw: MOB.pitch, dyVh: (MOB.base - BARS[7].mh) - (MOB.base - TALLEST.mh) }
+const TREND_PTS_DESKTOP = buildTrend(false)
+const TREND_PTS_MOBILE = buildTrend(true)
 
 const FILLS: Record<BlockCfg['fill'], string> = {
   surface: 'var(--color-surface)',
@@ -308,7 +323,7 @@ export function Hero() {
   const blockRefs = useRef<(HTMLDivElement | null)[]>([])
   const reduced = useReducedMotion() ?? false
   const [isMobile, setIsMobile] = useState(false)
-  const [arrowRot, setArrowRot] = useState(-50)
+  const [stage, setStage] = useState({ w: 0, h: 0 })
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)')
@@ -318,24 +333,33 @@ export function Hero() {
     return () => mq.removeEventListener('change', sync)
   }, [])
 
-  // The arrowhead's rotation must match the final climb in *screen* pixels,
-  // which depends on the viewport aspect, so measure rather than guess.
+  // A refresh restores the old scroll position, which would drop you into the
+  // middle of the assembly. Always start at the top, with the pieces scattered.
+  useEffect(() => {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+    if (!window.location.hash) window.scrollTo(0, 0)
+  }, [])
+
+  // The line is drawn in real pixels, not in a stretched viewBox: a squashed
+  // coordinate system makes stroke-dasharray (which drives the draw-on) render
+  // as dashes, which is what broke the line into segments.
   useEffect(() => {
     const el = stageRef.current
     if (!el) return
-    const climb = isMobile ? CLIMB_MOBILE : CLIMB_DESKTOP
     const measure = () => {
       const r = el.getBoundingClientRect()
-      if (r.width === 0 || r.height === 0) return
-      const dx = (climb.dxVw / 100) * r.width
-      const dy = (climb.dyVh / 100) * r.height
-      setArrowRot(-(Math.atan2(dy, dx) * 180) / Math.PI)
+      // Fall back to the viewport if the box measures zero, so the line can
+      // never silently vanish on an odd layout pass.
+      const w = r.width || window.innerWidth
+      const h = r.height || window.innerHeight
+      if (w === 0 || h === 0) return
+      setStage({ w, h })
     }
     measure()
     const ro = new ResizeObserver(measure)
     ro.observe(el)
     return () => ro.disconnect()
-  }, [isMobile])
+  }, [])
 
   const { scrollYProgress } = useScroll({
     target: trackRef,
@@ -383,7 +407,19 @@ export function Hero() {
   }
 
   const trackHeight = isMobile ? 'h-[190vh]' : 'h-[230vh]'
-  const trendEnd = isMobile ? TREND_END_MOBILE : TREND_END_DESKTOP
+
+  // Trend geometry resolved into stage pixels
+  const trendPts = isMobile ? TREND_PTS_MOBILE : TREND_PTS_DESKTOP
+  const px = trendPts.map((p) => ({
+    x: (p.x / 100) * stage.w,
+    y: (p.y / 100) * stage.h,
+  }))
+  const trendD = px.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ')
+  const tip = px[px.length - 1]
+  const prev = px[px.length - 2]
+  const arrowRot =
+    tip && prev ? (Math.atan2(tip.y - prev.y, tip.x - prev.x) * 180) / Math.PI : 0
+  const measured = stage.w > 0 && stage.h > 0
 
   return (
     <header
@@ -428,68 +464,54 @@ export function Hero() {
             />
           ))}
 
-          {/* The trend line rides above the bars, cased in the page colour so
-              it stays readable across ink, ochre and white alike */}
-          <svg
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: 2 }}
-          >
-            <motion.path
-              d={isMobile ? TREND_MOBILE : TREND_DESKTOP}
-              fill="none"
-              stroke="var(--color-bg)"
-              strokeWidth="15"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              vectorEffect="non-scaling-stroke"
-              style={
-                reduced ? {} : { opacity: trendOpacity, pathLength: trendDraw }
-              }
-            />
-            <motion.path
-              d={isMobile ? TREND_MOBILE : TREND_DESKTOP}
-              fill="none"
-              stroke="var(--color-primary)"
-              strokeWidth="9"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              vectorEffect="non-scaling-stroke"
-              style={
-                reduced ? {} : { opacity: trendOpacity, pathLength: trendDraw }
-              }
-            />
-          </svg>
-
-          {/* Solid stock-chart arrowhead, base tucked under the line end,
-              extending onward along the measured direction of the climb */}
-          <motion.div
-            className="absolute pointer-events-none"
-            style={{
-              left: `${trendEnd.x}vw`,
-              top: `${trendEnd.y}vh`,
-              zIndex: 3,
-              ...(reduced ? {} : { opacity: arrowOpacity, scale: arrowScale }),
-            }}
-          >
+          {/* One continuous line, floating clear above the bars. Drawn in
+              stage pixels so the draw-on dash maths stays undistorted. */}
+          {measured && (
             <svg
-              width="58"
-              height="58"
-              viewBox="0 0 24 24"
-              style={{
-                transform: `translate(-50%, -50%) rotate(${arrowRot}deg)`,
-              }}
+              width={stage.w}
+              height={stage.h}
+              viewBox={`0 0 ${stage.w} ${stage.h}`}
+              className="absolute inset-0 pointer-events-none"
+              style={{ zIndex: 2 }}
             >
-              <polygon
-                points="11,5.5 23,12 11,18.5"
-                fill="var(--color-primary)"
-                stroke="var(--color-bg)"
-                strokeWidth="1.6"
+              <motion.path
+                d={trendD}
+                fill="none"
+                stroke="var(--color-primary)"
+                strokeWidth={9}
+                strokeLinecap="round"
                 strokeLinejoin="round"
+                style={
+                  reduced ? {} : { opacity: trendOpacity, pathLength: trendDraw }
+                }
               />
             </svg>
-          </motion.div>
+          )}
+
+          {/* Solid stock-chart arrowhead, base tucked under the line end,
+              angled along the real screen direction of the final climb */}
+          {measured && (
+            <motion.div
+              className="absolute pointer-events-none"
+              style={{
+                left: tip.x,
+                top: tip.y,
+                zIndex: 3,
+                ...(reduced ? {} : { opacity: arrowOpacity, scale: arrowScale }),
+              }}
+            >
+              <svg
+                width="52"
+                height="52"
+                viewBox="0 0 24 24"
+                style={{
+                  transform: `translate(-50%, -50%) rotate(${arrowRot}deg)`,
+                }}
+              >
+                <polygon points="9,4.5 23,12 9,19.5" fill="var(--color-primary)" />
+              </svg>
+            </motion.div>
+          )}
         </motion.div>
 
         <div className="relative z-10 h-full flex items-start md:items-center pt-[14vh] md:pt-0 px-6 sm:px-10 md:px-14 pointer-events-none">
