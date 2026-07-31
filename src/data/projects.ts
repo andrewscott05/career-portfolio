@@ -45,6 +45,8 @@ export interface CaseStudy {
   summary: string
   /** Optional home-card thumbnail, once artwork exists. */
   thumbnail?: Artifact
+  /** Image revealed on card hover. Defaults to the first section artifact. */
+  cardPeek?: Artifact
   /** Optional embedded deck, rendered once above the sections. */
   embed?: Embed
   sections: CaseStudySection[]
@@ -64,6 +66,10 @@ export const projects: CaseStudy[] = [
     tag: 'AI AUTOMATION',
     summary:
       "The company's first AI agent, nicknamed Bob. Automates ~600 loads a day and cut manual tracking work 20% with no added headcount.",
+    cardPeek: {
+      src: '/work/bob-tracking-ui.png',
+      alt: 'A Tracking panel entry showing a location update logged by the agent.',
+    },
     sections: [
       {
         heading: 'The problem',
@@ -179,6 +185,10 @@ export const projects: CaseStudy[] = [
     tag: 'AI GOVERNANCE',
     summary:
       "Criteria for when a workflow deserves an agent, and an Impact Score for whether it's worth what it costs to run.",
+    cardPeek: {
+      src: '/work/agentic-impact-economics.png',
+      alt: 'A slide on measuring impact and unit economics, defining the Agent Impact Score.',
+    },
     sections: [
       {
         heading: 'The problem',
@@ -233,6 +243,10 @@ export const projects: CaseStudy[] = [
     tag: 'TEAM ENABLEMENT',
     summary:
       'One shared standard for how Product works with AI. Adopted by 10+ Product Managers.',
+    cardPeek: {
+      src: '/work/ai-standard-connectors.png',
+      alt: 'The connectors live today, pulled into one connected workspace.',
+    },
     sections: [
       {
         heading: 'The problem',
@@ -278,6 +292,10 @@ export const projects: CaseStudy[] = [
     tag: 'DESIGN SYSTEMS',
     summary:
       "Co-led Arrive's first company-wide design system, DOT-UI, with 9 designers and 16 engineers. Cut component design time 63%.",
+    cardPeek: {
+      src: '/work/dot-ui-ownership-model.png',
+      alt: 'Product, Design and Engineering at the centre of the design system, with contributor and consumer product teams around it.',
+    },
     embed: {
       src: 'https://docs.google.com/presentation/d/1nahouLLB7zNwfTwIN8gfQwEBqheDGoDK/embed?start=false&loop=false&delayms=3000',
       title: 'Design Systems at Arrive Logistics: the evolution of the Product Design team',

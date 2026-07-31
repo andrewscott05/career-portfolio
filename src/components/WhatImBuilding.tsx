@@ -29,8 +29,8 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
 
   const handleMouseLeave = () => setTilt({ x: 0, y: 0 })
 
-  // First real artifact in the case study, used for the hover peek
-  const peek = project.sections.find((s) => s.artifact)?.artifact
+  // Hover peek: an explicitly chosen image, else the first section artifact
+  const peek = project.cardPeek ?? project.sections.find((s) => s.artifact)?.artifact
 
   return (
     <motion.div
@@ -87,7 +87,9 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
             </div>
           )}
 
-          <div className="relative p-7 sm:p-9">
+          {/* Content stays clear of the peek panel's lane, so the tag on the
+              right never collides with the artifact sliding in */}
+          <div className="relative p-7 sm:p-9 md:pr-[42%]">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4 mb-3">
               <h3 className="font-display text-[clamp(1.25rem,3.5vw,1.75rem)] text-[var(--color-ink)]">
                 {project.title}

@@ -198,11 +198,12 @@ const buildTrend = (m: boolean) => {
   const bars = BARS.filter((b) => !(m && b.mobileHidden))
   const pts = bars.map((b, k) => {
     const top = cfg.base - (m ? b.mh : b.h)
-    const isLast = k === bars.length - 1
-    // The zigzag stops before the end: the final leg is the steepest climb of
-    // the run, so the arrow leaves the chart still rising rather than levelling.
-    const lift = isLast
-      ? TREND_CLEAR + TREND_AMP * 2.4
+    // The zigzag stops before the end: the last two points sit at plain
+    // clearance, so the final leg is a clean steep climb that finishes just
+    // above the tallest bar rather than shooting off toward the nav.
+    const endRun = k >= bars.length - 2
+    const lift = endRun
+      ? TREND_CLEAR
       : TREND_CLEAR + (k % 2 === 1 ? TREND_AMP : 0)
     return { x: cfg.x0 + k * cfg.pitch + cfg.w / 2, top, y: top - lift }
   })
