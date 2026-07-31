@@ -63,8 +63,8 @@ export function Stats() {
   return (
     <section className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
-        <p className="section-label mb-6 sm:mb-7">By the numbers</p>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
+        <p className="section-label mb-8 sm:mb-10">By the numbers</p>
+        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-x-16 gap-y-10">
           {STATS.map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -72,18 +72,17 @@ export function Stats() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.45, ease: EASE, delay: i * STAGGER }}
-              className="border-t-[3px] border-[var(--color-ink)] pt-4"
             >
-              <p className="font-mono text-[11px] tracking-[0.1em] uppercase text-[var(--color-text-muted)] leading-snug min-h-[2.6em]">
-                {stat.label}
-              </p>
-              <p className="font-display text-[clamp(2.25rem,6vw,3.5rem)] text-[var(--color-ink)] leading-none mt-3">
+              <p className="font-display text-[clamp(2.75rem,7vw,4rem)] text-[var(--color-ink)] leading-none">
                 <CountUp
                   target={stat.target}
                   prefix={stat.prefix}
                   suffix={stat.suffix}
                   startDelay={i * STAGGER}
                 />
+              </p>
+              <p className="font-mono text-[13px] text-[var(--color-primary)] mt-3">
+                {stat.label}
               </p>
             </motion.div>
           ))}
