@@ -59,110 +59,11 @@ export interface SecondaryProject {
 
 export const projects: CaseStudy[] = [
   {
-    id: 'agentic-decision-framework',
-    title: 'A framework for knowing when to build an agent',
-    tag: 'AGENTIC DECISION FRAMEWORK',
-    summary:
-      "A framework for deciding when a workflow deserves an agent, and whether it's worth what it costs to run.",
-    sections: [
-      {
-        heading: 'The problem',
-        body: 'Every AI workflow in Product Engineering ran through the same outside vendor by default, and there was no process to decide if an agent even belonged in a given application in the first place. The plan was to prove the pattern internally first, then hand off a working playbook so other teams could run it themselves.',
-        artifact: {
-          src: '/work/agentic-situation.png',
-          alt: 'A slide describing the situation before the framework: workflows reliant on a vendor by default, no process to decide when to build an agent internally, and a plan to prove the pattern before handing it off.',
-          caption: 'Where things stood before the framework existed.',
-        },
-      },
-      {
-        heading: 'Setting the bar to build',
-        body: 'A model can handle a lot of this work. The real question is whether it should be the one handling it. I put together a short checklist a team runs through before building anything, so the decision rests on the work itself and not on who happens to be in the room.',
-        artifact: {
-          src: '/work/agentic-criteria-table.png',
-          alt: 'A table of criteria for deciding whether to build an agentic workflow: volume, clear workflow, level of judgment needed, deterministic, and reason plus acting, each with a description and a real example.',
-          caption: 'The actual criteria table, with the real examples we scored workflows against.',
-        },
-      },
-      {
-        heading: 'Measuring the impact',
-        body: "Clearing the bar to build is only half of it. What actually matters is whether the thing you built is worth what it costs to run, so I built the Agent Impact Score: cost per completed workflow combined with completion rate, one operational scorecard instead of a gut feeling. Cost without quality misleads, and completion without cost misleads just as badly, so the score has to weigh both.",
-        artifact: {
-          src: '/work/agentic-impact-economics.png',
-          alt: 'A slide on measuring impact and unit economics: cost per completed workflow, completion rate, and the Agent Impact Score combining both into one operational scorecard.',
-          caption: "How the Agent Impact Score combines cost and completion rate into one read.",
-        },
-      },
-      {
-        heading: 'The outcome',
-        body: "The plan from here follows the same three moves: iterate by proving the pattern on real internal workflows, formalize it by documenting the standards as we build, and hand it off so other product teams can own their own domain instead of waiting on us. The framework is already how other teams decide if and when to build with agents, including the voice agent program below.",
-        artifact: {
-          src: '/work/agentic-next-steps.png',
-          alt: 'A slide outlining next steps: iterate by proving the pattern internally, formalize by documenting the standards, and hand off so other product teams build on the same foundation.',
-          caption: 'The plan to formalize the framework and hand it to other product teams.',
-        },
-      },
-      {
-        heading: 'The adoption curve',
-        body: "Zoom out and the trend backs it up. The share of loads touched by any automation grew from 4% in 2019 to 95%+ by 2025, and the average number of automation points per load nearly doubled between 2022 and 2024 alone. The framework didn't create that curve by itself, but it's part of how the org keeps climbing it on purpose instead of by accident.",
-        artifact: {
-          src: '/work/bob-automation-adoption.png',
-          alt: 'A table showing the percentage of loads with any automation touchpoint growing from 4.0% in 2019 to 95.5% by 2025 YTD, and average automation points per load climbing from 0.04 to 2.34 over the same period.',
-          caption: 'Company-wide automation adoption, 2019 through 2025 YTD.',
-        },
-      },
-    ],
-  },
-  {
-    id: 'ai-tooling-standard',
-    title: 'One shared standard for how Product uses AI',
-    tag: 'AI TOOLING STANDARD',
-    summary:
-      'A shared standard for how Product works with AI, adopted by 10+ Product Managers.',
-    sections: [
-      {
-        heading: 'The problem',
-        body: 'Leadership had aligned on using AI as part of PM work, but there was no shared operating structure behind it. PMs were improvising their own setups, outputs drifted, and one team\'s judgment never compounded to help another.',
-        artifact: {
-          src: '/work/ai-standard-situation.png',
-          alt: 'A slide describing the situation: leadership has aligned on AI tooling for PM work, but there is no shared operating structure, and the plan is to refine the structure and run a pilot before broader rollout.',
-          caption: 'Where things stood before the standard existed.',
-        },
-      },
-      {
-        heading: 'Building the standard',
-        body: "I designed the standard around four layers: shared context, best practices, connectors, and governance. The context layer itself breaks into four levels, org, pillar, team, and individual, hosted in Confluence and loaded into Claude or Gemini automatically, so a PM only has to think about their own team and themselves while the org and pillar context load on their own.",
-        artifact: {
-          src: '/work/ai-standard-operating-structure.png',
-          alt: 'A slide outlining the four-layer operating structure: shared context, best practices, connectors, and governance.',
-          caption: 'The four layers the whole standard is built on.',
-        },
-      },
-      {
-        heading: 'Rolling it out',
-        body: 'A cross-functional governance team, PMs, product leaders, and IT, built the standards with the pilot cohort instead of handing them down, and refines them quarterly as tools and workflows change. The connectors came online the same way: Atlassian first since it was already in use, then Snowflake, Pendo, Google Suite, Miro, Figma, and Postman as the pilot asked for them.',
-        artifact: {
-          src: '/work/ai-standard-governance.png',
-          alt: 'A slide on governance: a cross-functional team of PMs, product leaders, and IT meets regularly to iterate on standards, with a governance lead coordinating the team and keeping the cadence moving.',
-          caption: 'The governance model that keeps the standard from drifting.',
-        },
-      },
-      {
-        heading: 'The outcome',
-        body: 'The standard is now used by 10+ Product Managers across the org, plugged into one connected workspace instead of jumping between Jira, Snowflake, and Google Drive on their own. Governance keeps it current as the toolset evolves.',
-        artifact: {
-          src: '/work/ai-standard-connectors.png',
-          alt: 'A slide showing the connectors live today: Atlassian, Snowflake, Pendo, Google Suite, Miro, Figma, and Postman, pulled into one connected workspace.',
-          caption: 'The connectors PMs use today instead of jumping between tools.',
-        },
-      },
-    ],
-  },
-  {
     id: 'bob-ai-voice',
-    title: 'An agent that scales tracking, not headcount',
-    tag: 'TRACKING AUTOMATION',
+    title: 'Freight Tracking AI Agent',
+    tag: 'AI AUTOMATION',
     summary:
-      "The company's first AI agent for tracking, automating the two highest-volume request types across voice, text, and email, and cutting manual workload ~20% without growing headcount in step with load volume.",
+      "The company's first AI agent, nicknamed Bob. Automates ~600 loads a day and cut manual tracking work 20% with no added headcount.",
     sections: [
       {
         heading: 'The problem',
@@ -225,10 +126,10 @@ export const projects: CaseStudy[] = [
   },
   {
     id: 'spot-quoting',
-    title: 'An automated, ML-driven pricing engine',
-    tag: 'PRICING AUTOMATION',
+    title: 'Automated Freight Pricing Engine',
+    tag: 'ML PRICING',
     summary:
-      'The company\'s first automated, ML-driven pricing capability, scaling segment revenue 2.3x to a $400M+ run rate.',
+      'Built the ML-driven Rate API from 0 to 1. Scaled segment revenue 2.3x to a $400M+ run rate.',
     sections: [
       {
         heading: 'The problem',
@@ -273,11 +174,110 @@ export const projects: CaseStudy[] = [
     ],
   },
   {
+    id: 'agentic-decision-framework',
+    title: 'When to Build an AI Agent',
+    tag: 'AI GOVERNANCE',
+    summary:
+      "Criteria for when a workflow deserves an agent, and an Impact Score for whether it's worth what it costs to run.",
+    sections: [
+      {
+        heading: 'The problem',
+        body: 'Every AI workflow in Product Engineering ran through the same outside vendor by default, and there was no process to decide if an agent even belonged in a given application in the first place. The plan was to prove the pattern internally first, then hand off a working playbook so other teams could run it themselves.',
+        artifact: {
+          src: '/work/agentic-situation.png',
+          alt: 'A slide describing the situation before the framework: workflows reliant on a vendor by default, no process to decide when to build an agent internally, and a plan to prove the pattern before handing it off.',
+          caption: 'Where things stood before the framework existed.',
+        },
+      },
+      {
+        heading: 'Setting the bar to build',
+        body: 'A model can handle a lot of this work. The real question is whether it should be the one handling it. I put together a short checklist a team runs through before building anything, so the decision rests on the work itself and not on who happens to be in the room.',
+        artifact: {
+          src: '/work/agentic-criteria-table.png',
+          alt: 'A table of criteria for deciding whether to build an agentic workflow: volume, clear workflow, level of judgment needed, deterministic, and reason plus acting, each with a description and a real example.',
+          caption: 'The actual criteria table, with the real examples we scored workflows against.',
+        },
+      },
+      {
+        heading: 'Measuring the impact',
+        body: "Clearing the bar to build is only half of it. What actually matters is whether the thing you built is worth what it costs to run, so I built the Agent Impact Score: cost per completed workflow combined with completion rate, one operational scorecard instead of a gut feeling. Cost without quality misleads, and completion without cost misleads just as badly, so the score has to weigh both.",
+        artifact: {
+          src: '/work/agentic-impact-economics.png',
+          alt: 'A slide on measuring impact and unit economics: cost per completed workflow, completion rate, and the Agent Impact Score combining both into one operational scorecard.',
+          caption: "How the Agent Impact Score combines cost and completion rate into one read.",
+        },
+      },
+      {
+        heading: 'The outcome',
+        body: "The plan from here follows the same three moves: iterate by proving the pattern on real internal workflows, formalize it by documenting the standards as we build, and hand it off so other product teams can own their own domain instead of waiting on us. The framework is already how other teams decide if and when to build with agents, including the tracking agent above.",
+        artifact: {
+          src: '/work/agentic-next-steps.png',
+          alt: 'A slide outlining next steps: iterate by proving the pattern internally, formalize by documenting the standards, and hand off so other product teams build on the same foundation.',
+          caption: 'The plan to formalize the framework and hand it to other product teams.',
+        },
+      },
+      {
+        heading: 'The adoption curve',
+        body: "Zoom out and the trend backs it up. The share of loads touched by any automation grew from 4% in 2019 to 95%+ by 2025, and the average number of automation points per load nearly doubled between 2022 and 2024 alone. The framework didn't create that curve by itself, but it's part of how the org keeps climbing it on purpose instead of by accident.",
+        artifact: {
+          src: '/work/bob-automation-adoption.png',
+          alt: 'A table showing the percentage of loads with any automation touchpoint growing from 4.0% in 2019 to 95.5% by 2025 YTD, and average automation points per load climbing from 0.04 to 2.34 over the same period.',
+          caption: 'Company-wide automation adoption, 2019 through 2025 YTD.',
+        },
+      },
+    ],
+  },
+  {
+    id: 'ai-tooling-standard',
+    title: 'AI Standard for Product Teams',
+    tag: 'TEAM ENABLEMENT',
+    summary:
+      'One shared standard for how Product works with AI. Adopted by 10+ Product Managers.',
+    sections: [
+      {
+        heading: 'The problem',
+        body: 'Leadership had aligned on using AI as part of PM work, but there was no shared operating structure behind it. PMs were improvising their own setups, outputs drifted, and one team\'s judgment never compounded to help another.',
+        artifact: {
+          src: '/work/ai-standard-situation.png',
+          alt: 'A slide describing the situation: leadership has aligned on AI tooling for PM work, but there is no shared operating structure, and the plan is to refine the structure and run a pilot before broader rollout.',
+          caption: 'Where things stood before the standard existed.',
+        },
+      },
+      {
+        heading: 'Building the standard',
+        body: "I designed the standard around four layers: shared context, best practices, connectors, and governance. The context layer itself breaks into four levels, org, pillar, team, and individual, hosted in Confluence and loaded into Claude or Gemini automatically, so a PM only has to think about their own team and themselves while the org and pillar context load on their own.",
+        artifact: {
+          src: '/work/ai-standard-operating-structure.png',
+          alt: 'A slide outlining the four-layer operating structure: shared context, best practices, connectors, and governance.',
+          caption: 'The four layers the whole standard is built on.',
+        },
+      },
+      {
+        heading: 'Rolling it out',
+        body: 'A cross-functional governance team, PMs, product leaders, and IT, built the standards with the pilot cohort instead of handing them down, and refines them quarterly as tools and workflows change. The connectors came online the same way: Atlassian first since it was already in use, then Snowflake, Pendo, Google Suite, Miro, Figma, and Postman as the pilot asked for them.',
+        artifact: {
+          src: '/work/ai-standard-governance.png',
+          alt: 'A slide on governance: a cross-functional team of PMs, product leaders, and IT meets regularly to iterate on standards, with a governance lead coordinating the team and keeping the cadence moving.',
+          caption: 'The governance model that keeps the standard from drifting.',
+        },
+      },
+      {
+        heading: 'The outcome',
+        body: 'The standard is now used by 10+ Product Managers across the org, plugged into one connected workspace instead of jumping between Jira, Snowflake, and Google Drive on their own. Governance keeps it current as the toolset evolves.',
+        artifact: {
+          src: '/work/ai-standard-connectors.png',
+          alt: 'A slide showing the connectors live today: Atlassian, Snowflake, Pendo, Google Suite, Miro, Figma, and Postman, pulled into one connected workspace.',
+          caption: 'The connectors PMs use today instead of jumping between tools.',
+        },
+      },
+    ],
+  },
+  {
     id: 'design-system',
-    title: 'A shared design system for the whole org',
+    title: 'Company-Wide Design System',
     tag: 'DESIGN SYSTEMS',
     summary:
-      "Co-led Arrive's first company-wide design system with a team of 9 designers and 16 engineers, cutting the time to design a component 63% in a controlled test.",
+      "Co-led Arrive's first company-wide design system, DOT-UI, with 9 designers and 16 engineers. Cut component design time 63%.",
     embed: {
       src: 'https://docs.google.com/presentation/d/1nahouLLB7zNwfTwIN8gfQwEBqheDGoDK/embed?start=false&loop=false&delayms=3000',
       title: 'Design Systems at Arrive Logistics: the evolution of the Product Design team',
@@ -324,10 +324,10 @@ export const projects: CaseStudy[] = [
   },
   {
     id: 'process-standardization',
-    title: 'Standardizing how Product ships',
-    tag: 'PROCESS STANDARDIZATION',
+    title: 'How Product Ships',
+    tag: 'WAYS OF WORKING',
     summary:
-      'Rebuilt the Jira workflow with other Staff PMs and led the PRD template refresh, cutting SDLC time 20% and project turnaround 15%.',
+      'Rebuilt the Jira workflow and PRD template. Cut SDLC time 20%, project turnaround 15%.',
     sections: [
       {
         heading: 'The problem',
