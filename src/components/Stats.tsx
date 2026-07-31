@@ -17,19 +17,19 @@ function CountUp({
   suffix = '',
   duration = 1.2,
   startDelay = 0,
+  start,
 }: {
   target: number
   prefix?: string
   suffix?: string
   duration?: number
   startDelay?: number
+  start: boolean
 }) {
-  const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
   const [value, setValue] = useState(0)
 
   useEffect(() => {
-    if (!inView) return
+    if (!start) return
     let raf = 0
     let cancelled = false
     const timeout = setTimeout(() => {
@@ -48,10 +48,10 @@ function CountUp({
       clearTimeout(timeout)
       cancelAnimationFrame(raf)
     }
-  }, [inView, target, duration, startDelay])
+  }, [start, target, duration, startDelay])
 
   return (
-    <span ref={ref}>
+    <span>
       {prefix}
       {value}
       {suffix}
@@ -60,8 +60,17 @@ function CountUp({
 }
 
 export function Stats() {
+  const sectionRef = useRef<HTMLElement>(null)
+  // One trigger for the whole section, and only once it is properly on
+  // screen: per-number triggers fired as soon as the section clipped the
+  // viewport edge, so the counting was over before you arrived.
+  const inView = useInView(sectionRef, {
+    once: true,
+    margin: '-20% 0px -25% 0px',
+  })
+
   return (
-    <section className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
+    <section ref={sectionRef} className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
         <h2 className="font-display text-[clamp(1.5rem,4vw,2rem)] text-[var(--color-ink)] mb-8 sm:mb-10">
           By the numbers
@@ -71,8 +80,7 @@ export function Stats() {
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, scale: 1.05, y: -6 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
+              animate={inView ? { opacity: 1, scale: 1, y: 0 } : undefined}
               transition={{ duration: 0.45, ease: EASE, delay: i * STAGGER }}
             >
               <p className="font-display text-[clamp(2.25rem,7vw,4rem)] text-[var(--color-ink)] leading-none">
@@ -81,6 +89,7 @@ export function Stats() {
                   prefix={stat.prefix}
                   suffix={stat.suffix}
                   startDelay={i * STAGGER}
+                  start={inView}
                 />
               </p>
               <p className="font-serif text-[15px] sm:text-base text-[var(--color-text-secondary)] leading-[1.5] mt-3 max-w-[22ch]">

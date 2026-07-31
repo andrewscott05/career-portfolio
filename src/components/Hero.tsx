@@ -147,10 +147,12 @@ BARS.forEach((bar, i) => {
   const segs = Math.min(5, 1 + Math.floor(i / 2)) // taller bars, more pieces
   const dSeg = bar.h / segs
   const mSeg = bar.mh / segs
-  const barStart = 0.06 + i * 0.024
-  const barEnd = 0.44 + i * 0.032
-  const lastTo = barEnd + (segs === 1 ? 0 : 0.055)
-  const fade: [number, number] = [lastTo, Math.min(lastTo + 0.04, 0.86)]
+  // Assembly is packed into the first ~58% of the track so the finished
+  // chart holds on screen for a beat before the page moves on
+  const barStart = 0.05 + i * 0.017
+  const barEnd = 0.3 + i * 0.021
+  const lastTo = barEnd + (segs === 1 ? 0 : 0.04)
+  const fade: [number, number] = [lastTo, Math.min(lastTo + 0.03, 0.62)]
 
   for (let s = 0; s < segs; s++) {
     // s = 0 is the bottom piece of the bar and lands first; pieces above it
@@ -189,8 +191,8 @@ BARS.forEach((bar, i) => {
         w: MOB.w,
         h: mSeg + overlap,
       },
-      from: barStart + t * 0.045,
-      to: barEnd + t * 0.055,
+      from: barStart + t * 0.032,
+      to: barEnd + t * 0.04,
     })
   }
 
@@ -423,18 +425,18 @@ export function Hero() {
 
   const hintOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0])
   // After the chart locks it eases down a touch, so the release feels handed off
-  const settleY = useTransform(scrollYProgress, [0.9, 1], ['0vh', '4vh'])
+  const settleY = useTransform(scrollYProgress, [0.93, 1], ['0vh', '4vh'])
   // The trend line draws itself up across the finished bars, arrowhead last
-  const trendDraw = useTransform(scrollYProgress, [0.78, 0.93], [0, 1])
-  const trendOpacity = useTransform(scrollYProgress, [0.76, 0.82], [0, 1])
-  const arrowOpacity = useTransform(scrollYProgress, [0.91, 0.96], [0, 1])
-  const arrowScale = useTransform(scrollYProgress, [0.91, 0.96], [0.4, 1])
+  const trendDraw = useTransform(scrollYProgress, [0.6, 0.7], [0, 1])
+  const trendOpacity = useTransform(scrollYProgress, [0.58, 0.63], [0, 1])
+  const arrowOpacity = useTransform(scrollYProgress, [0.7, 0.75], [0, 1])
+  const arrowScale = useTransform(scrollYProgress, [0.7, 0.75], [0.4, 1])
 
   // The toy: pieces shy away from the cursor while they are still chaos, and
   // stop responding as the bars assemble, so a finished bar never tears apart.
   const handlePointerMove = (e: PointerEvent<HTMLDivElement>) => {
     if (reduced || isMobile || e.pointerType !== 'mouse') return
-    const damp = Math.max(0, 1 - scrollYProgress.get() / 0.45)
+    const damp = Math.max(0, 1 - scrollYProgress.get() / 0.32)
     if (damp === 0) {
       handlePointerLeave()
       return
