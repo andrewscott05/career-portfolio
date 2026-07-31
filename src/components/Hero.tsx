@@ -14,15 +14,13 @@ const LINK = {
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
-/* The signature moment: the page opens with hard-edged slabs tumbled across
-   the viewport. As you scroll, the hero pins and the slabs travel, straighten,
-   and land one after another into an ascending bar chart on a shared baseline:
-   operational chaos becoming systems that scale, in the site's own shape
-   language. Scroll-driven and reversible. The slabs also shy away from the
-   cursor, because a site can be a toy.
-
-   Desktop puts the chart beside the headline; mobile stacks it underneath,
-   with fewer, wider bars so it still reads at phone width. */
+/* The signature moment: the page opens with hard-edged pieces tumbled across
+   the viewport. As you scroll, the hero pins and the pieces travel, straighten,
+   and land into an ascending bar chart on a shared baseline. While flying,
+   each piece is a bordered chip; the moment its bar completes, the per-piece
+   borders and shadows dissolve and a single outline wraps the whole bar, so
+   every bar reads as one solid slab. A thick trend line then draws up across
+   the tops and fires a solid arrowhead: chaos, systems, scale. */
 
 type Coords = { tx: number; ty: number; w: number; h: number }
 
@@ -33,10 +31,10 @@ type BlockCfg = {
   desktop: Coords
   mobile: Coords
   fill: 'surface' | 'ink' | 'green' | 'ochre'
-  from: number // progress where this block starts converging
+  from: number // progress where this piece starts converging
   to: number // progress where it locks in
+  fade?: [number, number] // window where its chip border/shadow dissolves
   mobileHidden?: boolean // thinned out so phone bars stay legible
-  seamOffset?: number // segment index, used to overlap borders into one rule
   cap?: boolean
 }
 
@@ -92,11 +90,17 @@ function scatter(mobileVisible: boolean) {
   return { x: 62 + makeRand() * 30, y: 78 + makeRand() * 14 }
 }
 
-/* Each bar is built from stacked segments rather than one slab, so the chart
-   reads as assembling piece by piece. Segments land bottom-up and butt
-   together into one solid bar: adjacent 3px borders are overlapped in px so
-   the seam reads as a single rule, not a gap. */
 const BLOCKS: BlockCfg[] = []
+
+/* One outline per bar, fading in as that bar's last piece lands */
+type BarOutlineCfg = {
+  desktop: Coords
+  mobile: Coords
+  fill: BlockCfg['fill']
+  fade: [number, number]
+  mobileHidden?: boolean
+}
+const BAR_OUTLINES: BarOutlineCfg[] = []
 
 BARS.forEach((bar, i) => {
   const mobileIndex = BARS.slice(0, i).filter((b) => !b.mobileHidden).length
@@ -105,9 +109,11 @@ BARS.forEach((bar, i) => {
   const mSeg = bar.mh / segs
   const barStart = 0.06 + i * 0.024
   const barEnd = 0.44 + i * 0.032
+  const lastTo = barEnd + (segs === 1 ? 0 : 0.055)
+  const fade: [number, number] = [lastTo, Math.min(lastTo + 0.04, 0.86)]
 
   for (let s = 0; s < segs; s++) {
-    // s = 0 is the bottom segment of the bar and lands first
+    // s = 0 is the bottom piece of the bar and lands first
     const t = segs === 1 ? 0 : s / (segs - 1)
     const pt = scatter(!bar.mobileHidden)
     BLOCKS.push({
@@ -116,13 +122,21 @@ BARS.forEach((bar, i) => {
       rot: (s % 2 === 0 ? 1 : -1) * (8 + ((i * 7 + s * 13) % 16)),
       fill: bar.fill,
       mobileHidden: bar.mobileHidden,
-      seamOffset: s, // shifts down 3px per segment so borders overlap
+      fade,
       desktop: { tx: DESK.x0 + i * DESK.pitch, ty: DESK.base - dSeg * (s + 1), w: DESK.w, h: dSeg },
       mobile: { tx: MOB.x0 + mobileIndex * MOB.pitch, ty: MOB.base - mSeg * (s + 1), w: MOB.w, h: mSeg },
       from: barStart + t * 0.045,
       to: barEnd + t * 0.055,
     })
   }
+
+  BAR_OUTLINES.push({
+    desktop: { tx: DESK.x0 + i * DESK.pitch, ty: DESK.base - bar.h, w: DESK.w, h: bar.h },
+    mobile: { tx: MOB.x0 + mobileIndex * MOB.pitch, ty: MOB.base - bar.mh, w: MOB.w, h: bar.mh },
+    fill: bar.fill,
+    fade,
+    mobileHidden: bar.mobileHidden,
+  })
 })
 
 // The data point that crowns the tallest bar, landing last
@@ -136,13 +150,13 @@ BLOCKS.push({
   fill: 'green',
   desktop: {
     tx: DESK.x0 + LAST * DESK.pitch + (DESK.w - 2.6) / 2,
-    ty: DESK.base - TALLEST.h - 4.4,
+    ty: DESK.base - TALLEST.h - 8,
     w: 2.6,
     h: 3.2,
   },
   mobile: {
     tx: MOB.x0 + TALLEST_MOBILE_INDEX * MOB.pitch + (MOB.w - 6) / 2,
-    ty: MOB.base - TALLEST.mh - 5,
+    ty: MOB.base - TALLEST.mh - 7,
     w: 6,
     h: 3.6,
   },
@@ -176,6 +190,9 @@ const TREND_END_MOBILE = {
   x: MOB.x0 + TALLEST_MOBILE_INDEX * MOB.pitch + MOB.w / 2,
   y: MOB.base - TALLEST.mh,
 }
+// Screen-space angle of the final climb, per breakpoint (viewBox is stretched)
+const ARROW_ROT_DESKTOP = -55
+const ARROW_ROT_MOBILE = -47
 
 const FILLS: Record<BlockCfg['fill'], { bg: string; shadow: string }> = {
   surface: { bg: 'var(--color-surface)', shadow: '5px 5px 0 var(--color-ink)' },
@@ -198,16 +215,11 @@ function Block({
   refFn: (el: HTMLDivElement | null) => void
 }) {
   const target = isMobile ? cfg.mobile : cfg.desktop
-  // Each segment sits 3px lower than the one below it, so their borders
-  // overlap into a single rule and the bar reads as solid, not stacked.
-  const seam = (cfg.seamOffset ?? 0) * 3
   const x = useTransform(progress, [cfg.from, cfg.to], ['0vw', `${target.tx - cfg.sx}vw`])
-  const y = useTransform(
-    progress,
-    [cfg.from, cfg.to],
-    ['0vh', `calc(${target.ty - cfg.sy}vh + ${seam}px)`],
-  )
+  const y = useTransform(progress, [cfg.from, cfg.to], ['0vh', `${target.ty - cfg.sy}vh`])
   const rotate = useTransform(progress, [cfg.from, cfg.to], [cfg.rot, 0])
+  // Chip chrome (border + shadow) dissolves once this piece's bar is whole
+  const chipOpacity = useTransform(progress, cfg.fade ?? [2, 3], [1, 0])
   // The completion click: once the chart locks, the cap pops its asterisk
   const capOpacity = useTransform(progress, [0.82, 0.88], [0, 1])
   const capScale = useTransform(progress, [0.82, 0.88], [0.3, 1])
@@ -221,29 +233,73 @@ function Block({
       className="absolute transition-transform duration-300 ease-out"
       style={{
         left: reduced ? `${target.tx}vw` : `${cfg.sx}vw`,
-        top: reduced ? `calc(${target.ty}vh + ${seam}px)` : `${cfg.sy}vh`,
+        top: reduced ? `${target.ty}vh` : `${cfg.sy}vh`,
         width: `${target.w}vw`,
-        height: `calc(${target.h}vh + 3px)`,
+        height: `${target.h}vh`,
       }}
     >
-      <motion.div
-        className="relative w-full h-full border-[3px] border-[var(--color-ink)]"
-        style={
-          reduced
-            ? { background: fill.bg, boxShadow: fill.shadow }
-            : { x, y, rotate, background: fill.bg, boxShadow: fill.shadow }
-        }
-      >
-        {cfg.cap && (
+      {cfg.cap ? (
+        <motion.div
+          className="relative w-full h-full border-[3px] border-[var(--color-ink)]"
+          style={
+            reduced
+              ? { background: fill.bg, boxShadow: fill.shadow }
+              : { x, y, rotate, background: fill.bg, boxShadow: fill.shadow }
+          }
+        >
           <motion.span
             style={reduced ? {} : { opacity: capOpacity, scale: capScale }}
             className="absolute inset-0 flex items-center justify-center font-display text-[clamp(1rem,2.6vh,1.6rem)] text-[var(--color-bg)] leading-none"
           >
             *
           </motion.span>
-        )}
-      </motion.div>
+        </motion.div>
+      ) : (
+        <motion.div
+          className="relative w-full h-full"
+          style={reduced ? { background: fill.bg } : { x, y, rotate, background: fill.bg }}
+        >
+          {!reduced && (
+            <motion.div
+              className="absolute inset-0 border-[3px] border-[var(--color-ink)]"
+              style={{ opacity: chipOpacity, boxShadow: fill.shadow }}
+            />
+          )}
+        </motion.div>
+      )}
     </div>
+  )
+}
+
+function BarOutline({
+  cfg,
+  progress,
+  reduced,
+  isMobile,
+}: {
+  cfg: BarOutlineCfg
+  progress: MotionValue<number>
+  reduced: boolean
+  isMobile: boolean
+}) {
+  const opacity = useTransform(progress, cfg.fade, [0, 1])
+  const target = isMobile ? cfg.mobile : cfg.desktop
+  const fill = FILLS[cfg.fill]
+
+  if (isMobile && cfg.mobileHidden) return null
+
+  return (
+    <motion.div
+      className="absolute border-[3px] border-[var(--color-ink)] pointer-events-none"
+      style={{
+        left: `${target.tx}vw`,
+        top: `${target.ty}vh`,
+        width: `${target.w}vw`,
+        height: `${target.h}vh`,
+        boxShadow: fill.shadow,
+        opacity: reduced ? 1 : opacity,
+      }}
+    />
   )
 }
 
@@ -296,10 +352,15 @@ export function Hero() {
   const arrowOpacity = useTransform(scrollYProgress, [0.9, 0.95], [0, 1])
   const arrowScale = useTransform(scrollYProgress, [0.9, 0.95], [0.5, 1])
 
-  // The toy: slabs shy away from the cursor. Direct DOM writes, no re-renders.
-  // Pointer-driven only, so it never fights a touch scroll.
+  // The toy: pieces shy away from the cursor while they are still chaos, and
+  // stop responding as the bars assemble, so a finished bar never tears apart.
   const handlePointerMove = (e: PointerEvent<HTMLDivElement>) => {
     if (reduced || isMobile || e.pointerType !== 'mouse') return
+    const damp = Math.max(0, 1 - scrollYProgress.get() / 0.45)
+    if (damp === 0) {
+      handlePointerLeave()
+      return
+    }
     for (const el of blockRefs.current) {
       if (!el) continue
       const r = el.getBoundingClientRect()
@@ -308,7 +369,7 @@ export function Hero() {
       const dx = cx - e.clientX
       const dy = cy - e.clientY
       const d = Math.hypot(dx, dy)
-      const strength = Math.max(0, 1 - d / 240) * 16
+      const strength = Math.max(0, 1 - d / 240) * 16 * damp
       el.style.transform =
         strength > 0.5
           ? `translate(${(dx / d) * strength}px, ${(dy / d) * strength}px)`
@@ -323,6 +384,7 @@ export function Hero() {
   }
 
   const trackHeight = isMobile ? 'h-[190vh]' : 'h-[230vh]'
+  const trendEnd = isMobile ? TREND_END_MOBILE : TREND_END_DESKTOP
 
   return (
     <header
@@ -338,7 +400,7 @@ export function Hero() {
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
       >
-        {/* The slabs: chaos on arrival, a rising chart by the time you leave */}
+        {/* The pieces: chaos on arrival, a rising chart by the time you leave */}
         <motion.div
           className="absolute inset-0"
           style={reduced ? {} : { y: settleY }}
@@ -355,9 +417,20 @@ export function Hero() {
             />
           ))}
 
-          {/* The trend line: draws up and to the right once the bars are in.
-              The stretched viewBox would distort an arrowhead drawn inside it,
-              so the head is a separate fixed-size element at the line's end. */}
+          {/* Once a bar is whole, one outline and one shadow wrap it */}
+          {BAR_OUTLINES.map((cfg, i) => (
+            <BarOutline
+              key={i}
+              cfg={cfg}
+              progress={scrollYProgress}
+              reduced={reduced}
+              isMobile={isMobile}
+            />
+          ))}
+
+          {/* The trend line: thick, drawn across the bar tops. The stretched
+              viewBox would distort an arrowhead, so the head is a separate
+              fixed-size element rotated to the final climb. */}
           <svg
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
@@ -367,7 +440,7 @@ export function Hero() {
               d={isMobile ? TREND_MOBILE : TREND_DESKTOP}
               fill="none"
               stroke="var(--color-primary)"
-              strokeWidth="5"
+              strokeWidth="9"
               strokeLinecap="round"
               strokeLinejoin="round"
               vectorEffect="non-scaling-stroke"
@@ -380,26 +453,23 @@ export function Hero() {
           <motion.div
             className="absolute pointer-events-none"
             style={{
-              left: `${(isMobile ? TREND_END_MOBILE : TREND_END_DESKTOP).x}vw`,
-              top: `${(isMobile ? TREND_END_MOBILE : TREND_END_DESKTOP).y}vh`,
+              left: `${trendEnd.x}vw`,
+              top: `${trendEnd.y}vh`,
               ...(reduced ? {} : { opacity: arrowOpacity, scale: arrowScale }),
             }}
           >
             <svg
-              width="34"
-              height="34"
+              width="44"
+              height="44"
               viewBox="0 0 24 24"
-              className="-translate-x-1/2 -translate-y-1/2"
+              style={{
+                transform: `translate(-50%, -50%) rotate(${
+                  isMobile ? ARROW_ROT_MOBILE : ARROW_ROT_DESKTOP
+                }deg)`,
+              }}
             >
-              {/* A corner chevron: vertex up-right, matching the line's climb */}
-              <path
-                d="M 7 5 L 19 5 L 19 17"
-                fill="none"
-                stroke="var(--color-primary)"
-                strokeWidth="5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+              {/* Solid stock-chart arrowhead, base tucked under the line end */}
+              <polygon points="4,4 23,12 4,20" fill="var(--color-primary)" />
             </svg>
           </motion.div>
         </motion.div>
