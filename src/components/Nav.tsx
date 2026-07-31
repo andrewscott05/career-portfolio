@@ -23,7 +23,7 @@ export function Nav() {
     <nav className="sticky top-0 z-50 bg-[var(--color-bg)] border-b-[3px] border-[var(--color-ink)]">
       <div className="max-w-[1100px] mx-auto w-full flex items-center justify-between px-6 sm:px-10 md:px-14 py-5">
         <Link to="/" className="font-display text-base text-[var(--color-ink)]">
-          ANDREW SCOTT
+          A.SCOTT<span className="text-[var(--color-primary)]">*</span>
         </Link>
         <div className="flex items-center gap-5 sm:gap-6">
           {links.map((link) => (

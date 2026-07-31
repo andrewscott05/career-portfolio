@@ -55,6 +55,9 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
         <div className="p-7 sm:p-9">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4 mb-3">
             <h3 className="font-display text-[clamp(1.25rem,3.5vw,1.75rem)] text-[var(--color-ink)]">
+              <span className="font-mono text-[12px] font-medium text-[var(--color-text-muted)] mr-3 align-middle">
+                0{index + 1}
+              </span>
               {project.title}
             </h3>
             <span className="font-mono text-[11px] text-[var(--color-primary)] whitespace-nowrap">
@@ -78,7 +81,10 @@ export function WhatImBuilding() {
     <section id="work" className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
         <h2 className="font-display text-[clamp(1.5rem,4vw,2rem)] text-[var(--color-ink)] mb-6 sm:mb-7">
-          Built &amp; shipped
+          Built &amp; shipped{' '}
+          <span className="font-mono text-[13px] font-medium text-[var(--color-text-muted)] align-middle">
+            (0{projects.length})
+          </span>
         </h2>
 
         <div className="space-y-6">
