@@ -65,12 +65,9 @@ export function WhatImBuilding() {
   return (
     <section id="work" className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
-        <h2 className="font-display text-[clamp(1.75rem,4.5vw,2.5rem)] text-[var(--color-ink)]">
+        <h2 className="font-display text-[clamp(1.75rem,4.5vw,2.5rem)] text-[var(--color-ink)] mb-8 sm:mb-10">
           Built &amp; shipped
         </h2>
-        <p className="font-serif italic text-[15px] sm:text-base text-[var(--color-text-muted)] mt-2 mb-8 sm:mb-10">
-          Six systems, shipped and measured.
-        </p>
 
         <div className="border-t-[3px] border-[var(--color-ink)]">
           {projects.map((project, i) => (

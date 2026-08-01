@@ -85,8 +85,14 @@ const makeRand = (() => {
 type Rect = { x: number; y: number; w: number; h: number }
 
 // Boxes the copy sits in, per breakpoint, in vw/vh
-const COPY_DESKTOP: Rect = { x: 0, y: 15, w: 53, h: 68 }
+const COPY_DESKTOP: Rect = { x: 0, y: 20, w: 54, h: 60 }
 const COPY_MOBILE: Rect = { x: 0, y: 5, w: 100, h: 54 }
+
+/* The sticky nav is an opaque bar roughly 7vh tall; pieces that scatter
+   underneath it look sliced off. The field starts below it and stops short
+   of the SCROLL hint at the bottom edge. */
+const SCATTER_TOP = 11
+const SCATTER_BOTTOM = 92
 
 /** Separation between two boxes; negative means they overlap. */
 function gap(a: Rect, b: Rect) {
@@ -105,16 +111,42 @@ function gap(a: Rect, b: Rect) {
 const placedDesktop: Rect[] = []
 const placedMobile: Rect[] = []
 
-function scatterIn(w: number, h: number, copy: Rect, placed: Rect[], clumpy: boolean) {
-  let best = { x: 60, y: 80 }
+function scatterIn(
+  w: number,
+  h: number,
+  copy: Rect,
+  placed: Rect[],
+  clumpy: boolean,
+  zone: 'left' | 'any' = 'any',
+) {
+  // The copy blocks most of the left half, so an unbiased sampler drifts
+  // right. A share of pieces are made to take a legal left spot (the band
+  // above the copy or the strip below it), keeping the frame balanced.
+  let best = zone === 'left' ? { x: 20, y: 86 } : { x: 60, y: 80 }
   let bestScore = -Infinity
   const tries = clumpy ? 40 : 400
   // A clumping piece only needs to avoid burying another, not stand apart
   const enough = clumpy ? -Math.min(w, h) * 0.35 : 4
 
+  // Legal bands beside the copy; uniform sampling would practically never
+  // land in them, since the strip below the copy can be a fraction of a vh
+  const topBandMax = copy.y - 1.5 - h
+  const botBandMin = copy.y + copy.h + 1.5
+  const canTop = topBandMax >= SCATTER_TOP
+  const canBot = SCATTER_BOTTOM - h >= botBandMin
+
   for (let k = 0; k < tries; k++) {
-    const x = 1.5 + makeRand() * Math.max(1, 97 - w)
-    const y = 2 + makeRand() * Math.max(1, 94 - h)
+    const xMax = zone === 'left' ? 48 - w : 97 - w
+    const x = 1.5 + makeRand() * Math.max(1, xMax)
+    let y: number
+    if (zone === 'left' && (canTop || canBot)) {
+      const useTop = canTop && (!canBot || makeRand() < 0.45)
+      y = useTop
+        ? SCATTER_TOP + makeRand() * Math.max(0.1, topBandMax - SCATTER_TOP)
+        : botBandMin + makeRand() * Math.max(0.1, SCATTER_BOTTOM - h - botBandMin)
+    } else {
+      y = SCATTER_TOP + makeRand() * Math.max(1, SCATTER_BOTTOM - SCATTER_TOP - h)
+    }
     const box = { x, y, w, h }
     if (gap(box, copy) < 1.5) continue
 
@@ -162,7 +194,16 @@ BARS.forEach((bar, i) => {
     // Roughly a third of the pieces are allowed to settle near a neighbour,
     // so the field has clusters and clearings rather than even spacing
     const clumpy = makeRand() < 0.34
-    const dPt = scatterIn(DESK.w, dSeg + overlap, COPY_DESKTOP, placedDesktop, clumpy)
+    const dPt = scatterIn(
+      DESK.w,
+      dSeg + overlap,
+      COPY_DESKTOP,
+      placedDesktop,
+      clumpy,
+      // Only short pieces can legally fit beside the copy (the band above it
+      // or the strip below); tall ones would have nowhere to go on the left
+      placedDesktop.length % 4 === 0 && dSeg + overlap <= 10.4 ? 'left' : 'any',
+    )
     const mPt = bar.mobileHidden
       ? dPt
       : scatterIn(MOB.w, mSeg + overlap, COPY_MOBILE, placedMobile, clumpy)

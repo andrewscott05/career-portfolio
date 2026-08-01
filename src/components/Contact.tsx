@@ -60,9 +60,6 @@ export function Contact() {
             {copied ? 'Copied to clipboard!' : EMAIL}
           </span>
         </a>
-        <p className="font-serif italic text-[15px] sm:text-base text-[var(--color-ink-subtext)] mt-6">
-          Click to copy, or just say hello.
-        </p>
       </motion.div>
     </section>
   )
