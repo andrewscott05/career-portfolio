@@ -101,6 +101,19 @@ function gap(a: Rect, b: Rect) {
   return Math.max(dx, dy)
 }
 
+/* The copy zone is a rectangle but the headline is ragged, so a piece sitting
+   a hair off the box edge still crowds the longest line. Clearing the copy
+   vertically only needs a small margin; sitting beside it needs real air. */
+const COPY_SIDE_CLEAR = 5
+const COPY_STACK_CLEAR = 1.5
+
+function clearsCopy(box: Rect, copy: Rect) {
+  const dx = Math.max(copy.x - (box.x + box.w), box.x - (copy.x + copy.w))
+  const dy = Math.max(copy.y - (box.y + box.h), box.y - (copy.y + copy.h))
+  if (dy >= COPY_STACK_CLEAR) return true
+  return dx >= COPY_SIDE_CLEAR
+}
+
 /* Each breakpoint gets its own scatter. Sharing one set meant reserving the
    wide mobile footprint on desktop too, which shoved everything into a corner.
 
@@ -122,7 +135,7 @@ function scatterIn(
   // The copy blocks most of the left half, so an unbiased sampler drifts
   // right. A share of pieces are made to take a legal left spot (the band
   // above the copy or the strip below it), keeping the frame balanced.
-  let best = zone === 'left' ? { x: 20, y: 86 } : { x: 60, y: 80 }
+  let best: { x: number; y: number } | null = null
   let bestScore = -Infinity
   const tries = clumpy ? 40 : 400
   // A clumping piece only needs to avoid burying another, not stand apart
@@ -130,8 +143,8 @@ function scatterIn(
 
   // Legal bands beside the copy; uniform sampling would practically never
   // land in them, since the strip below the copy can be a fraction of a vh
-  const topBandMax = copy.y - 1.5 - h
-  const botBandMin = copy.y + copy.h + 1.5
+  const topBandMax = copy.y - COPY_STACK_CLEAR - h
+  const botBandMin = copy.y + copy.h + COPY_STACK_CLEAR
   const canTop = topBandMax >= SCATTER_TOP
   const canBot = SCATTER_BOTTOM - h >= botBandMin
 
@@ -148,7 +161,7 @@ function scatterIn(
       y = SCATTER_TOP + makeRand() * Math.max(1, SCATTER_BOTTOM - SCATTER_TOP - h)
     }
     const box = { x, y, w, h }
-    if (gap(box, copy) < 1.5) continue
+    if (!clearsCopy(box, copy)) continue
 
     let nearest = Infinity
     for (const p of placed) nearest = Math.min(nearest, gap(box, p))
@@ -156,6 +169,15 @@ function scatterIn(
       bestScore = nearest
       best = { x, y }
       if (nearest > enough) break
+    }
+  }
+
+  // Nothing legal turned up: park it clear of the copy rather than at a fixed
+  // point, which stacked pieces on each other and pushed them off the frame
+  if (!best) {
+    best = {
+      x: Math.min(copy.x + copy.w + COPY_SIDE_CLEAR, 97 - w),
+      y: SCATTER_TOP + ((placed.length * 13) % Math.max(1, SCATTER_BOTTOM - SCATTER_TOP - h)),
     }
   }
 
