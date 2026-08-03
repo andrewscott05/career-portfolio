@@ -188,7 +188,7 @@ export function CaseStudy() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
           >
-            <p className="font-mono text-[11px] tracking-[0.12em] text-[var(--color-primary)] mb-4">
+            <p className="font-display text-[12px] uppercase text-[var(--color-primary)] mb-4">
               {project.tag}
             </p>
             <h1 className="font-display text-[clamp(2rem,6vw,3rem)] text-[var(--color-ink)] leading-[1.02] mb-6">

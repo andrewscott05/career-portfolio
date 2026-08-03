@@ -90,8 +90,8 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
           {/* Content stays clear of the peek panel's lane, so the tag on the
               right never collides with the artifact sliding in */}
           <div className="relative p-7 sm:p-9 md:pr-[42%]">
-            {/* Kicker above the title, matching the case study page header */}
-            <p className="font-mono text-[11px] tracking-[0.12em] text-[var(--color-primary)] mb-3">
+            {/* Small display-type stamp: same voice as the buttons, no eyebrow */}
+            <p className="font-display text-[11px] uppercase text-[var(--color-primary)] mb-3">
               {project.tag}
             </p>
             <h3 className="font-display text-[clamp(1.25rem,3.5vw,1.75rem)] text-[var(--color-ink)] mb-3">

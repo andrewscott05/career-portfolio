@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 
 const EMAIL = 'ascott1296@gmail.com'
+const LINKEDIN = 'https://linkedin.com/in/andrew-john-scott'
+const RESUME = '/resume.pdf'
 const EASE = [0.22, 1, 0.36, 1] as const
 
 function fallbackCopy(text: string) {
@@ -15,9 +17,9 @@ function fallbackCopy(text: string) {
   document.body.removeChild(ta)
 }
 
-/* Full-bleed poster, not a banner in a box: the page itself turns green,
-   type is left-aligned and oversized, and the email is a giant underlined
-   link rather than a button. */
+/* The page signs off in green: a plain invitation, the email address as the
+   single big move, then a true footer rule with the practical links. No
+   eyebrow label, no two-tone headline, nothing that reads like a template. */
 
 export function Contact() {
   const [copied, setCopied] = useState(false)
@@ -33,7 +35,7 @@ export function Contact() {
   }
 
   return (
-    <section
+    <footer
       id="contact"
       className="bg-[var(--color-primary)] border-t-[3px] border-[var(--color-ink)]"
     >
@@ -42,25 +44,60 @@ export function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.55, ease: EASE }}
-        className="max-w-[1100px] mx-auto w-full px-6 sm:px-10 md:px-14 py-20 sm:py-28"
+        className="max-w-[1100px] mx-auto w-full px-6 sm:px-10 md:px-14 pt-20 sm:pt-28 pb-10 sm:pb-12"
       >
-        <p className="font-mono text-[11px] tracking-[0.12em] text-[var(--color-ink-subtext)] mb-6">
-          CONTACT
-        </p>
-        <h2 className="font-display text-[clamp(2.25rem,6.5vw,4.25rem)] text-[var(--color-bg)] leading-[1.0] mb-10 sm:mb-12 max-w-[16ch]">
-          Let&apos;s build something{' '}
-          <span className="text-[var(--color-secondary)]">people rely on.</span>
+        <h2 className="font-display text-[clamp(2.25rem,6.5vw,4.25rem)] text-[var(--color-bg)] leading-[1.0] max-w-[16ch]">
+          Let&apos;s build something people rely on.
         </h2>
-        <a
-          href={`mailto:${EMAIL}`}
-          onClick={handleEmailClick}
-          className="group inline-block"
-        >
-          <span className="inline-block font-display text-[clamp(1.2rem,4.5vw,2.6rem)] leading-tight pb-1.5 text-[var(--color-bg)] border-b-[4px] border-[var(--color-bg)] group-hover:text-[var(--color-secondary)] group-hover:border-[var(--color-secondary)] transition-colors break-all">
-            {copied ? 'Copied to clipboard!' : EMAIL}
+        <p className="font-serif text-[16px] sm:text-[17px] text-[var(--color-bg)]/80 leading-[1.7] mt-6 max-w-[52ch]">
+          I read everything that lands in my inbox. If you&apos;re working on
+          something in freight, ops, or applied AI, I&apos;d like to hear about
+          it.
+        </p>
+
+        <div className="mt-10 sm:mt-12">
+          <a
+            href={`mailto:${EMAIL}`}
+            onClick={handleEmailClick}
+            className="group inline-block"
+          >
+            <span className="inline-block font-display text-[clamp(1.2rem,4.5vw,2.6rem)] leading-tight pb-1.5 text-[var(--color-bg)] border-b-[4px] border-[var(--color-bg)] group-hover:text-[var(--color-secondary)] group-hover:border-[var(--color-secondary)] transition-colors break-all">
+              {EMAIL}
+            </span>
+          </a>
+          {/* Confirmation sits beside the address, so the big type never jumps */}
+          <span
+            aria-live="polite"
+            className={`block sm:inline-block sm:ml-5 mt-2 sm:mt-0 font-display text-[12px] uppercase text-[var(--color-secondary)] transition-opacity duration-300 ${copied ? 'opacity-100' : 'opacity-0'}`}
+          >
+            copied to your clipboard
           </span>
-        </a>
+        </div>
+
+        {/* The actual footer: one rule, the practical links, and a sign-off */}
+        <div className="mt-16 sm:mt-24 pt-6 border-t-[3px] border-[var(--color-bg)]/25 flex flex-col sm:flex-row sm:items-baseline gap-4 sm:gap-0 sm:justify-between">
+          <div className="flex items-baseline gap-7">
+            <a
+              href={LINKEDIN}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-display text-[13px] text-[var(--color-bg)] hover:text-[var(--color-secondary)] transition-colors"
+            >
+              LinkedIn ↗
+            </a>
+            <a
+              href={RESUME}
+              download
+              className="font-display text-[13px] text-[var(--color-bg)] hover:text-[var(--color-secondary)] transition-colors"
+            >
+              Resume ↓
+            </a>
+          </div>
+          <p className="font-serif text-[14px] text-[var(--color-bg)]/70">
+            Andrew Scott · Austin, Texas
+          </p>
+        </div>
       </motion.div>
-    </section>
+    </footer>
   )
 }

@@ -63,7 +63,7 @@ export const projects: CaseStudy[] = [
   {
     id: 'bob-ai-voice',
     title: 'Freight Tracking AI Agent',
-    tag: 'AI AUTOMATION',
+    tag: 'AI automation',
     summary:
       "The company's first AI agent, nicknamed Bob. Automates ~600 loads a day and cut manual tracking work 20% with no added headcount.",
     cardPeek: {
@@ -133,7 +133,7 @@ export const projects: CaseStudy[] = [
   {
     id: 'spot-quoting',
     title: 'Automated Freight Pricing Engine',
-    tag: 'ML PRICING',
+    tag: 'Machine learning pricing',
     summary:
       'Built the ML-driven Rate API from 0 to 1. Scaled segment revenue 2.3x to a $400M+ run rate.',
     cardPeek: {
@@ -186,7 +186,7 @@ export const projects: CaseStudy[] = [
   {
     id: 'agentic-decision-framework',
     title: 'When to Build an AI Agent',
-    tag: 'AI GOVERNANCE',
+    tag: 'AI governance',
     summary:
       "Criteria for when a workflow deserves an agent, and an Impact Score for whether it's worth what it costs to run.",
     cardPeek: {
@@ -244,7 +244,7 @@ export const projects: CaseStudy[] = [
   {
     id: 'ai-tooling-standard',
     title: 'AI Standard for Product Teams',
-    tag: 'TEAM ENABLEMENT',
+    tag: 'Team enablement',
     summary:
       'One shared standard for how Product works with AI. Adopted by 10+ Product Managers.',
     cardPeek: {
@@ -293,7 +293,7 @@ export const projects: CaseStudy[] = [
   {
     id: 'design-system',
     title: 'Company-Wide Design System',
-    tag: 'DESIGN SYSTEMS',
+    tag: 'Design systems',
     summary:
       "Co-led Arrive's first company-wide design system, DOT-UI, with 9 designers and 16 engineers. Cut component design time 63%.",
     cardPeek: {
@@ -347,7 +347,7 @@ export const projects: CaseStudy[] = [
   {
     id: 'process-standardization',
     title: 'How Product Ships',
-    tag: 'WAYS OF WORKING',
+    tag: 'Ways of working',
     summary:
       'Rebuilt the Jira workflow and PRD template. Cut SDLC time 20%, project turnaround 15%.',
     cardPeek: {

@@ -41,7 +41,7 @@ export function Nav() {
               key={link.label}
               to={`${link.to}${link.hash ?? ''}`}
               onClick={(e) => handleHashClick(e, link)}
-              className="font-mono font-medium text-[13px] text-[var(--color-text-secondary)] hover:text-[var(--color-ink)] transition-colors"
+              className="font-display text-[13px] text-[var(--color-ink)] hover:text-[var(--color-primary)] transition-colors"
             >
               {link.label}
             </Link>
