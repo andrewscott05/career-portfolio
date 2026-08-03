@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 
 const EMAIL = 'ascott1296@gmail.com'
-const LINKEDIN = 'https://linkedin.com/in/andrew-john-scott'
-const RESUME = '/resume.pdf'
 const EASE = [0.22, 1, 0.36, 1] as const
 
 function fallbackCopy(text: string) {
@@ -44,24 +42,19 @@ export function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
         transition={{ duration: 0.55, ease: EASE }}
-        className="max-w-[1100px] mx-auto w-full px-6 sm:px-10 md:px-14 pt-20 sm:pt-28 pb-10 sm:pb-12"
+        className="max-w-[1100px] mx-auto w-full px-6 sm:px-10 md:px-14 pt-14 sm:pt-16 pb-8 sm:pb-9"
       >
-        <h2 className="font-display text-[clamp(2.25rem,6.5vw,4.25rem)] text-[var(--color-bg)] leading-[1.0] max-w-[16ch]">
+        <h2 className="font-display text-[clamp(1.5rem,3.5vw,2.25rem)] text-[var(--color-bg)] leading-[1.05] max-w-[24ch]">
           Let&apos;s build something people rely on.
         </h2>
-        <p className="font-serif text-[16px] sm:text-[17px] text-[var(--color-bg)]/80 leading-[1.7] mt-6 max-w-[52ch]">
-          I read everything that lands in my inbox. If you&apos;re working on
-          something in freight, ops, or applied AI, I&apos;d like to hear about
-          it.
-        </p>
 
-        <div className="mt-10 sm:mt-12">
+        <div className="mt-7 sm:mt-8">
           <a
             href={`mailto:${EMAIL}`}
             onClick={handleEmailClick}
             className="group inline-block"
           >
-            <span className="inline-block font-display text-[clamp(1.2rem,4.5vw,2.6rem)] leading-tight pb-1.5 text-[var(--color-bg)] border-b-[4px] border-[var(--color-bg)] group-hover:text-[var(--color-secondary)] group-hover:border-[var(--color-secondary)] transition-colors break-all">
+            <span className="inline-block font-display text-[clamp(1.05rem,3vw,1.8rem)] leading-tight pb-1.5 text-[var(--color-bg)] border-b-[4px] border-[var(--color-bg)] group-hover:text-[var(--color-secondary)] group-hover:border-[var(--color-secondary)] transition-colors break-all">
               {EMAIL}
             </span>
           </a>
@@ -74,25 +67,8 @@ export function Contact() {
           </span>
         </div>
 
-        {/* The actual footer: one rule, the practical links, and a sign-off */}
-        <div className="mt-16 sm:mt-24 pt-6 border-t-[3px] border-[var(--color-bg)]/25 flex flex-col sm:flex-row sm:items-baseline gap-4 sm:gap-0 sm:justify-between">
-          <div className="flex items-baseline gap-7">
-            <a
-              href={LINKEDIN}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-display text-[13px] text-[var(--color-bg)] hover:text-[var(--color-secondary)] transition-colors"
-            >
-              LinkedIn ↗
-            </a>
-            <a
-              href={RESUME}
-              download
-              className="font-display text-[13px] text-[var(--color-bg)] hover:text-[var(--color-secondary)] transition-colors"
-            >
-              Resume ↓
-            </a>
-          </div>
+        {/* One quiet closing line under a rule */}
+        <div className="mt-10 sm:mt-12 pt-5 border-t-[3px] border-[var(--color-bg)]/25">
           <p className="font-serif text-[14px] text-[var(--color-bg)]/70">
             Andrew Scott · Austin, Texas
           </p>

@@ -92,7 +92,7 @@ export function Stats() {
                   start={inView}
                 />
               </p>
-              <p className="font-serif text-[15px] sm:text-base text-[var(--color-text-secondary)] leading-[1.5] mt-3 max-w-[22ch]">
+              <p className="font-display text-[11px] sm:text-[12px] uppercase text-[var(--color-primary)] leading-[1.6] mt-3 max-w-[24ch]">
                 {stat.label}
               </p>
             </motion.div>
