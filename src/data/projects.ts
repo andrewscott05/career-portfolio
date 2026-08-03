@@ -385,11 +385,6 @@ export const projects: CaseStudy[] = [
       {
         heading: 'The outcome',
         body: 'Both efforts shipped together and cut SDLC time 20% and project turnaround 15%. The Jira workflow is still what every team builds on, and PRDs move through the same channel and format we set up, with a monthly audit keeping the process from drifting back to how things were.',
-        artifact: {
-          src: '/work/prd-slack-format.png',
-          alt: 'A standardized Slack message format for posting a PRD to the #prd-reviews channel, showing the PRD link, reviewers needed, and where to leave comments.',
-          caption: 'The standard message format that made every PRD review request easy to scan.',
-        },
       },
     ],
   },
