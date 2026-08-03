@@ -201,12 +201,12 @@ BARS.forEach((bar, i) => {
   const segs = Math.min(5, 1 + Math.floor(i / 2)) // taller bars, more pieces
   const dSeg = bar.h / segs
   const mSeg = bar.mh / segs
-  // Assembly is packed into the first ~58% of the track so the finished
-  // chart holds on screen for a beat before the page moves on
-  const barStart = 0.05 + i * 0.017
-  const barEnd = 0.3 + i * 0.021
-  const lastTo = barEnd + (segs === 1 ? 0 : 0.04)
-  const fade: [number, number] = [lastTo, Math.min(lastTo + 0.03, 0.62)]
+  // Assembly is packed into the first ~48% of the track, leaving room for
+  // the line to climb slowly and for the finished chart to hold afterwards
+  const barStart = 0.04 + i * 0.014
+  const barEnd = 0.25 + i * 0.017
+  const lastTo = barEnd + (segs === 1 ? 0 : 0.033)
+  const fade: [number, number] = [lastTo, Math.min(lastTo + 0.025, 0.5)]
 
   for (let s = 0; s < segs; s++) {
     // s = 0 is the bottom piece of the bar and lands first; pieces above it
@@ -489,11 +489,12 @@ export function Hero() {
   const hintOpacity = useTransform(scrollYProgress, [0, 0.08], [1, 0])
   // After the chart locks it eases down a touch, so the release feels handed off
   const settleY = useTransform(scrollYProgress, [0.93, 1], ['0vh', '4vh'])
-  // The trend line draws itself up across the finished bars, arrowhead last
-  const trendDraw = useTransform(scrollYProgress, [0.6, 0.7], [0, 1])
-  const trendOpacity = useTransform(scrollYProgress, [0.58, 0.63], [0, 1])
-  const arrowOpacity = useTransform(scrollYProgress, [0.7, 0.75], [0, 1])
-  const arrowScale = useTransform(scrollYProgress, [0.7, 0.75], [0.4, 1])
+  // Bars are solid by ~0.5 of the track; the line then gets a long, slow
+  // climb across the bars before the arrowhead lands and the chart holds.
+  const trendDraw = useTransform(scrollYProgress, [0.53, 0.84], [0, 1])
+  const trendOpacity = useTransform(scrollYProgress, [0.48, 0.53], [0, 1])
+  const arrowOpacity = useTransform(scrollYProgress, [0.84, 0.89], [0, 1])
+  const arrowScale = useTransform(scrollYProgress, [0.84, 0.89], [0.4, 1])
 
   // The toy: pieces shy away from the cursor while they are still chaos, and
   // stop responding as the bars assemble, so a finished bar never tears apart.
