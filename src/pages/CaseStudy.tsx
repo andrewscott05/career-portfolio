@@ -79,6 +79,8 @@ function ArtifactFigure({ artifact }: { artifact: Artifact }) {
       <img
         src={artifact.src}
         alt={artifact.alt}
+        loading="lazy"
+        decoding="async"
         className="w-full border-[3px] border-[var(--color-ink)]"
         style={{ boxShadow: '8px 8px 0 var(--color-ink)' }}
       />
@@ -101,6 +103,7 @@ function EmbedFigure({ embed }: { embed: Embed }) {
         <iframe
           src={embed.src}
           title={embed.title}
+          loading="lazy"
           className="w-full aspect-video block"
           allow="autoplay"
           allowFullScreen

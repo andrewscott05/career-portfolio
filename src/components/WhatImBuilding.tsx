@@ -67,6 +67,8 @@ function WorkCard({ project, index }: { project: CaseStudy; index: number }) {
             <img
               src={project.thumbnail.src}
               alt={project.thumbnail.alt}
+              loading="lazy"
+              decoding="async"
               className="w-full border-b-[3px] border-[var(--color-ink)]"
             />
           )}
