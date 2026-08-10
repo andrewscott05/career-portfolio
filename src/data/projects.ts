@@ -184,6 +184,60 @@ export const projects: CaseStudy[] = [
     ],
   },
   {
+    id: 'design-system',
+    title: 'Company-Wide Design System',
+    tag: 'Design systems',
+    summary:
+      "Co-led Arrive's first company-wide design system, DOT-UI, with 9 designers and 16 engineers. Cut component design time 63%.",
+    cardPeek: {
+      src: '/work/dot-ui-ownership-model.png',
+      alt: 'Product, Design and Engineering at the centre of the design system, with contributor and consumer product teams around it.',
+    },
+    embed: {
+      src: 'https://docs.google.com/presentation/d/1nahouLLB7zNwfTwIN8gfQwEBqheDGoDK/embed?start=false&loop=false&delayms=3000',
+      title: 'Design Systems at Arrive Logistics: the evolution of the Product Design team',
+      caption: 'The full story of how DOT-UI came together, from the problem through impact.',
+    },
+    sections: [
+      {
+        heading: 'The problem',
+        body: 'Every team was building interfaces from scratch. Design and engineering worked off different sources of truth, so the same component got rebuilt a dozen different ways across the product, and every rebuild ate into the schedule.',
+        artifact: {
+          src: '/work/dot-ui-audit-before.jpg',
+          alt: 'An audit board showing dozens of inconsistent component variations built across the product before the design system.',
+          caption: 'A 2022 audit of the same components, rebuilt a different way in nearly every feature.',
+        },
+      },
+      {
+        heading: 'The process',
+        body: "The design work was our lead designer's: she and the design team built the tokens and components that became DOT-UI. What it still needed was an operating process, so we set up the DOT-UI board in Jira and an intake flow any team across the org could use to request or track a component. A request finally had one place to live instead of a Slack thread nobody could find again.",
+        artifact: {
+          src: '/work/dot-ui-kanban-board.png',
+          alt: 'The DOT-UI Jira board with columns for intake, backlog, ready for design, design in progress, ready for engineering, engineering in progress, done, and declined.',
+          caption: 'The DOT-UI board we set up in Jira, tracking every request from intake through done.',
+        },
+      },
+      {
+        heading: 'Building a sustainable model',
+        body: 'A shared library falls apart fast if requests aren\'t reviewed the same way twice in a row. We mapped a review lifecycle for every request, start to finish: design peer review, a junior or mid-level pass, a senior review, then a final sign-off from Product, Design, and Engineering together before anything shipped.',
+        artifact: {
+          src: '/work/dot-ui-review-lifecycle.png',
+          alt: 'A flowchart showing the DOT-UI request lifecycle: intake, design, peer review, junior and senior review, Triforce review, engineering review, and UAT before a request is marked done.',
+          caption: 'The review lifecycle we mapped for every DOT-UI request, from intake to shipped.',
+        },
+      },
+      {
+        heading: 'The outcome',
+        body: "The system now runs across a team of 9 product designers and 16 front-end engineers. In a controlled test of the same design task, DOT-UI cut the time to design it from 26 minutes to 17, a 63% jump in speed. The board and review process still hold: it's how Product, Design, and Engineering keep the system accountable together.",
+        artifact: {
+          src: '/work/dot-ui-ownership-model.png',
+          alt: 'A diagram showing Product, Design, and Engineering at the center of the design system, connected to multiple product teams as contributors and consumers.',
+          caption: 'How contributor and consumer product teams connect back to Product, Design, and Engineering.',
+        },
+      },
+    ],
+  },
+  {
     id: 'agentic-decision-framework',
     title: 'When to Build an AI Agent',
     tag: 'AI governance',
@@ -286,60 +340,6 @@ export const projects: CaseStudy[] = [
           src: '/work/ai-standard-connectors.png',
           alt: 'A slide showing the connectors live today: Atlassian, Snowflake, Pendo, Google Suite, Miro, Figma, and Postman, pulled into one connected workspace.',
           caption: 'The connectors PMs use today instead of jumping between tools.',
-        },
-      },
-    ],
-  },
-  {
-    id: 'design-system',
-    title: 'Company-Wide Design System',
-    tag: 'Design systems',
-    summary:
-      "Co-led Arrive's first company-wide design system, DOT-UI, with 9 designers and 16 engineers. Cut component design time 63%.",
-    cardPeek: {
-      src: '/work/dot-ui-ownership-model.png',
-      alt: 'Product, Design and Engineering at the centre of the design system, with contributor and consumer product teams around it.',
-    },
-    embed: {
-      src: 'https://docs.google.com/presentation/d/1nahouLLB7zNwfTwIN8gfQwEBqheDGoDK/embed?start=false&loop=false&delayms=3000',
-      title: 'Design Systems at Arrive Logistics: the evolution of the Product Design team',
-      caption: 'The full story of how DOT-UI came together, from the problem through impact.',
-    },
-    sections: [
-      {
-        heading: 'The problem',
-        body: 'Every team was building interfaces from scratch. Design and engineering worked off different sources of truth, so the same component got rebuilt a dozen different ways across the product, and every rebuild ate into the schedule.',
-        artifact: {
-          src: '/work/dot-ui-audit-before.jpg',
-          alt: 'An audit board showing dozens of inconsistent component variations built across the product before the design system.',
-          caption: 'A 2022 audit of the same components, rebuilt a different way in nearly every feature.',
-        },
-      },
-      {
-        heading: 'The process',
-        body: "The design work was our lead designer's: she and the design team built the tokens and components that became DOT-UI. What it still needed was an operating process, so we set up the DOT-UI board in Jira and an intake flow any team across the org could use to request or track a component. A request finally had one place to live instead of a Slack thread nobody could find again.",
-        artifact: {
-          src: '/work/dot-ui-kanban-board.png',
-          alt: 'The DOT-UI Jira board with columns for intake, backlog, ready for design, design in progress, ready for engineering, engineering in progress, done, and declined.',
-          caption: 'The DOT-UI board we set up in Jira, tracking every request from intake through done.',
-        },
-      },
-      {
-        heading: 'Building a sustainable model',
-        body: 'A shared library falls apart fast if requests aren\'t reviewed the same way twice in a row. We mapped a review lifecycle for every request, start to finish: design peer review, a junior or mid-level pass, a senior review, then a final sign-off from Product, Design, and Engineering together before anything shipped.',
-        artifact: {
-          src: '/work/dot-ui-review-lifecycle.png',
-          alt: 'A flowchart showing the DOT-UI request lifecycle: intake, design, peer review, junior and senior review, Triforce review, engineering review, and UAT before a request is marked done.',
-          caption: 'The review lifecycle we mapped for every DOT-UI request, from intake to shipped.',
-        },
-      },
-      {
-        heading: 'The outcome',
-        body: "The system now runs across a team of 9 product designers and 16 front-end engineers. In a controlled test of the same design task, DOT-UI cut the time to design it from 26 minutes to 17, a 63% jump in speed. The board and review process still hold: it's how Product, Design, and Engineering keep the system accountable together.",
-        artifact: {
-          src: '/work/dot-ui-ownership-model.png',
-          alt: 'A diagram showing Product, Design, and Engineering at the center of the design system, connected to multiple product teams as contributors and consumers.',
-          caption: 'How contributor and consumer product teams connect back to Product, Design, and Engineering.',
         },
       },
     ],
