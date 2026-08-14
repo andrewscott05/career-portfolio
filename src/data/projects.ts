@@ -284,15 +284,6 @@ export const projects: CaseStudy[] = [
           caption: 'The plan to formalize the framework and hand it to other product teams.',
         },
       },
-      {
-        heading: 'The adoption curve',
-        body: "Zoom out and the trend backs it up. The share of loads touched by any automation grew from 4% in 2019 to 95%+ by 2025, and the average number of automation points per load nearly doubled between 2022 and 2024 alone. The framework didn't create that curve by itself, but it's part of how the org keeps climbing it on purpose instead of by accident.",
-        artifact: {
-          src: '/work/bob-automation-adoption.png',
-          alt: 'A table showing the percentage of loads with any automation touchpoint growing from 4.0% in 2019 to 95.5% by 2025 YTD, and average automation points per load climbing from 0.04 to 2.34 over the same period.',
-          caption: 'Company-wide automation adoption, 2019 through 2025 YTD.',
-        },
-      },
     ],
   },
   {
@@ -300,7 +291,7 @@ export const projects: CaseStudy[] = [
     title: 'AI Standard for Product Teams',
     tag: 'Team enablement',
     summary:
-      'One shared standard for how Product works with AI. Adopted by 10+ Product Managers.',
+      'One shared standard for how Product works with AI: context, best practices, connectors, and governance.',
     cardPeek: {
       src: '/work/ai-standard-connectors.png',
       alt: 'The connectors live today, pulled into one connected workspace.',
@@ -335,7 +326,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'The outcome',
-        body: 'The standard is now used by 10+ Product Managers across the org, plugged into one connected workspace instead of jumping between Jira, Snowflake, and Google Drive on their own. Governance keeps it current as the toolset evolves.',
+        body: 'The four layers now form one connected workspace instead of a PM jumping between Jira, Snowflake, and Google Drive on their own. Governance keeps it current as the toolset evolves.',
         artifact: {
           src: '/work/ai-standard-connectors.png',
           alt: 'A slide showing the connectors live today: Atlassian, Snowflake, Pendo, Google Suite, Miro, Figma, and Postman, pulled into one connected workspace.',
