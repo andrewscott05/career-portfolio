@@ -10,14 +10,20 @@ const EASE = [0.22, 1, 0.36, 1] as const
 
 export function Approach() {
   return (
-    <section className="px-6 sm:px-10 md:px-14 py-24 sm:py-36">
-      <div className="max-w-[1100px] mx-auto w-full">
+    <section className="px-6 sm:px-10 md:px-14 py-12 sm:py-16">
+      <div className="max-w-[1100px] mx-auto w-full flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-10">
+        <span
+          aria-hidden
+          className="font-display text-[28px] leading-none text-[var(--color-primary)] shrink-0"
+        >
+          *
+        </span>
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-15% 0px -15% 0px' }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="font-serif text-[clamp(1.15rem,2.6vw,1.5rem)] text-[var(--color-text-secondary)] leading-[1.75] max-w-[44ch]"
+          className="font-serif text-[clamp(1.15rem,2.6vw,1.5rem)] text-[var(--color-text-secondary)] leading-[1.75] max-w-[52ch]"
         >
           I work best where the process is broken and nobody has written it down
           yet. Most of what I&apos;ve built started as someone else&apos;s
