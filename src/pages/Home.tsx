@@ -2,6 +2,7 @@ import { Nav } from '../components/Nav'
 import { Hero } from '../components/Hero'
 import { Ticker } from '../components/Ticker'
 import { Stats } from '../components/Stats'
+import { Approach } from '../components/Approach'
 import { WhatImBuilding } from '../components/WhatImBuilding'
 import { Contact } from '../components/Contact'
 
@@ -16,6 +17,8 @@ export function Home() {
       <div className="pt-16 sm:pt-24">
         <Stats />
       </div>
+      {/* The page goes quiet here before the work */}
+      <Approach />
       <WhatImBuilding />
       <Contact />
     </>

@@ -116,7 +116,7 @@ export function WhatImBuilding() {
   return (
     <section id="work" className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
-        <h2 className="font-display text-[clamp(1.5rem,4vw,2rem)] text-[var(--color-ink)] mb-6 sm:mb-7">
+        <h2 className="font-display text-[clamp(2.25rem,5.5vw,3.5rem)] text-[var(--color-ink)] leading-[1.05] mb-8 sm:mb-10">
           Built &amp; shipped
         </h2>
 

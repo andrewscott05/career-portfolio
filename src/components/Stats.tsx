@@ -4,11 +4,13 @@ import { useEffect, useRef, useState } from 'react'
 const EASE = [0.22, 1, 0.36, 1] as const
 const STAGGER = 0.18 // seconds between each stat starting, left to right
 
+/* Labels stay short: the numbers carry the claim, and Archivo Black at this
+   size reads as a stamp, not a sentence. */
 const STATS = [
-  { target: 400, prefix: '$', suffix: 'M+', label: 'Pricing run rate scaled 2.3x' },
-  { target: 20, suffix: '%', label: 'Manual tracking workload cut' },
+  { target: 400, prefix: '$', suffix: 'M+', label: 'Pricing run rate' },
+  { target: 20, suffix: '%', label: 'Tracking workload cut' },
   { target: 63, suffix: '%', label: 'Faster build time' },
-  { target: 15, suffix: '%', label: 'Faster project turnaround' },
+  { target: 15, suffix: '%', label: 'Faster turnaround' },
 ]
 
 function CountUp({
@@ -72,7 +74,7 @@ export function Stats() {
   return (
     <section ref={sectionRef} className="px-6 sm:px-10 md:px-14 pb-16 sm:pb-20">
       <div className="max-w-[1100px] mx-auto w-full">
-        <h2 className="font-display text-[clamp(1.75rem,4.5vw,2.5rem)] text-[var(--color-ink)] mb-8 sm:mb-10">
+        <h2 className="font-display text-[clamp(2.25rem,5.5vw,3.5rem)] text-[var(--color-ink)] leading-[1.05] mb-8 sm:mb-10">
           By the numbers
         </h2>
         <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-x-8 sm:gap-x-16 gap-y-9 sm:gap-y-10">
